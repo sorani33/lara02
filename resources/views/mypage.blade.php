@@ -5,9 +5,12 @@
     <div class="container mt-4">
         <div class="card mb-4">
             <div class="card-header">
-                個人成績
+                個人成績　（{{ $user->name }}さん）
             </div>
             <div class="card-body">
+                <p class="card-text">
+                    <span class="text-danger">【称号】 創立メンバー</span>
+                </p>
                 <p class="card-text">
                     <span class="text-danger">総合スコア {{ $totalScore }}点</span>
                 </p>
@@ -17,10 +20,6 @@
                 <p class="card-text">
                     <span class="text-danger">偏差値　50.2（ベタ書き）</span>
                 </p>
-            </div>
-            <div class="card-footer">
-                <span class="mr-2">
-                </span>
             </div>
             </div>
 

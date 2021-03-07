@@ -27,9 +27,11 @@ class MypageController extends Controller
     public function index()
     {
         $userId = Auth::id();
+        $user = Auth::user();
         $examinationResultDatas = ExaminationResult::get()->where('user_id', $userId); 
     //  dd($examinationResultDatas->sum('number_correct_answers'));
         $assignData = [
+            'user' => $user,
             'examinationResultDatas' => $examinationResultDatas,
             'totalScore' => $examinationResultDatas->sum('number_correct_answers'),
         ];
