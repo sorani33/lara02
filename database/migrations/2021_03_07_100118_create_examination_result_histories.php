@@ -15,6 +15,8 @@ class CreateExaminationResultHistories extends Migration
     {
         Schema::create('examination_result_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id')->comment('ユーザID');
+            $table->integer('score');
             $table->timestamps();
         });
     }

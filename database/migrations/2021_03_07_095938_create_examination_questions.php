@@ -15,6 +15,13 @@ class CreateExaminationQuestions extends Migration
     {
         Schema::create('examination_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('no')->comment('数値');
+            $table->integer('genre_id')->comment('ジャンルID');
+            $table->string('subject', 255);
+            $table->string('answer', 255);
+            $table->string('dummy_answer1', 255);
+            $table->string('dummy_answer2', 255);
+            $table->string('dummy_answer3', 255);
             $table->timestamps();
         });
     }
