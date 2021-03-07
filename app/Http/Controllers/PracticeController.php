@@ -7,9 +7,9 @@ use App\ExaminationQuestion;
 
 class PracticeController extends Controller
 {
-    public function index () 
+    public function index ($genre_id) 
     {
-        $examinationQuestionsData = ExaminationQuestion::get()->random(2); 
+        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(4); 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
             $random = array('1', '2', '3', '4');
@@ -21,6 +21,7 @@ class PracticeController extends Controller
 
         $assignData = [
             'examinationQuestions' => $examinationQuestions,
+            'genre_id' => $genre_id,
         ];
 // dd($assignData);
         return view('index', $assignData);
@@ -60,6 +61,7 @@ class PracticeController extends Controller
             'correctAnswerCount' => $correctAnswerCount, //正解数
             'score' => $score, //点数
             'inCorrectAnswerLists' => $inCorrectAnswerLists, //不正解した問題と、選んだ選択肢と、解答のデータ
+            'genre_id' => $request->input('genre_id'),
         ];
         // dd($assignData);
 

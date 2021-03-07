@@ -4,6 +4,7 @@
     <div class="container mt-4">
         <form method="POST" action="/result">
         @csrf
+        <input type="hidden" name="genre_id" value="{{ $genre_id }}">
         @foreach ($examinationQuestions as $key => $examinationQuestion)
             <div class="card mb-4">
                 <div class="card-header">

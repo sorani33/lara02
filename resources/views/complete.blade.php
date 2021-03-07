@@ -35,5 +35,13 @@
                 </div>
             </div>
         @endforeach
+        <div class="mt-5">
+            <button onclick="location.href='{{ route('sample')}}/{{ $genre_id }}'" type="submit" class="btn btn-primary">
+                もう一度チャレンジする
+            </button>
+            <button onclick="location.href='{{ route('top')}}'" type="submit" class="btn btn-primary">
+                TOPに戻る   
+            </button>
+        </div>
     </div>
 @endsection

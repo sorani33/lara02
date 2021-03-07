@@ -13,13 +13,13 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('top');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('sample', 'PracticeController@index')->name('sample');;
+    Route::get('sample/{genre_id?}', 'PracticeController@index')->name('sample');;
     Route::post('result', 'PracticeController@result');
 });
