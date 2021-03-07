@@ -20,6 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function() {
+    //問題
     Route::get('sample/{genre_id?}', 'PracticeController@index')->name('sample');;
     Route::post('result', 'PracticeController@result');
+
+    //マイページ
+    Route::get('mypage', 'MypageController@index')->name('mypage');;
+
 });

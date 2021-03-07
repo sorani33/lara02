@@ -88,6 +88,9 @@
                     <a href="{{ route('sample')}}/1">テストの問題</a>
                     <a href="{{ route('sample')}}/2">①　ヨーロッパ史（古代〜中世）</a>
                 </div>
+                <div class="links">
+                    <a href="{{ route('mypage')}}">自分の成績</a>
+                </div>
             </div>
         </div>
     </body>
