@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Youtube大学 2019世界史教室</title>
+    <title>Youtube大学のあれ</title>
 
     <link
         rel="stylesheet"
@@ -15,7 +15,7 @@
     <header class="navbar navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url('') }}">
-                YOUTUBE大学 2019世界史教室
+            Youtube大学のあれ
             </a>
         </div>
     </header>

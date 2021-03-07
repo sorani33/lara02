@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+use App\ExaminationResult;
+
 class MypageController extends Controller
 {
     /**
@@ -23,7 +26,14 @@ class MypageController extends Controller
      */
     public function index()
     {
-            dd('マイページ');
-        return view('home');
+        $userId = Auth::id();
+        $examinationResultDatas = ExaminationResult::get()->where('user_id', $userId); 
+    //  dd($examinationResultDatas->sum('number_correct_answers'));
+        $assignData = [
+            'examinationResultDatas' => $examinationResultDatas,
+            'totalScore' => $examinationResultDatas->sum('number_correct_answers'),
+        ];
+
+        return view('mypage', $assignData);
     }
 }
