@@ -16,7 +16,10 @@ class CreateExaminationResults extends Migration
         Schema::create('examination_results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->comment('ユーザID');
-            $table->integer('score');
+            $table->integer('genre_id')->comment('ジャンルID');
+            $table->integer('number_questions');
+            $table->integer('number_correct_answers');
+            $table->integer('mark');
             $table->timestamps();
         });
     }

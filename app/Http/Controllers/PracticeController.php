@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ExaminationQuestion;
+use App\ExaminationResult;
+
+
 
 class PracticeController extends Controller
 {
@@ -54,6 +57,15 @@ class PracticeController extends Controller
         }
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
+
+        // DBに保存するexamination_results
+        $user = ExaminationResult::create([
+            'user_id' => 1,
+            'genre_id' => $request->input('genre_id'),
+            'number_questions' => $examinationCount, //問題数
+            'number_correct_answers' => $correctAnswerCount, //正解数
+            'mark' => $score,
+        ]);
 
 
         $assignData = [
