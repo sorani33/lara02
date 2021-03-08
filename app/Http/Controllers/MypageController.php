@@ -38,4 +38,28 @@ class MypageController extends Controller
 
         return view('mypage', $assignData);
     }
+
+    public function editName()
+    {
+dd('editname');
+        return view('mypage', $assignData);
+    }
+
+    public function editNameSave()
+    {
+dd('editNameSave');
+        return view('mypage', $assignData);
+    }
+
+    public function editTitle()
+    {
+dd('editTitle');
+        return view('mypage', $assignData);
+    }
+
+    public function editTitleSave()
+    {
+dd('editsaveTitle');
+        return view('mypage', $assignData);
+    }
 }

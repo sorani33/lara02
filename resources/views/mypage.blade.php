@@ -21,8 +21,17 @@
                     <span class="text-danger">偏差値　50.2（ベタ書き）</span>
                 </p>
             </div>
-            </div>
+        </div>
+        <div class="card mb-4">
+            <button onclick="location.href='{{ route('mypage.editname')}}'" type="submit" class="btn btn-primary">
+                名前・クラスを変更
+            </button>
+            <div class="card-body"></div>
 
+            <button onclick="location.href='{{ route('mypage.edittitle')}}'" type="submit" class="btn btn-primary">
+                称号を変更  
+            </button>
+        </div>
         @foreach ($examinationResultDatas as $key => $examinationQuestion)
             <div class="card mb-4">
 
