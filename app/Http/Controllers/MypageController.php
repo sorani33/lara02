@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Auth;
 use App\ExaminationResult;
+use App\User;
+
 
 class MypageController extends Controller
 {
@@ -36,25 +38,40 @@ class MypageController extends Controller
             'totalScore' => $examinationResultDatas->sum('number_correct_answers'),
         ];
 
-        return view('mypage', $assignData);
+        return view('mypage.index', $assignData);
     }
 
     public function editName()
     {
-dd('editname');
-        return view('mypage', $assignData);
+        $user = Auth::user();
+        $assignData = [
+            'user' => $user,
+        ];
+
+        return view('mypage.profile', $assignData);
     }
 
-    public function editNameSave()
+    public function editNameSave (Request $request) 
     {
-dd('editNameSave');
-        return view('mypage', $assignData);
+        // dd($request['user_name']);
+        $user = Auth::user();
+
+        User::where('id', $user->id)
+        ->update([
+            'name' => $request['user_name'],
+            'class_id' => $request['class_name'],
+        ]);
+        return redirect()->route('mypage');
+        return view('mypage.index');
     }
 
     public function editTitle()
     {
-dd('editTitle');
-        return view('mypage', $assignData);
+// dd('editTitle');
+        $assignData = [
+        ];
+
+        return view('mypage.title', $assignData);
     }
 
     public function editTitleSave()
