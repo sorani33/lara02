@@ -17,6 +17,7 @@
                             <input type="radio" name="no[{{ $key }}]" value="{{ $examinationQuestionData }}">{{ $examinationQuestionData }}
                         </label>
                     @endforeach
+                    <input type="radio" name="no[{{ $key }}]" value=""checked="checked" style="display:none;" />
                     </p>
                 </div>
             </div>

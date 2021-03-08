@@ -12,7 +12,8 @@ class PracticeController extends Controller
 {
     public function index ($genre_id) 
     {
-        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(4); 
+        // $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(4); 
+        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id); 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
             // $random = array('1', '2', '3', '4');
@@ -42,7 +43,7 @@ class PracticeController extends Controller
 
     public function result (Request $request) 
     {
-        // dd($request->input('no'));
+        // dd($request);
         // 問題数を取得する
         $examinationCount = count($request->input('no'));
 
@@ -63,10 +64,12 @@ class PracticeController extends Controller
                 // dd('正解数をカウントする。');
                 $correctAnswerCount++;
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = true;
+            }else if(empty($value)){
+                // dd('未回答のばあい');
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = null;
             }else{
                 // dd('はずれたら、Noのリストを格納する。');
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = false;
-
             }
         }
         // 点数を出す

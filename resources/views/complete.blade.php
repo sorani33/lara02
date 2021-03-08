@@ -17,6 +17,11 @@
                     <p class="card-text">
                     正解。あなたが答えたのは<span class="text-primary">{{ $examinationQuestion['inCorrectAnswer'] }}</span>でした。
                     </p>
+                @elseif(is_null($examinationQuestion['correctAnswer']))
+                <p class="card-text">
+                残念。未回答でしたが
+                        <span class="text-danger">正解は{{ $examinationQuestion['answer'] }}でした。</span>
+                    </p>
                 @else
                 <p class="card-text">
                         残念。<span class="text-danger">{{ $examinationQuestion['inCorrectAnswer'] }}</span>ではなく
