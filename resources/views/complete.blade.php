@@ -4,34 +4,25 @@
     <div class="container mt-4">
     <span class="text-danger">{{ $score }}点</span>
     　　{{ $correctAnswerCount }} / {{ $examinationCount }}<br>
-    間違った問題は下記だよ
+    @if($manten)
+    全問正解おめでとう！
+    @endif
         @foreach ($inCorrectAnswerLists as $key => $examinationQuestion)
             <div class="card mb-4">
                 <div class="card-header">
-                    問{{ $key+1 }}. {{ $examinationQuestion['subject'] }}
+                    問. {{ $examinationQuestion['subject'] }}
                 </div>
                 <div class="card-body">
+                @if($examinationQuestion['correctAnswer'])
                     <p class="card-text">
-                        <label>
-                            <input type="radio" name="no[{{ $examinationQuestion['no'] }}]" value="{{ $examinationQuestion['answer'] }}" disabled="disabled">{{ $examinationQuestion['answer'] }}
-                        </label>
-                        <label>
-                            <input type="radio" name="no[{{ $examinationQuestion['no'] }}]" value="{{ $examinationQuestion['dummy_answer1'] }}" disabled="disabled">{{ $examinationQuestion['dummy_answer1'] }}
-                        </label>
-                        <label>
-                            <input type="radio" name="no[{{ $examinationQuestion['no'] }}]" value="{{ $examinationQuestion['dummy_answer2'] }}" disabled="disabled">{{ $examinationQuestion['dummy_answer2'] }}
-                        </label>
-                        <label>
-                            <input type="radio" name="no[{{ $examinationQuestion['no'] }}]" value="{{ $examinationQuestion['dummy_answer3'] }}" disabled="disabled">{{ $examinationQuestion['dummy_answer3'] }}
-                        </label>
+                    正解。あなたが答えたのは<span class="text-primary">{{ $examinationQuestion['inCorrectAnswer'] }}</span>でした。
                     </p>
-                    <span class="text-danger">正解は{{ $examinationQuestion['answer'] }}でした</span>
-                    
-                </div>
-                <div class="card-footer">
-                    <span class="mr-2">
-                        投稿日時 {{ $examinationQuestion['created_at'] }}
-                    </span>
+                @else
+                <p class="card-text">
+                        残念。<span class="text-danger">{{ $examinationQuestion['inCorrectAnswer'] }}</span>ではなく
+                        <span class="text-danger">正解は{{ $examinationQuestion['answer'] }}でした。</span>
+                    </p>
+                @endif
                 </div>
             </div>
         @endforeach
