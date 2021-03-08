@@ -15,6 +15,8 @@ class CreateUserTitlesTable extends Migration
     {
         Schema::create('user_titles', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id');
+            $table->integer('title_id');
             $table->timestamps();
         });
     }

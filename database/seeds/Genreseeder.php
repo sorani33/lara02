@@ -14,7 +14,9 @@ class Genreseeder extends Seeder
     {
         //
         DB::table('genres')->insert([
-            'subject'    => '世界史2019',
+            'genre_id' => 1,
+            'genre_subject_id' => 1,
+            'genre_unit'    => '世界史2019',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
