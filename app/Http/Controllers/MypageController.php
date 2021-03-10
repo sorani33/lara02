@@ -68,16 +68,13 @@ class MypageController extends Controller
 
     public function editTitle()
     {
-// dd('editTitle');
     $user = Auth::user();
-    // $examinationQuestionsData = UserTitle::get()->where('user_id', $user->id);
-    // $examinationQuestionsData = UserTitle::with('users')->where('user_id', $user->id)->get();
-    $examinationQuestionsData = User::with('titles')->where('id', $user->id)->get();
-    // $examinationQuestionsData = User::get()->where('id', $user->id);
+    $examinationQuestionsDatas = User::with('titles')->where('id', $user->id)->get();
 
-    dd($examinationQuestionsData);
+    // dd($examinationQuestionsDatas[0]->titles);
     $assignData = [
-        ];
+        'examinationQuestionsDatatitles' => $examinationQuestionsDatas[0]->titles,
+    ];
 
         return view('mypage.title', $assignData);
     }

@@ -11,6 +11,11 @@
                 <p class="card-text">
                     <span class="text-danger">【称号】 創立メンバー</span>
                 </p>
+                <div class="row">
+                @foreach($examinationQuestionsDatatitles as $examinationQuestionsDatatitle)
+                    <div class="col-sm-2"><button type="button" class="btn btn-outline-primary">{{ $examinationQuestionsDatatitle->name }}</button></div>
+                @endforeach
+                </div>
             </div>
         </div>
     </div>
