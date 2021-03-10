@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\ExaminationResult;
 use App\User;
+use App\UserTitle;
 
 
 class MypageController extends Controller
@@ -68,7 +69,14 @@ class MypageController extends Controller
     public function editTitle()
     {
 // dd('editTitle');
-        $assignData = [
+    $user = Auth::user();
+    // $examinationQuestionsData = UserTitle::get()->where('user_id', $user->id);
+    // $examinationQuestionsData = UserTitle::with('users')->where('user_id', $user->id)->get();
+    $examinationQuestionsData = User::with('titles')->where('id', $user->id)->get();
+    // $examinationQuestionsData = User::get()->where('id', $user->id);
+
+    dd($examinationQuestionsData);
+    $assignData = [
         ];
 
         return view('mypage.title', $assignData);
