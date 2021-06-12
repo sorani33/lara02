@@ -97,6 +97,7 @@
                     <router-link to="/about">About</router-link>
                     </div>
                     <router-view/>
+                    <example-component></example-component>
                     </div>
                 </div>
             </div>
