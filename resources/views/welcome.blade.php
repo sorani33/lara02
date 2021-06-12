@@ -91,7 +91,15 @@
                 <div class="links">
                     <a href="{{ route('mypage')}}">自分の成績</a>
                 </div>
+                <div id="app">
+                    <div id="nav">
+                    <router-link to="/">Home</router-link>
+                    </div>
+                    <router-view/>
+                    </div>
+                </div>
             </div>
         </div>
+        <script src="{{ mix('js/app.js') }}"></script> 
     </body>
 </html>
