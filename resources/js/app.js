@@ -12,6 +12,7 @@ import router from './router';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 
+
 window.Vue = require('vue');
 Vue.use(VueRouter);
 Vue.use(Vuetify);

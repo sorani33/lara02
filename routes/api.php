@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('API')->group(function(){
     Route::get('/examinationquestions', 'ExaminationQuestionController@index');
-    Route::get('/examinationquestions/{id}', 'ExaminationQuestionController@show');
+    Route::post('/examinationquestions/{id}', 'ExaminationQuestionController@show');
 });
     // Route::get('/examinationquestions', 'API\ExaminationQuestionController@index');
 
