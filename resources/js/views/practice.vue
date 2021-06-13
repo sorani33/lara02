@@ -11,10 +11,10 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-              <v-btn-toggle borderless >
+              <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
                   <v-flex xs12 sm6 md3 v-for="answer in examinationQuestion.question">
-                   <v-btn class="mb-6 text-caption">{{answer}}</v-btn>
+                   <v-btn class="mx-4 mb-6 text-caption">{{answer}}</v-btn>
                   </v-flex>
                 </v-layout>
               </v-btn-toggle>
@@ -54,10 +54,8 @@ export default {
      * getExaminationQuestionDatas
      */
     getExaminationQuestionDatas: function () {
-      const data = {
-        userid: '1' //今回投げるuserid
-      }
-      axios.post('/api/examinationquestions/1', data
+      const questionId = this.$route.params.id; //routerからパラメータidを取得する。
+      axios.post('/api/examinationquestions/'+ questionId
       ).then((response) => {
         console.log(response.data.examinationQuestions);
         this.examinationQuestions = response.data.examinationQuestions;

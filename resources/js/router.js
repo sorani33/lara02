@@ -24,7 +24,7 @@ export default new Router({
       component: Tutorial
     },
     {
-      path: '/practice',
+      path: '/practice/:id',
       name: 'practice',
       component: Practice
     },
