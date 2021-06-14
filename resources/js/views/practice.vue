@@ -73,7 +73,13 @@ export default {
     postReserve:  function () {
         const koredesu = {
           param:{
-            id:123
+            genre_id:1,
+            no:{
+              1:"ねこ",
+              2:"むむむ",
+              3:"ねこ",
+              4:"むむ"
+            }
           }
         };
         console.log(koredesu);
