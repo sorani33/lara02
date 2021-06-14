@@ -88,7 +88,8 @@ class ExaminationQuestionController extends Controller
 
     public function result (Request $request) 
     {
-        dd($request->all);
+        dd($request);
+        // dd($request->all);
         // dd($request);
         // +request: Symfony\Component\HttpFoundation\ParameterBag {#52 ▼
         //     #parameters: array:3 [▼

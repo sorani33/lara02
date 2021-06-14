@@ -13,8 +13,8 @@
             <v-card-actions>
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
-                  <v-flex xs12 sm6 md3 v-for="answer in examinationQuestion.question">
-                   <v-btn class="mx-4 mb-6 text-caption">{{answer}}</v-btn>
+                  <v-flex xs12 sm6 md3 v-for="(answer, index) in examinationQuestion.question">
+                   <v-btn class="mx-4 mb-6 text-caption" v-bind:value="answer">{{answer}}{{index}}</v-btn>
                   </v-flex>
                 </v-layout>
               </v-btn-toggle>
@@ -62,7 +62,7 @@ export default {
      */
     getExaminationQuestionDatas: function () {
       const questionId = this.$route.params.id; //routerからパラメータidを取得する。
-      axios.post('/api/examinationquestions/'+ questionId
+      axios.get('/api/examinationquestions/'+ questionId
       ).then((response) => {
         this.examinationQuestions = response.data.examinationQuestions;
       })
@@ -71,11 +71,15 @@ export default {
      * 予約情報保存
      */
     postReserve:  function () {
-        console.log(this);
+        const koredesu = {
+          param:{
+            id:123
+          }
+        };
+        console.log(koredesu);
 
-        axios.post('/api/result', this)
+        axios.post('/api/result', koredesu)
         .then(async response => {
-        console.log(response);
         })
       }
     },
