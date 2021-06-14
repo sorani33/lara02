@@ -25,31 +25,6 @@ class ExaminationQuestionController extends Controller
      */
     public function index($genre_id)
     {
-//         // $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(4); 
-//         $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id); 
-//         $examinationQuestions =[];
-//         foreach($examinationQuestionsData as $examinationQuestion){
-//             // $random = array('1', '2', '3', '4');
-//             // shuffle($random);
-//             // $examinationQuestion['sort'] = $random;
-//             // $examinationQuestions[] = $examinationQuestion;
-//             // dd($examinationQuestion);
-
-//             $examinationQuestions[$examinationQuestion->no]['subject'] = $examinationQuestion->subject;
-//             $examinationQuestions[$examinationQuestion->no]['question'] = $examinationQuestion->only('answer', 'dummy_answer1', 'dummy_answer2', 'dummy_answer3');
-//             shuffle($examinationQuestions[$examinationQuestion->no]['question']);
-//             $examinationQuestions[$examinationQuestion->no]['created_at'] = $examinationQuestion->created_at;
-
-//             // $getexaminationQuestionaaa = $examinationQuestion->only('answer', 'dummy_answer1', 'dummy_answer2', 'dummy_answer3') + array('no'=>$examinationQuestion->no);
-//             // uasort($getexaminationQuestionaaa, function() { return mt_rand(-1, 1); });
-//             // $examinationQuestions[] = $getexaminationQuestionaaa;
-//         }
-
-//         $assignData = [
-//             'examinationQuestions' => $examinationQuestions,
-//             'genre_id' => $genre_id,
-//         ];
-// dd($assignData);
         return view('home');
     }
 
@@ -88,9 +63,6 @@ class ExaminationQuestionController extends Controller
 
     public function result (Request $request) 
     {
-        dd($request);
-        // dd($request->all);
-        // dd($request);
         // +request: Symfony\Component\HttpFoundation\ParameterBag {#52 ▼
         //     #parameters: array:3 [▼
         //       "_token" => "oSLGoOvCHAICU4jKph45XsfgSB0Ab7WiTcP8LPo2"
@@ -104,7 +76,7 @@ class ExaminationQuestionController extends Controller
         //     ]
 
         // 問題数を取得する
-        $examinationCount = count($request->input('no'));
+        $examinationCount = count($request->param['no']);
 
         // 採点をする
         $examinationQuestions = ExaminationQuestion::get()->toArray();
@@ -113,7 +85,7 @@ class ExaminationQuestionController extends Controller
         $noListFromDatabase= array_column($examinationQuestions, 'no');
         $correctAnswerCount = 0;
         $inCorrectAnswerLists = [];
-        foreach($request->input('no') as $inputKey => $value){
+        foreach($request->param['no'] as $inputKey => $value){
             $assignNo = array_search($inputKey, $noListFromDatabase);
 
             $examinationQuestions[$assignNo]['inCorrectAnswer'] = $value;
@@ -133,15 +105,15 @@ class ExaminationQuestionController extends Controller
         }
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
-
+dd($inCorrectAnswerLists);
         // DBに保存するexamination_results
-        $user = ExaminationResult::create([
-            'user_id' => 1,
-            'genre_id' => $request->input('genre_id'),
-            'number_questions' => $examinationCount, //問題数
-            'number_correct_answers' => $correctAnswerCount, //正解数
-            'mark' => $score,
-        ]);
+        // $user = ExaminationResult::create([
+        //     'user_id' => 1,
+        //     'genre_id' => $request->input('genre_id'),
+        //     'number_questions' => $examinationCount, //問題数
+        //     'number_correct_answers' => $correctAnswerCount, //正解数
+        //     'mark' => $score,
+        // ]);
 
         // 満点フラグ
         $manten = $examinationCount == $correctAnswerCount  ? true : false;

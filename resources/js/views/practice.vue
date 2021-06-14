@@ -1,21 +1,25 @@
 <template>
   <v-app>
     <v-container>
-      <v-row v-for="examinationQuestion in examinationQuestions">
+      <v-row v-for="(examinationQuestion, index) in examinationQuestions">
         <v-col>
           <v-card class="mx-auto">
             <v-card-text>
               <p class="text--primary">
+                {{index}} / 
                 {{examinationQuestion.subject}}
               </p>
+            <input type="hidden" name="no" :value="index" />
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
-                  <v-flex xs12 sm6 md3 v-for="(answer, index) in examinationQuestion.question">
-                   <v-btn class="mx-4 mb-6 text-caption" v-bind:value="answer">{{answer}}{{index}}</v-btn>
+                  <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question">
+                  <!-- <v-btn class="mx-4 mb-6 text-caption" v-model="picked" v-bind:value="answer">{{answer}}{{index}}</v-btn> -->
+                   <input type="radio" v-bind:value="answer" v-model="picked[index]" />{{answer}}{{questionindex}}
                   </v-flex>
+                  {{picked}}
                 </v-layout>
               </v-btn-toggle>
             </v-card-actions>
@@ -40,6 +44,13 @@ export default {
   data(){
     return{
       examinationQuestions:[],
+      // picked:[],
+      picked:{
+        // 1:"",
+        // 2:"",
+        // 3:"",
+        // 4:"",
+      },
     }
   },
 
@@ -65,23 +76,37 @@ export default {
       axios.get('/api/examinationquestions/'+ questionId
       ).then((response) => {
         this.examinationQuestions = response.data.examinationQuestions;
+
+        // 返り値のKeyを元にしてdata()を作成する
+        var array = response.data.examinationQuestions;
+        var obj = {};
+        for (var key in array) {
+          obj[key] = '';
+        }
+        this.$data.picked = obj; //dataに入れる。
       })
     },
     /**
      * 予約情報保存
      */
     postReserve:  function () {
-        const koredesu = {
+      var poipi = this.$data.picked;
+        // console.log(poipi);
+        var koredesu = {
           param:{
             genre_id:1,
-            no:{
-              1:"ねこ",
-              2:"むむむ",
-              3:"ねこ",
-              4:"むむ"
-            }
+            no:poipi
+            // no:{
+            //   1:"ねこ",
+            //   2:"むむむ",
+            //   3:"ねこ",
+            //   4:"むむ"
+            // }
           }
         };
+        // var aaa = Object.assign(koredesu, this.$data.picked)
+        // console.log(this.$data.picked);
+        // console.log(aaa);
         console.log(koredesu);
 
         axios.post('/api/result', koredesu)
