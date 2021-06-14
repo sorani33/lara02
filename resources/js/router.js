@@ -3,6 +3,7 @@ import Home from './views/home.vue'
 import About from './views/about.vue'
 import Tutorial from './views/tutorial.vue'
 import Practice from './views/practice.vue'
+import Result from './views/result.vue'
 
 
 export default new Router({
@@ -27,6 +28,11 @@ export default new Router({
       path: '/practice/:id',
       name: 'practice',
       component: Practice
+    },
+    {
+      path: '/result',
+      name: 'result',
+      component: Result
     },
   ]
 });

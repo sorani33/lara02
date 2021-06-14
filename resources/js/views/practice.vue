@@ -110,8 +110,9 @@ export default {
         console.log(koredesu);
 
         axios.post('/api/result', koredesu)
-        .then(async response => {
-        })
+        .then(
+          this.$router.push('/result')
+        )
       }
     },
 

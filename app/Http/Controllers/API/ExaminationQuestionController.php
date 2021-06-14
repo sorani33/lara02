@@ -105,7 +105,7 @@ class ExaminationQuestionController extends Controller
         }
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
-dd($inCorrectAnswerLists);
+// dd($inCorrectAnswerLists);
         // DBに保存するexamination_results
         // $user = ExaminationResult::create([
         //     'user_id' => 1,
@@ -131,7 +131,7 @@ dd($inCorrectAnswerLists);
 
         // 問題文の表示
         // 間違った問題と解答の表示
-
+        return response()->json($assignData);
         return view('complete', $assignData);
     }
 }
