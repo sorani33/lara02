@@ -22,6 +22,14 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-btn
+        class="mb-8"
+        block
+        color="primary"
+        style="font-size:var(--read-font-size-m);font-weight:bold;"
+        v-on:click.native="postReserve"
+      >仮予約お申し込み
+      </v-btn>
     </v-container>
   </v-app>
 </template>
@@ -31,8 +39,7 @@
 export default {
   data(){
     return{
-      examinationQuestions:[
-      ],
+      examinationQuestions:[],
     }
   },
 
@@ -57,10 +64,23 @@ export default {
       const questionId = this.$route.params.id; //routerからパラメータidを取得する。
       axios.post('/api/examinationquestions/'+ questionId
       ).then((response) => {
-        console.log(response.data.examinationQuestions);
         this.examinationQuestions = response.data.examinationQuestions;
       })
     },
-  },
+    /**
+     * 予約情報保存
+     */
+    postReserve:  function () {
+        console.log(this);
+
+        axios.post('/api/result', this)
+        .then(async response => {
+        console.log(response);
+        })
+      }
+    },
+
+
+
 }
 </script>

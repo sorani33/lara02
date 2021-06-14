@@ -43,7 +43,19 @@ class PracticeController extends Controller
 
     public function result (Request $request) 
     {
-        // dd($request);
+        dd($request);
+        // +request: Symfony\Component\HttpFoundation\ParameterBag {#52 ▼
+        //     #parameters: array:3 [▼
+        //       "_token" => "oSLGoOvCHAICU4jKph45XsfgSB0Ab7WiTcP8LPo2"
+        //       "genre_id" => "1"
+        //       "no" => array:5 [▼
+                // 5 => "ハンニバル"
+                // 6 => "羊が何匹いるかは狼には関係なし"
+                // 7 => "共和政ローマ"
+                // 8 => null
+                // 9 => null
+        //       ]
+        //     ]
         // 問題数を取得する
         $examinationCount = count($request->input('no'));
 
