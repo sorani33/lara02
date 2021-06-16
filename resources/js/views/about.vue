@@ -1,21 +1,12 @@
 <template>
   <v-app>
-    <v-container>
-      <v-row>
-        <v-col>
-          <v-card class="mx-auto">
-            <v-card-text>
-              <p class="text--primary">
-                Hello Vuetify World!!
-              </p>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-btn>やったね！！</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+  <v-navigation-drawer app>Navigation Lists</v-navigation-drawer>
+    <v-app-bar color="primary" dark app>
+    <v-app-bar-nav-icon></v-app-bar-nav-icon><!-- これがハンバーガーメニュ -->
+      <v-toolbar-title>Vuetify</v-toolbar-title>
+    </v-app-bar>
+    <v-footer color="primary" dark app>
+      Vuetify
+    </v-footer>
   </v-app>
 </template>

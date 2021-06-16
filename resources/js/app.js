@@ -17,6 +17,9 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 
+import '@mdi/font/css/materialdesignicons.css';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
