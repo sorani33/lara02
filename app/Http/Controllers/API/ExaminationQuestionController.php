@@ -32,7 +32,7 @@ class ExaminationQuestionController extends Controller
     public function show( $genre_id)
     {
         // dd($genre_id);
-        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(3); 
+        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(4); 
         // $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id); 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){

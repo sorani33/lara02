@@ -1,8 +1,9 @@
 <template>
   <v-app>
-  <v-navigation-drawer app>Navigation Lists</v-navigation-drawer>
-    <v-app-bar color="primary" dark app>
-    <v-app-bar-nav-icon></v-app-bar-nav-icon><!-- これがハンバーガーメニュ -->
+  <v-navigation-drawer app v-model="drawer" clipped>Navigation Lists</v-navigation-drawer><!-- サイドのナビゲーションメニュー -->
+    <v-app-bar color="primary" dark app clipped-left><!-- これがヘッダー -->
+      <v-toolbar-title>Vuetify</v-toolbar-title>
+      <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- これがハンバーガーメニュー -->
       <v-toolbar-title>Vuetify</v-toolbar-title>
     </v-app-bar>
     <v-footer color="primary" dark app>
@@ -10,3 +11,14 @@
     </v-footer>
   </v-app>
 </template>
+
+
+<script>
+export default {
+  data(){
+    return{
+        drawer: null
+    }
+  }
+}
+</script>

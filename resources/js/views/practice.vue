@@ -1,5 +1,10 @@
 <template>
   <v-app>
+  <v-navigation-drawer app v-model="drawer" clipped>Navigation Lists</v-navigation-drawer><!-- サイドのナビゲーションメニュー -->
+    <v-app-bar color="primary" dark app clipped-left><!-- これがヘッダー -->
+      <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- これがハンバーガーメニュー -->
+      <v-toolbar-title>Vuetify</v-toolbar-title>
+    </v-app-bar>
     <v-container>
       <v-row v-for="(examinationQuestion, index) in examinationQuestions">
         <v-col>
@@ -35,6 +40,29 @@
       >仮予約お申し込み
       </v-btn>
     </v-container>
+  <v-bottom-navigation
+    :value="value"
+    color="teal"
+    grow
+  >
+    <v-btn>
+      <span>Recents</span>
+
+      <v-icon>mdi-history</v-icon>
+    </v-btn>
+
+    <v-btn>
+      <span>Favorites</span>
+
+      <v-icon>mdi-heart</v-icon>
+    </v-btn>
+
+    <v-btn>
+      <span>Nearby</span>
+
+      <v-icon>mdi-map-marker</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -44,6 +72,8 @@ export default {
   data(){
     return{
       examinationQuestions:[],
+      drawer: null, //ドロワー用途
+      value: null, //ドロワー用途
       // picked:[],
       picked:{
         // 1:"",
