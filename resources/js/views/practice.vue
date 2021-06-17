@@ -40,7 +40,7 @@
       >仮予約お申し込み
       </v-btn>
     </v-container>
-  <v-bottom-navigation
+  <v-bottom-navigation app
     :value="value"
     color="teal"
     grow
@@ -140,8 +140,14 @@ export default {
         console.log(koredesu);
 
         axios.post('/api/result', koredesu)
-        .then(
-          this.$router.push('/result')
+        .then((response) => {
+          console.log(response.data);
+          // this.$router.push('/result')
+          this.$router.push({
+             name:'result',
+             params:response.data
+          })
+        }
         )
       }
     },
