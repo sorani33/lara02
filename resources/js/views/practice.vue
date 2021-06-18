@@ -3,9 +3,14 @@
   <v-navigation-drawer app v-model="drawer" clipped>Navigation Lists</v-navigation-drawer><!-- サイドのナビゲーションメニュー -->
     <v-app-bar color="primary" dark app clipped-left><!-- これがヘッダー -->
       <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- これがハンバーガーメニュー -->
-      <v-toolbar-title>Vuetify</v-toolbar-title>
+      <v-toolbar-title>youtube大学のあれ</v-toolbar-title>
     </v-app-bar>
     <v-container>
+    <div v-if="answeresult">
+        <span class="red--text .font-weight-bold">{{ score }}点</span>
+    　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
+    </div>
+
       <v-row v-for="(examinationQuestion, index) in examinationQuestions">
         <v-col>
           <v-card class="mx-auto">
@@ -22,9 +27,27 @@
                 <v-layout wrap >
                   <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question">
                   <!-- <v-btn class="mx-4 mb-6 text-caption" v-model="picked" v-bind:value="answer">{{answer}}{{index}}</v-btn> -->
-                   <input type="radio" v-bind:value="answer" v-model="picked[index]" />{{answer}}{{questionindex}}
+                   <input type="radio" v-bind:value="answer" v-model="picked[index]" />{{answer}}
                   </v-flex>
                   {{picked}}
+                  <div v-if="answeresult">
+                  <!--{{ examinationQuestion }}-->
+                  <!--{{ examinationQuestion.CorrectAnswer }}-->
+                    <div v-if="examinationQuestion.correctAnswer">
+                    <img src="/images/maru.png" width="20">
+                      正解。あなたが答えたのは<span class="primary--text">「{{ examinationQuestion.inCorrectAnswer }}」</span>でした。
+                    </div>
+                    <div v-else="examinationQuestion.correctAnswer == false">
+                    <img src="/images/batsu.png" width="20">
+                      残念。未回答でしたが<span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span>
+                    </div>
+                    <div v-else>
+                    <img src="/images/batsu.png" width="20">
+                      残念。<span class="red--text">{{ examinationQuestion.inCorrectAnswer }}</span>ではなく
+                      <span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span>
+
+                    </div>
+                  </div>
                 </v-layout>
               </v-btn-toggle>
             </v-card-actions>
@@ -37,7 +60,7 @@
         color="primary"
         style="font-size:var(--read-font-size-m);font-weight:bold;"
         v-on:click.native="postReserve"
-      >仮予約お申し込み
+      >採点する
       </v-btn>
     </v-container>
   <v-bottom-navigation app
@@ -46,19 +69,19 @@
     grow
   >
     <v-btn>
-      <span>Recents</span>
-
-      <v-icon>mdi-history</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Favorites</span>
+      <span>練習問題</span>
 
       <v-icon>mdi-heart</v-icon>
     </v-btn>
 
     <v-btn>
-      <span>Nearby</span>
+      <span>タイムアタック</span>
+
+      <v-icon>mdi-history</v-icon>
+    </v-btn>
+
+    <v-btn>
+      <span>マイページ</span>
 
       <v-icon>mdi-map-marker</v-icon>
     </v-btn>
@@ -74,6 +97,11 @@ export default {
       examinationQuestions:[],
       drawer: null, //ドロワー用途
       value: null, //ドロワー用途
+      examinationCount: 5, //問題数
+      correctAnswerCount: 3, //正解数
+      score: 80, //点数
+      answeresult: false, //結果表示
+
       // picked:[],
       picked:{
         // 1:"",
@@ -116,6 +144,7 @@ export default {
         this.$data.picked = obj; //dataに入れる。
       })
     },
+
     /**
      * 予約情報保存
      */
@@ -141,14 +170,12 @@ export default {
 
         axios.post('/api/result', koredesu)
         .then((response) => {
-          console.log(response.data);
-          // this.$router.push('/result')
-          this.$router.push({
-             name:'result',
-             params:response.data
-          })
-        }
-        )
+          this.examinationQuestions = response.data.inCorrectAnswerLists;
+          this.answeresult = true;
+          this.score = response.data.score;
+          this.correctAnswerCount = response.data.correctAnswerCount;
+          this.examinationCount = response.data.examinationCount;
+        })
       }
     },
 
