@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('top');
 
-Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
+Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider')->name('twitter.login');
 // Route::get('api/login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
 Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
 
