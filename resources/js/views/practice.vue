@@ -1,22 +1,22 @@
 <template>
+
   <v-app>
   <v-navigation-drawer app v-model="drawer" clipped>Navigation Lists</v-navigation-drawer><!-- サイドのナビゲーションメニュー -->
-    <v-app-bar color="primary" dark app clipped-left><!-- これがヘッダー -->
+    <v-app-bar color="primary" dark clipped-left app ><!-- これがヘッダー -->
       <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- これがハンバーガーメニュー -->
-      <v-toolbar-title>youtube大学のあれ</v-toolbar-title>
     </v-app-bar>
     <v-container>
     <div v-if="answeresult">
-        <span class="red--text .font-weight-bold">{{ score }}点</span>
+        採点結果は<span class="red--text .font-weight-bold">{{ score }}点</span>でした！
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
 
-      <v-row v-for="(examinationQuestion, index) in examinationQuestions">
+      <v-row v-for="(examinationQuestion, index, count) in examinationQuestions">
         <v-col>
           <v-card class="mx-auto">
             <v-card-text>
               <p class="text--primary">
-                {{index}} / 
+                【{{count+1}}】
                 {{examinationQuestion.subject}}
               </p>
             <input type="hidden" name="no" :value="index" />
@@ -39,12 +39,14 @@
                     </div>
                     <div v-else="examinationQuestion.correctAnswer == false">
                     <img src="/images/batsu.png" width="20">
-                      残念。未回答でしたが<span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span>
+                      残念。未回答でしたが<span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
+                      授業の復習はこちらから→<v-btn small color="success" href="http://local.lara02.com/">授業を復習する</v-btn>
                     </div>
                     <div v-else>
                     <img src="/images/batsu.png" width="20">
                       残念。<span class="red--text">{{ examinationQuestion.inCorrectAnswer }}</span>ではなく
-                      <span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span>
+                      <span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
+                      授業の復習はこちらから→<v-btn color="primary" href="http://local.lara02.com/">授業を復習する</v-btn>
 
                     </div>
                   </div>
@@ -54,6 +56,14 @@
           </v-card>
         </v-col>
       </v-row>
+    <div v-if="answeresult">
+    <br>
+      <v-btn color="primary" href="http://local.lara02.com/">もう一度（工事中）</v-btn>
+      <v-btn color="primary" href="http://local.lara02.com/">トップに戻る</v-btn>
+      <v-btn color="primary" href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">結果をツイートする</v-btn>
+    </div>
+    <br>
+    <div v-if="!answeresult">
       <v-btn
         class="mb-8"
         block
@@ -62,6 +72,11 @@
         v-on:click.native="postReserve"
       >採点する
       </v-btn>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
     </v-container>
   <v-bottom-navigation app
     :value="value"
@@ -88,6 +103,7 @@
   </v-bottom-navigation>
   </v-app>
 </template>
+
 
 
 <script>
@@ -124,6 +140,8 @@ export default {
     this.getExaminationQuestionDatas();
   },
 
+  beforeRouteUpdate (to, from, next) {
+  },
 
   methods: {
     /**
@@ -145,6 +163,20 @@ export default {
       })
     },
 
+    moveToTop:  function () {
+
+        const duration = 450;  // 移動速度（1秒で終了）
+        const interval = 25;    // 0.025秒ごとに移動
+        const step = -window.scrollY / Math.ceil(duration / interval); // 1回に移動する距離
+        const timer = setInterval(() => {
+            window.scrollBy(0, step);   // スクロール位置を移動
+            if(window.scrollY <= 0) {
+                clearInterval(timer);
+            }
+        }, interval);
+
+    },
+
     /**
      * 予約情報保存
      */
@@ -155,19 +187,8 @@ export default {
           param:{
             genre_id:1,
             no:poipi
-            // no:{
-            //   1:"ねこ",
-            //   2:"むむむ",
-            //   3:"ねこ",
-            //   4:"むむ"
-            // }
           }
         };
-        // var aaa = Object.assign(koredesu, this.$data.picked)
-        // console.log(this.$data.picked);
-        // console.log(aaa);
-        console.log(koredesu);
-
         axios.post('/api/result', koredesu)
         .then((response) => {
           this.examinationQuestions = response.data.inCorrectAnswerLists;
@@ -175,6 +196,7 @@ export default {
           this.score = response.data.score;
           this.correctAnswerCount = response.data.correctAnswerCount;
           this.examinationCount = response.data.examinationCount;
+          this.moveToTop();
         })
       }
     },

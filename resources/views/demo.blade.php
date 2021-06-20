@@ -64,7 +64,7 @@
         </style>
     </head>
     <body>
-        <div class="">
+        <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -80,9 +80,32 @@
                 </div>
             @endif
 
-            <div class="content" style="margin-top: 100px;">
+            <div class="content">
+                <div class="title m-b-md">
+                    youtube大学のやつ
+                </div>
+
+                <div class="links">
+                    <a href="{{ route('sample')}}/1">練習問題１</a>
+                    <a href="{{ route('sample')}}/2">練習問題２・・・ヨーロッパ史（古代〜中世）</a>
+                </div>
+                <div class="links">
+                    <a href="{{ route('mypage')}}">自分の成績</a>
+                    <a href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">ツイートする</a>
+                    <br>
+                    何かアレば、土生（@PROGRESSHabu）までDMくださいませ。
+                </div>
                 <div id="app">
+                    <div id="nav">
+                    <router-link to="/">Home</router-link>
+                    <router-link to="/about">About</router-link>
+                    <router-link to="/tutorial">Tutorial</router-link>
+                    <router-link to="/practice/1">Practice1</router-link>
+                    <router-link to="/practice/2">Practice2</router-link>
+                    </div>
                     <router-view/>
+                    <example-component></example-component>
+                    </div>
                 </div>
             </div>
         </div>
