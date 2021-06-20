@@ -17,6 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
+Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
+
 Route::namespace('API')->group(function(){
     Route::get('/examinationquestions', 'ExaminationQuestionController@index');
     Route::get('/examinationquestions/{id}', 'ExaminationQuestionController@show');
