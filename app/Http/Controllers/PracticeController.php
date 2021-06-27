@@ -43,7 +43,7 @@ class PracticeController extends Controller
 
     public function result (Request $request) 
     {
-        dd($request);
+        // dd($request);
         // +request: Symfony\Component\HttpFoundation\ParameterBag {#52 ▼
         //     #parameters: array:3 [▼
         //       "_token" => "oSLGoOvCHAICU4jKph45XsfgSB0Ab7WiTcP8LPo2"
