@@ -6,7 +6,7 @@
 			<v-toolbar-title>YouTube大学のあれ</v-toolbar-title>
 		</v-app-bar>
 		<h2>YouTube大学 入試対策講座</h2>
-		<v-alert type="info" color="green">【new】 世界史4　世界史5　を追加しました！</v-alert>
+		<v-alert type="info" color="green">【new】 世界史4　世界史5　を追加しましああた！</v-alert>
 		<br>
 		<p>最近〇〇さんがログインしました！</p><br>
 		<p>ランキング</p><br>
@@ -19,6 +19,7 @@
 		<v-col v-for="(title, index) in titles" :key="index" cols="12" sm="6">
 			<v-card class="pa-2" outlined tile>
 			<router-link :to="{ name: 'practice', params: {id: index } }">{{title}}</router-link>
+			<router-link :to="{ name: 'timeattack5', params: {id: index } }">タイムアタック</router-link>
 			</v-card>
 		</v-col>
 		</v-row>
