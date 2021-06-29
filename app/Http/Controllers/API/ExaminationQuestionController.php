@@ -7,6 +7,8 @@ use App\ExaminationQuestion;
 use App\ExaminationResult;
 use App\Http\Controllers\Controller; //APIコントローラの時は、コレが要る
 
+use Carbon\Carbon;
+
 class ExaminationQuestionController extends Controller
 {
     /**
@@ -93,24 +95,33 @@ class ExaminationQuestionController extends Controller
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
 
-        if($score == 100){
-            $bestTimeFlag = 0;
-            $timeAttack = $request->input('timeAttack');
+
+        // タイムアタックモードの場合の処理
+        if($request->param['mode'] == 2){
+            if($score == 100){
+                $bestTimeFlag = 0;
+                $timeAttack = $request->param['timeAttack']; //"49.880"
+
+                // 個人ベストタイムを取得する。
+                $examinationResult = ExaminationResult::where('user_id', 1)->where('best_time_flag', 1)->first();
+        
+                if(isset($examinationResult)){
+                    $timeAttackInDatabase = $examinationResult->time_attack; //00:00:04.591
+                    $carbon1 = Carbon::parse($timeAttackInDatabase)->format('s.v');
+                    $carbon2 = Carbon::parse($request->param['timeAttack'])->format('s.v');
+            
+                    // データが有り、タイムを更新していればデータも更新する。
+                    if($carbon1 > $carbon2){
+                        // dd('タイム更新');
+                        $bestTimeFlag = 1;
+                        $examinationResult->update(['best_time_flag' => 0]);
+                    }    
+                }    
+
+            }
         }
-
-        // // 個人ベストタイムを取得する。
-        // $examinationQuestions = ExaminationQuestion::get()->where('best_time_flag', 1);
-
-        // // データが有れば、タイムを比較する。
-        // if(isset($examinationQuestion)){
-
-
-        // }
-
-        // データが有り、タイムを更新していれば
-        $bestTimeFlag = 1;
-
-        // DBに保存するexamination_results
+        
+        // DBに保存する
         $user = ExaminationResult::create([
             'user_id' => 1,
             'genre_id' => $request->param['genre_id'],
@@ -118,8 +129,8 @@ class ExaminationQuestionController extends Controller
             'number_questions' => $examinationCount, //問題数
             'number_correct_answers' => $correctAnswerCount, //正解数
             'mark' => $score,
-            // 'time_attack' => $timeAttack ?? null,
-            // 'best_time_flag' => $bestTimeFlag ?? null,
+            'time_attack' => $timeAttack ?? null,
+            'best_time_flag' => $bestTimeFlag ?? null,
         ]);
 
         // 満点フラグ
@@ -137,6 +148,5 @@ class ExaminationQuestionController extends Controller
         // 問題文の表示
         // 間違った問題と解答の表示
         return response()->json($assignData);
-        return view('complete', $assignData);
     }
 }
