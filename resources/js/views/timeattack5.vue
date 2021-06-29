@@ -11,6 +11,28 @@
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
 
+    <v-dialog v-model="dialog" persistent max-width="290" overlay-opacity="100">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Open Dialog
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title class="text-h5">
+          00:00:00
+        </v-card-title>
+        <v-card-text>タイムアタック　ready...</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false"> Go!!</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
       <v-row v-for="(examinationQuestion, index, count) in examinationQuestions">
         <v-col>
@@ -118,6 +140,7 @@ export default {
       correctAnswerCount: 3, //正解数
       score: 80, //点数
       answeresult: false, //結果表示
+      dialog: true, //ダイヤログはアクセス時に表示させる
 
       // picked:[],
       picked:{
