@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\ExaminationQuestion;
+use App\ExaminationResult;
 use App\Http\Controllers\Controller; //APIコントローラの時は、コレが要る
 
 class ExaminationQuestionController extends Controller
@@ -32,7 +33,7 @@ class ExaminationQuestionController extends Controller
     public function show( $genre_id)
     {
         // dd($genre_id);
-        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id); 
+        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(3); 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
             $examinationQuestions[$examinationQuestion->no]['subject'] = $examinationQuestion->subject;
@@ -62,7 +63,6 @@ class ExaminationQuestionController extends Controller
         //         4 => "むー"
         //       ]
         //     ]
-dd($request);
         // 問題数を取得する
         $examinationCount = count($request->param['no']);
 
@@ -92,19 +92,38 @@ dd($request);
         }
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
-// dd($inCorrectAnswerLists);
+
+        if($score == 100){
+            $bestTimeFlag = 0;
+            $timeAttack = $request->input('timeAttack');
+        }
+
+        // // 個人ベストタイムを取得する。
+        // $examinationQuestions = ExaminationQuestion::get()->where('best_time_flag', 1);
+
+        // // データが有れば、タイムを比較する。
+        // if(isset($examinationQuestion)){
+
+
+        // }
+
+        // データが有り、タイムを更新していれば
+        $bestTimeFlag = 1;
+
         // DBに保存するexamination_results
-        // $user = ExaminationResult::create([
-        //     'user_id' => 1,
-        //     'genre_id' => $request->input('genre_id'),
-        //     'number_questions' => $examinationCount, //問題数
-        //     'number_correct_answers' => $correctAnswerCount, //正解数
-        //     'mark' => $score,
-        // ]);
+        $user = ExaminationResult::create([
+            'user_id' => 1,
+            'genre_id' => $request->param['genre_id'],
+            'mode' => $request->param['mode'],
+            'number_questions' => $examinationCount, //問題数
+            'number_correct_answers' => $correctAnswerCount, //正解数
+            'mark' => $score,
+            'time_attack' => $timeAttack ?? null,
+            'best_time_flag' => $bestTimeFlag ?? null,
+        ]);
 
         // 満点フラグ
         $manten = $examinationCount == $correctAnswerCount  ? true : false;
-
         $assignData = [
             'examinationCount' => $examinationCount, //問題数
             'correctAnswerCount' => $correctAnswerCount, //正解数
@@ -113,7 +132,6 @@ dd($request);
             'inCorrectAnswerLists' => $inCorrectAnswerLists, //不正解した問題と、選んだ選択肢と、解答のデータ
             'genre_id' => $request->input('genre_id'),
         ];
-        // dd($assignData);
 
 
         // 問題文の表示

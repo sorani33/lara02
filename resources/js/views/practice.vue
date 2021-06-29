@@ -111,6 +111,8 @@ export default {
   data(){
     return{
       examinationQuestions:[],
+      mode: 1, //モード
+
       drawer: null, //ドロワー用途
       value: null, //ドロワー用途
       examinationCount: 5, //問題数
@@ -182,14 +184,18 @@ export default {
      */
     postReserve:  function () {
       var poipi = this.$data.picked;
+      var mode = this.$data.mode;
+      console.log(mode);
         // console.log(poipi);
-        var koredesu = {
+        var sendApiParameters = {
           param:{
             genre_id:1,
-            no:poipi
+            no:poipi,
+            mode:mode,
           }
         };
-        axios.post('/api/result', koredesu)
+
+        axios.post('/api/result', sendApiParameters)
         .then((response) => {
           this.examinationQuestions = response.data.inCorrectAnswerLists;
           this.answeresult = true;
