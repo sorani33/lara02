@@ -12,6 +12,7 @@
 		<p>ランキング</p><br>
 		<v-btn >練習問題</v-btn>
 		<v-btn >タイムアタック（ランダム5問）</v-btn>
+			<router-link :to="{ name: 'mypage' }">マイページ</router-link>
 		<br>
 		<br>
 

@@ -33,10 +33,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('result', 'PracticeController@result');
 
     //マイページ
-    Route::get('mypage', 'MypageController@index')->name('mypage');
-    Route::get('mypage/editName', 'MypageController@editName')->name('mypage.editname');
-    Route::post('mypage/editName/save', 'MypageController@editNameSave')->name('mypage.editname.save');
-    Route::get('mypage/editTitle', 'MypageController@editTitle')->name('mypage.edittitle');
-    Route::post('mypage/editTitle/save', 'MypageController@editTitleSave')->name('mypage.edittitle.save');
+    // Route::get('mypage', 'MypageController@index')->name('mypage');
+    // Route::get('mypage/editName', 'MypageController@editName')->name('mypage.editname');
+    // Route::post('mypage/editName/save', 'MypageController@editNameSave')->name('mypage.editname.save');
+    // Route::get('mypage/editTitle', 'MypageController@editTitle')->name('mypage.edittitle');
+    // Route::post('mypage/editTitle/save', 'MypageController@editTitleSave')->name('mypage.edittitle.save');
 
 });
