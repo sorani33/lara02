@@ -1,4 +1,4 @@
 
 <template>
-	<h1>結果画面</h1>
+	<h1>マイページ画面</h1>
 </template>

@@ -6,6 +6,7 @@ import Practice from './views/practice.vue'
 import Timeattack5 from './views/timeattack5.vue'
 import Result from './views/result.vue'
 import Mypage from './views/mypage.vue'
+import Report from './views/report.vue'
 
 
 export default new Router({
@@ -45,6 +46,11 @@ export default new Router({
       path: '/mypage',
       name: 'mypage',
       component: Mypage
+    },
+    {
+      path: '/report',
+      name: 'report',
+      component: Report
     },
   ]
 });

@@ -13,6 +13,7 @@
 		<v-btn >練習問題</v-btn>
 		<v-btn >タイムアタック（ランダム5問）</v-btn>
 			<router-link :to="{ name: 'mypage' }">マイページ</router-link>
+			<router-link :to="{ name: 'report' }">成績板</router-link>
 		<br>
 		<br>
 
@@ -27,21 +28,18 @@
 
 		<v-bottom-navigation app color="teal" grow>
 			<v-btn>
-			<span>練習問題</span>
-
-			<v-icon>mdi-heart</v-icon>
+				<router-link :to="{ name: 'home' }"><span>PLAY</span></router-link>
+				<v-icon>mdi-history</v-icon>
 			</v-btn>
 
 			<v-btn>
-			<span>タイムアタック</span>
-
-			<v-icon>mdi-history</v-icon>
+				<router-link :to="{ name: 'report' }"><span>成績板</span></router-link>
+				<v-icon>mdi-history</v-icon>
 			</v-btn>
 
 			<v-btn>
-			<span>マイページ</span>
-
-			<v-icon>mdi-map-marker</v-icon>
+				<router-link :to="{ name: 'mypage' }"><span>マイページ</span></router-link>
+				<v-icon>mdi-map-marker</v-icon>
 			</v-btn>
 		</v-bottom-navigation>
 	</div>
