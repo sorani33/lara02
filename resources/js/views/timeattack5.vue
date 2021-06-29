@@ -10,6 +10,11 @@
         採点結果は<span class="red--text .font-weight-bold">{{ score }}点</span>でした！
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
+<p>{{interval.toFixed(2)}}</p> <!-- 小数2桁まで表示 -->
+<button @click="startTimer()" v-show="!active">Start</button>
+<button @click="stopTimer()" v-show="active">Stop</button>
+<button @click="resetTimer()">Reset</button>
+
 
     <v-dialog v-model="dialog" persistent max-width="290" overlay-opacity="100">
       <template v-slot:activator="{ on, attrs }">
@@ -29,7 +34,7 @@
         <v-card-text>タイムアタック　ready...</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false"> Go!!</v-btn>
+          <v-btn color="green darken-1" text @click="timeattackstart"> Go!!</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -134,6 +139,8 @@ export default {
   data(){
     return{
       examinationQuestions:[],
+      mode: 2, //モード
+
       drawer: null, //ドロワー用途
       value: null, //ドロワー用途
       examinationCount: 5, //問題数
@@ -142,7 +149,13 @@ export default {
       answeresult: false, //結果表示
       dialog: true, //ダイヤログはアクセス時に表示させる
 
-      // picked:[],
+      // タイムアタック用
+      active : false, // 実行状態
+      start : 0, // startを押した時刻
+      timer : 0, // setInterval()の格納用
+      interval : 0, // 計測時間
+      accum : 0, // 累積時間(stopしたとき用)
+
       picked:{
         // 1:"",
         // 2:"",
@@ -153,14 +166,6 @@ export default {
   },
 
   created: function () {
-    // this.areaValue = this.$store.state.call.areaValue;
-    // if (!this.areaValue) {
-    //   this.areaValue = this.$store.state.call.tmpSearchConditions.areaValue;
-    // }
-    // // 指名キャストがstoreから外れた時はリダイレクト
-    // if (!this.$store.state.call.nominateCast) {
-    //   this.$router.push('/call')
-    // }
     this.getExaminationQuestionDatas();
   },
 
@@ -172,8 +177,34 @@ export default {
   },
 
   methods: {
+    /*
+     * タイムアタック用
+     */
+    timeattackstart: function () {
+      this.dialog = false;
+      console.log('timeattackstart');
+      this.active = true;
+      this.start = Date.now();
+      this.timer = setInterval(()=>{ 
+        this.interval = this.accum + (Date.now() - this.start) * 0.001;
+        }, 10
+      ); // 10msごとに現在時刻とstartを押した時刻の差を足す
+    },
 
-    /**
+    stopTimer(){
+        this.active = false;
+        this.accum = this.interval;
+        clearInterval(this.timer);
+    },
+
+    resetTimer(){
+        this.interval = 0;
+        this.accum = 0;
+        this.start = Date.now();
+    },
+
+
+    /*
      * getExaminationQuestionDatas
      */
     getExaminationQuestionDatas: function () {
@@ -193,7 +224,6 @@ export default {
     },
 
     moveToTop:  function () {
-
         const duration = 450;  // 移動速度（1秒で終了）
         const interval = 25;    // 0.025秒ごとに移動
         const step = -window.scrollY / Math.ceil(duration / interval); // 1回に移動する距離
@@ -211,14 +241,18 @@ export default {
      */
     postReserve:  function () {
       var poipi = this.$data.picked;
-        // console.log(poipi);
-        var koredesu = {
+      var mode = this.$data.mode;
+      this.stopTimer();
+      console.log(mode);
+        var sendApiParameters = {
           param:{
             genre_id:1,
-            no:poipi
+            no:poipi,
+            mode:mode,
+            timeAttack:this.interval,
           }
         };
-        axios.post('/api/result', koredesu)
+        axios.post('/api/result', sendApiParameters)
         .then((response) => {
           this.examinationQuestions = response.data.inCorrectAnswerLists;
           this.answeresult = true;

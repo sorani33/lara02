@@ -33,23 +33,12 @@ class ExaminationQuestionController extends Controller
     {
         // dd($genre_id);
         $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id); 
-        // $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id); 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
-            // $random = array('1', '2', '3', '4');
-            // shuffle($random);
-            // $examinationQuestion['sort'] = $random;
-            // $examinationQuestions[] = $examinationQuestion;
-            // dd($examinationQuestion);
-
             $examinationQuestions[$examinationQuestion->no]['subject'] = $examinationQuestion->subject;
             $examinationQuestions[$examinationQuestion->no]['question'] = $examinationQuestion->only('answer', 'dummy_answer1', 'dummy_answer2', 'dummy_answer3');
             shuffle($examinationQuestions[$examinationQuestion->no]['question']);
             $examinationQuestions[$examinationQuestion->no]['created_at'] = $examinationQuestion->created_at;
-
-            // $getexaminationQuestionaaa = $examinationQuestion->only('answer', 'dummy_answer1', 'dummy_answer2', 'dummy_answer3') + array('no'=>$examinationQuestion->no);
-            // uasort($getexaminationQuestionaaa, function() { return mt_rand(-1, 1); });
-            // $examinationQuestions[] = $getexaminationQuestionaaa;
         }
 
         $assignData = [
@@ -57,7 +46,6 @@ class ExaminationQuestionController extends Controller
             'genre_id' => $genre_id,
         ];
         return response()->json($assignData);
-        // return view('home');
     }
 
 
@@ -74,13 +62,12 @@ class ExaminationQuestionController extends Controller
         //         4 => "むー"
         //       ]
         //     ]
-
+dd($request);
         // 問題数を取得する
         $examinationCount = count($request->param['no']);
 
         // 採点をする
         $examinationQuestions = ExaminationQuestion::get()->toArray();
-        // $filtered = $collection->whereIn('age', [20, 23]);
 
         $noListFromDatabase= array_column($examinationQuestions, 'no');
         $correctAnswerCount = 0;
