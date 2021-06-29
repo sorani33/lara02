@@ -118,8 +118,8 @@ class ExaminationQuestionController extends Controller
             'number_questions' => $examinationCount, //問題数
             'number_correct_answers' => $correctAnswerCount, //正解数
             'mark' => $score,
-            'time_attack' => $timeAttack ?? null,
-            'best_time_flag' => $bestTimeFlag ?? null,
+            // 'time_attack' => $timeAttack ?? null,
+            // 'best_time_flag' => $bestTimeFlag ?? null,
         ]);
 
         // 満点フラグ

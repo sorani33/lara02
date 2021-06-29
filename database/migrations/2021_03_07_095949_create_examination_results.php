@@ -21,7 +21,7 @@ class CreateExaminationResults extends Migration
             $table->integer('number_questions')->comment('問題数');
             $table->integer('number_correct_answers')->comment('正解数');
             $table->integer('mark')->comment('得点');
-            $table->time('time_attack')->nullable()->comment('タイムアタック');
+            $table->time('time_attack', 6)->nullable()->comment('タイムアタック');
             $table->integer('best_time_flag')->nullable()->comment('ベストタイムフラグ（０：ベストタイムでない、１：ベストタイムである）');
             $table->timestamps();
         });
