@@ -101,11 +101,15 @@
 
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
-          Privacy Policy
+          総合スコア
         </v-card-title>
 
         <v-card-text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		  <div class="body-1 mb-1">自己ベスト　163</div>
+      <br>
+		  <div class="body-1 mb-1">1位　[A]クラウド　300</div>
+		  <div class="body-1 mb-1">2位　[R]ティファ　220</div>
+		  <div class="body-1 mb-1">3位　[F]土生翔吾(はぶっち)＠東京都　3</div>
         </v-card-text>
 
         <v-divider></v-divider>
