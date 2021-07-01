@@ -7,15 +7,14 @@
 		<v-alert type="info" color="green">【new】 世界史4　世界史5　を追加しました！</v-alert>
 		<br>
 		<p>最近〇〇の記録が更新されました！</p><br>
-		<v-btn >練習問題</v-btn>
-		<v-btn >タイムアタック７</v-btn>
+		<v-btn @click="link = 'practice'">練習問題</v-btn>
+		<v-btn @click="link = 'timeattack5'">タイムアタック７</v-btn>
 		<br>
 		<br>
 		<v-row no-gutters>
 		<v-col v-for="(title, index) in titles" :key="index" cols="12" sm="6">
 			<v-card class="pa-2" outlined tile>
-			<router-link :to="{ name: 'practice', params: {id: index } }">{{title}}</router-link>
-			<router-link :to="{ name: 'timeattack5', params: {id: index } }">タイムアタック</router-link>
+			<router-link :to="{ name: link, params: {id: index } }">{{title}}</router-link>
 			</v-card>
 		</v-col>
 		</v-row>
@@ -40,6 +39,7 @@ export default {
         // 3:"",
         // 4:"",
       },
+      link: false,
     }
   },
 
