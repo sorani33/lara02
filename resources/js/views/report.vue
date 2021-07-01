@@ -67,12 +67,6 @@
             </v-list-item-content>
           </template>
 
-
-
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-          </v-list-item>
         </v-list-group>
       </v-list-group>
 

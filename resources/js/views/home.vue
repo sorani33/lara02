@@ -4,14 +4,11 @@
 	<div id="nav">
 
 		<h2>YouTube大学 入試対策講座</h2>
-		<v-alert type="info" color="green">【new】 世界史4　世界史5　を追加しましああた！</v-alert>
+		<v-alert type="info" color="green">【new】 世界史4　世界史5　を追加しました！</v-alert>
 		<br>
-		<p>最近〇〇さんがログインしました！</p><br>
-		<p>ランキング</p><br>
+		<p>最近〇〇の記録が更新されました！</p><br>
 		<v-btn >練習問題</v-btn>
-		<v-btn >タイムアタック（ランダム5問）</v-btn>
-			<router-link :to="{ name: 'mypage' }">マイページ</router-link>
-			<router-link :to="{ name: 'report' }">成績板</router-link>
+		<v-btn >タイムアタック７</v-btn>
 		<br>
 		<br>
 		<v-row no-gutters>
