@@ -67,12 +67,7 @@
             </v-list-item-content>
           </template>
 
-          <v-list-item
-            v-for="([title, icon], i) in cruds"
-            :key="i"
-            link
-          >
-            <v-list-item-title v-text="title"></v-list-item-title>
+
 
             <v-list-item-icon>
               <v-icon v-text="icon"></v-icon>
@@ -105,11 +100,15 @@
         </v-card-title>
 
         <v-card-text>
-		  <div class="body-1 mb-1">自己ベスト　163</div>
-      <br>
-		  <div class="body-1 mb-1">1位　[A]クラウド　300</div>
-		  <div class="body-1 mb-1">2位　[R]ティファ　220</div>
-		  <div class="body-1 mb-1">3位　[F]土生翔吾(はぶっち)＠東京都　3</div>
+        <div v-if="mode==1" class="body-1 mb-1">自己ベスト　{{ myscore }}点</div>
+        <div v-if="mode==2" class="body-1 mb-1">自己ベスト　{{ mybesttime }}</div>
+        <br>
+        <v-row v-if="mode==1" v-for="(rank, index) in ranking">
+          <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.score }}点</div>
+        </v-row>
+        <v-row v-if="mode==2" v-for="(rank, index) in timeAttacks">
+          <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.timeScore }}</div>
+        </v-row>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -121,7 +120,7 @@
             text
             @click="isOpen = false"
           >
-            I accept
+            閉じる
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -148,26 +147,35 @@
         ['自己ベスト', 'mdi-account-multiple-outline'],
         ['ランキング', 'mdi-cog-outline'],
       ],
-      cruds: [
-        ['Create', 'mdi-plus-outline'],
-        ['Read', 'mdi-file-outline'],
-        ['Update', 'mdi-update'],
-        ['Delete', 'mdi-delete'],
-      ],
 
       selectedItem: 1,
       items: [
-        { text: '総合スコア', icon: 'mdi-clock' },
-        { text: '月間スコア', icon: 'mdi-account' },
+        { mode: 100, text: '総合スコア', icon: 'mdi-clock' },
+        { mode: 101, text: '月間スコア', icon: 'mdi-account' },
       ],
       item: '',
       isOpen: false,
+
+      mode: 2,
+      myscore: 183,
+      ranking: [
+        { class: 1, name: 'クラウド', score: 300 },
+        { class: 1, name: 'ティファ', score: 220 },
+        { class: 1, name: '土生翔吾(はぶっち)', score: 19 },
+      ],
+      mybesttime: '09:77',
+      timeAttacks: [
+        { class: 1, name: 'クラウド', timeScore: '05:42' },
+        { class: 1, name: 'ティファ', timeScore: '07:18' },
+        { class: 1, name: '土生翔吾(はぶっち)', timeScore: '09:77' },
+      ],
 
 
     }),
 
   methods: {
    selectItem(item) {
+	   console.log(item);
 	   console.log('月間スコア');
       this.item = item;
       this.isOpen = true
