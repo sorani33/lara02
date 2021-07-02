@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="600"
-    tile
-  >
+  <v-card class="mx-auto" max-width="600" tile>
     <v-list flat>
       <v-subheader>成績板</v-subheader>
       <v-list-item-group
@@ -19,7 +15,7 @@
             <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
+            <v-list-item-title v-text="item.titleText"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -39,69 +35,44 @@
     		  @click="selectItem(sekaishidata)"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="sekaishidata.text"></v-list-item-title>
+            <v-list-item-title v-text="sekaishidata.titleText"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
       </v-list-group>
 
+      <v-app id="app">
+        <div class="text-center">
+          <v-dialog v-model="isOpen" width="500">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on"> Click Me </v-btn>
+            </template>
 
-<v-app id="app">
-  <div class="text-center">
-    <v-dialog
-      v-model="isOpen"
-      width="500"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Click Me
-        </v-btn>
-      </template>
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                {{ modalTitle }}
+              </v-card-title>
+              <v-card-text>
+              <div v-if="mode==1" class="body-1 mb-1">自己ベストスコア　{{ myscore }}点</div>
+              <div v-if="mode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
+              <br>
+              <v-row v-if="mode==1" v-for="(rank, index) in ranking">
+                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.score }}点</div>
+              </v-row>
+              <v-row v-if="mode==2" v-for="(rank, index) in timeAttacks">
+                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.timeScore }}</div>
+              </v-row>
+              </v-card-text>
 
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          総合スコア
-        </v-card-title>
+              <v-divider></v-divider>
 
-        <v-card-text>
-        <div v-if="mode==1" class="body-1 mb-1">自己ベスト　{{ myscore }}点</div>
-        <div v-if="mode==2" class="body-1 mb-1">自己ベスト　{{ mybesttime }}</div>
-        <br>
-        <v-row v-if="mode==1" v-for="(rank, index) in ranking">
-          <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.score }}点</div>
-        </v-row>
-        <v-row v-if="mode==2" v-for="(rank, index) in timeAttacks">
-          <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.timeScore }}</div>
-        </v-row>
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="isOpen = false"
-          >
-            閉じる
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
-</v-app>
-
-
-
-
-
-
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="isOpen = false"> 閉じる </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+      </v-app>
 
     </v-list>
   </v-card>
@@ -112,25 +83,21 @@
   export default {
     data: () => ({
       dialog: false,
-      admins: [
-        ['自己ベスト', 'mdi-account-multiple-outline'],
-        ['ランキング', 'mdi-cog-outline'],
-      ],
 
       selectedItem: 1,
       items: [
-        { mode: 100, text: '総合スコア', icon: 'mdi-clock' },
-        { mode: 101, text: '月間スコア', icon: 'mdi-account' },
+        { mode: 100, titleText: '総合スコア', icon: 'mdi-clock' },
+        { mode: 101, titleText: '月間スコア', icon: 'mdi-account' },
       ],
-
       sekaishidatas: [
-        { mode: 100, text: 'ヨーロッパ史', icon: 'mdi-clock' },
-        { mode: 101, text: '中東史', icon: 'mdi-account' },
+        { mode: 100, titleText: 'ヨーロッパ史', icon: 'mdi-clock' },
+        { mode: 101, titleText: '中東史', icon: 'mdi-account' },
       ],
 
       item: '',
       isOpen: false,
 
+      modalTitle: '月間スコア',
       mode: 2,
       myscore: 183,
       ranking: [
@@ -144,17 +111,37 @@
         { class: 1, name: 'ティファ', timeScore: '07:18' },
         { class: 1, name: '土生翔吾(はぶっち)', timeScore: '09:77' },
       ],
-
-
     }),
 
   methods: {
    selectItem(item) {
-	   console.log(item);
+     this.getReportDatas();
+
+     this.modalTitle = item.titleText;
+     this.isOpen = true
+    },
+
+
+    /*
+     * getReportDatas
+     */
+    getReportDatas: function () {
 	   console.log('月間スコア');
-      this.item = item;
-      this.isOpen = true
-    }
+
+      // const questionId = this.$route.params.id; //routerからパラメータidを取得する。
+      // axios.get('/api/examinationquestions/'+ questionId
+      // ).then((response) => {
+      //   this.examinationQuestions = response.data.examinationQuestions;
+
+      //   // 返り値のKeyを元にしてdata()を作成する
+      //   var array = response.data.examinationQuestions;
+      //   var obj = {};
+      //   for (var key in array) {
+      //     obj[key] = '';
+      //   }
+      //   this.$data.picked = obj; //dataに入れる。
+      // })
+    },
   }
 
   }
