@@ -5,7 +5,7 @@
     tile
   >
     <v-list flat>
-      <v-subheader>REPORTS</v-subheader>
+      <v-subheader>成績板</v-subheader>
       <v-list-item-group
         v-model="selectedItem"
         color="primary"
@@ -13,7 +13,7 @@
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
-		  @click="selectItem(item)"
+    		  @click="selectItem(item)"
         >
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
@@ -33,41 +33,16 @@
           <v-list-item-title>世界史2019</v-list-item-title>
         </template>
 
-        <v-list-group
-          :value="true"
-          no-action
-          sub-group
+        <v-list-item
+          v-for="(sekaishidata, i) in sekaishidatas"
+          :key="i"
+    		  @click="selectItem(sekaishidata)"
         >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>ヨーロッパ史</v-list-item-title>
-            </v-list-item-content>
-          </template>
+          <v-list-item-content>
+            <v-list-item-title v-text="sekaishidata.text"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-          <v-list-item
-            v-for="([title, icon], i) in admins"
-            :key="i"
-            link
-          >
-            <v-list-item-title v-text="title"></v-list-item-title>
-
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>中東史</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-        </v-list-group>
       </v-list-group>
 
 
@@ -147,6 +122,12 @@
         { mode: 100, text: '総合スコア', icon: 'mdi-clock' },
         { mode: 101, text: '月間スコア', icon: 'mdi-account' },
       ],
+
+      sekaishidatas: [
+        { mode: 100, text: 'ヨーロッパ史', icon: 'mdi-clock' },
+        { mode: 101, text: '中東史', icon: 'mdi-account' },
+      ],
+
       item: '',
       isOpen: false,
 
