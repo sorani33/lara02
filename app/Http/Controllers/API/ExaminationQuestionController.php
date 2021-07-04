@@ -86,13 +86,15 @@ class ExaminationQuestionController extends Controller
 
 
         // タイムアタックモードの場合の処理
-        if($request->param['mode'] == 2){
+        if($request->param['gamemode'] == 2){
             if($score == 100){
                 $bestTimeFlag = 0;
                 $timeAttack = $request->param['timeAttack']; //"49.880"
                 // 個人ベストタイムを取得する。
                 $examinationResult = ExaminationResult::where('user_id', 1)->where('best_time_flag', 1)->first();
         
+                //初回データだとたぶんflagつかない
+
                 if(isset($examinationResult)){
                     $timeAttackInDatabase = $examinationResult->time_attack; //00:00:04.591
                     $carbon1 = Carbon::parse($timeAttackInDatabase)->format('s.v');
@@ -112,7 +114,7 @@ class ExaminationQuestionController extends Controller
         $user = ExaminationResult::create([
             'user_id' => 1,
             'genre_id' => $request->param['genre_id'],
-            'mode' => $request->param['mode'],
+            'gamemode' => $request->param['gamemode'],
             'number_questions' => $examinationCount, //問題数
             'number_correct_answers' => $correctAnswerCount, //正解数
             'mark' => $score,

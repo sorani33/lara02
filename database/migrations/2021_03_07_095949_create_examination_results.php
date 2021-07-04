@@ -15,7 +15,7 @@ class CreateExaminationResults extends Migration
     {
         Schema::create('examination_results', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->comment('ユーザID');
+            $table->unsignedBigInteger('user_id')->comment('ユーザID');
             $table->integer('genre_id')->comment('ジャンルID');
             $table->integer('gamemode')->comment('モード（１：練習問題、２：５問タイムアタック）');
             $table->integer('number_questions')->comment('問題数');
@@ -24,6 +24,12 @@ class CreateExaminationResults extends Migration
             $table->time('time_attack', 2)->nullable()->comment('タイムアタック');
             $table->integer('best_time_flag')->nullable()->comment('ベストタイムフラグ（０：ベストタイムでない、１：ベストタイムである）');
             $table->timestamps();
+
+            //外部キー制約
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

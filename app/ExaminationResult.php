@@ -13,11 +13,17 @@ class ExaminationResult extends Model
     protected $fillable = [
         'user_id',
         'genre_id',
-        'mode',
+        'gamemode',
         'number_questions',
         'number_correct_answers',
         'mark',
         'time_attack',
         'best_time_flag',
     ];
+
+    //belongsTo設定
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

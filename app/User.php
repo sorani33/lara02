@@ -48,4 +48,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Title');
     }
+
+    //hasMany設定
+    public function examinationResult()
+    {
+        return $this->hasMany('App\ExaminationResult');
+    }
 }

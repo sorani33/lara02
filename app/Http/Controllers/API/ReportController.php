@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\ExaminationQuestion;
 use App\ExaminationResult;
@@ -35,7 +36,7 @@ class ReportController extends Controller
         ##############################
         ### 総合スコア・月間スコア
         ##############################
-        $userId = 1;
+        $userId = Auth::id();
         $examinationResult = ExaminationResult::where('user_id', $userId);
         $baseExaminationResults = ExaminationResult::groupBy('user_id')
         ->select('user_id', DB::raw('SUM(number_correct_answers) as number_correct_answers'));
@@ -43,7 +44,13 @@ class ReportController extends Controller
         // 総合スコアを取得する。
         if($genreId == 900){
             $examinationResultSum = $examinationResult->sum("number_correct_answers");
-            $examinationResults = $baseExaminationResults->orderBy('number_correct_answers', 'desc')->limit(3)->get()->toarray();
+            $examinationResults = $baseExaminationResults->orderBy('number_correct_answers', 'desc')->limit(3)->get();
+
+            foreach($examinationResults as $key => $value){
+                $examinationData[$key]['user_name'] = $value->user->name;
+                $examinationData[$key]['number_correct_answers'] = $value['number_correct_answers'];
+            }
+
             $assignData = [
                 'myscore' => $examinationResultSum,
                 'ranking' => $examinationResults,
@@ -56,7 +63,13 @@ class ReportController extends Controller
             $from = Carbon::now()->startOfMonth()->toDateString(); //月初日
             $to = Carbon::now()->endOfMonth()->toDateString(); //月末日
             $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
-            $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->where('number_correct_answers', '<', 3)->get()->toarray();
+            $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->where('number_correct_answers', '<', 3)->orderBy('number_correct_answers', 'desc')->get();
+
+            foreach($examinationResultsMonth as $key => $value){
+                $examinationData[$key]['user_name'] = $value->user->name;
+                $examinationData[$key]['number_correct_answers'] = $value['number_correct_answers'];
+            }
+
             $assignData = [
                 'myscore' => $examinationResultMonthSum,
                 'ranking' => $examinationResultsMonth,
@@ -73,16 +86,17 @@ class ReportController extends Controller
             // 他の人のランキングを作る。（同列未考慮）
             $timeAttackRankingResult = ExaminationResult::where('genre_id', $genreId)
             ->where('best_time_flag', 1)
-            ->select('user_id','time_attack')->orderBy('number_correct_answers', 'desc')->limit(3)->get()->toarray();
-
+            ->select('user_id','time_attack')->orderBy('number_correct_answers', 'desc')->limit(3)->get();
             // 文字列の調整
             $mybesttime = substr($timeAttackResult['time_attack'], 6);
             $mybesttime = str_replace(".", "秒", $mybesttime);
             foreach($timeAttackRankingResult as $key => $value){
+                $timeAttackRankingResult[$key]['user_name'] = $value->user->name;
                 $besttime = substr($value ['time_attack'], 6);
                 $besttime = str_replace(".", "秒", $besttime);
                 $timeAttackRankingResult[$key]['time_attack'] = $besttime;
             }
+
 
             $assignData = [
                 'mybesttime' => $mybesttime,

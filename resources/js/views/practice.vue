@@ -111,7 +111,7 @@ export default {
   data(){
     return{
       examinationQuestions:[],
-      mode: 1, //モード
+      gamemode: 1, //モード
 
       drawer: null, //ドロワー用途
       value: null, //ドロワー用途
@@ -184,14 +184,13 @@ export default {
      */
     postReserve:  function () {
       var poipi = this.$data.picked;
-      var mode = this.$data.mode;
-      console.log(mode);
+      var gamemode = this.$data.gamemode;
         // console.log(poipi);
         var sendApiParameters = {
           param:{
             genre_id:1,
             no:poipi,
-            mode:mode,
+            gamemode:gamemode,
           }
         };
 
