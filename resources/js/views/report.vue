@@ -56,7 +56,7 @@
               <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
               <br>
               <v-row v-if="reportMode==1" v-for="(rank, index) in ranking">
-                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.score }}点</div>
+                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user_id }} {{ rank.number_correct_answers }}点</div>
               </v-row>
               <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks">
                 <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.timeScore }}</div>
@@ -102,9 +102,9 @@
       reportMode: '',
       myscore: 183,
       ranking: [
-        { class: 1, name: 'クラウド', score: 300 },
-        { class: 1, name: 'ティファ', score: 220 },
-        { class: 1, name: '土生翔吾(はぶっち)', score: 19 },
+        { class: 1, name: 'クラウド', number_correct_answers: 300 },
+        { class: 1, name: 'ティファ', number_correct_answers: 220 },
+        { class: 1, name: '土生翔吾(はぶっち)', number_correct_answers: 19 },
       ],
       mybesttime: '09:77',
       timeAttacks: [
@@ -138,6 +138,30 @@
       ).then((response) => {
       //   this.examinationQuestions = response.data.examinationQuestions;
 
+      if(this.reportMode == 1){
+        console.log("1");
+        this.myscore = response.data.myscore;
+        this.ranking = response.data.ranking;
+        console.log(response.data.ranking);
+
+        // // 返り値のKeyを元にしてdata()を作成する
+        // var rankingArray = response.data.ranking;
+        // var rankingObj = {};
+        // for (var key in rankingArray) {
+        // // console.log(rankingArray[key]["number_correct_answers"]);
+        //   rankingObj[key]["score"] = rankingArray[key]["number_correct_answers"];
+        //   rankingObj[key]["name"] = rankingArray[key]["user_id"];
+        // }
+        // console.log(this.ranking);
+        // console.log(rankingObj);
+        // this.ranking = rankingObj; //dataに入れる。
+
+
+      }
+      if(this.reportMode == 2){
+        console.log("2");
+        // console.log(response.data);
+      }
       //   // 返り値のKeyを元にしてdata()を作成する
       //   var array = response.data.examinationQuestions;
       //   var obj = {};
