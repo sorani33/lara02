@@ -52,13 +52,13 @@
                 {{ modalTitle }}
               </v-card-title>
               <v-card-text>
-              <div v-if="mode==1" class="body-1 mb-1">自己ベストスコア　{{ myscore }}点</div>
-              <div v-if="mode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
+              <div v-if="reportMode==1" class="body-1 mb-1">自己ベストスコア　{{ myscore }}点</div>
+              <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
               <br>
-              <v-row v-if="mode==1" v-for="(rank, index) in ranking">
+              <v-row v-if="reportMode==1" v-for="(rank, index) in ranking">
                 <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.score }}点</div>
               </v-row>
-              <v-row v-if="mode==2" v-for="(rank, index) in timeAttacks">
+              <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks">
                 <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.timeScore }}</div>
               </v-row>
               </v-card-text>
@@ -86,19 +86,20 @@
 
       selectedItem: 1,
       items: [
-        { mode: 100, titleText: '総合スコア', icon: 'mdi-clock' },
-        { mode: 101, titleText: '月間スコア', icon: 'mdi-account' },
+        { genreId: 900, reportMode: 1, titleText: '総合スコア', icon: 'mdi-clock' },
+        { genreId: 950, reportMode: 1, titleText: '月間スコア', icon: 'mdi-account' },
       ],
       sekaishidatas: [
-        { mode: 100, titleText: 'ヨーロッパ史', icon: 'mdi-clock' },
-        { mode: 101, titleText: '中東史', icon: 'mdi-account' },
+        { genreId: 1, reportMode: 2, titleText: 'ヨーロッパ史', icon: 'mdi-clock' },
+        { genreId: 2, reportMode: 2, titleText: '中東史', icon: 'mdi-account' },
       ],
 
       item: '',
       isOpen: false,
 
       modalTitle: '月間スコア',
-      mode: 2,
+      genreId: '',
+      reportMode: '',
       myscore: 183,
       ranking: [
         { class: 1, name: 'クラウド', score: 300 },
@@ -114,10 +115,12 @@
     }),
 
   methods: {
-   selectItem(item) {
+   selectItem(parameter) {
+     this.genreId = parameter.genreId;
+     this.reportMode = parameter.reportMode;
      this.getReportDatas();
 
-     this.modalTitle = item.titleText;
+     this.modalTitle = parameter.titleText;
      this.isOpen = true
     },
 
@@ -126,11 +129,13 @@
      * getReportDatas
      */
     getReportDatas: function () {
-	   console.log('月間スコア');
 
       // const questionId = this.$route.params.id; //routerからパラメータidを取得する。
-      // axios.get('/api/examinationquestions/'+ questionId
-      // ).then((response) => {
+      const genreId = this.genreId; //routerからパラメータidを取得する。
+ 	    console.log(genreId);
+
+      axios.get('/api/report/'+ genreId
+      ).then((response) => {
       //   this.examinationQuestions = response.data.examinationQuestions;
 
       //   // 返り値のKeyを元にしてdata()を作成する
@@ -140,7 +145,7 @@
       //     obj[key] = '';
       //   }
       //   this.$data.picked = obj; //dataに入れる。
-      // })
+      })
     },
   }
 

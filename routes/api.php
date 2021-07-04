@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::namespace('API')->group(function(){
-    Route::get('/report', 'ReportController@index');
+    Route::get('/report/{modeId}', 'ReportController@index');
     Route::get('/examinationquestions', 'ExaminationQuestionController@index');
     Route::get('/examinationquestions/{id}', 'ExaminationQuestionController@show');
     Route::post('/result', 'ExaminationQuestionController@result');

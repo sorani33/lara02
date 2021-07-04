@@ -29,49 +29,60 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($genreId)
     {
         // dd('てすと');
+        dd($genreId);
         ##############################
         ### 総合スコア・月間スコア
         ##############################
-        // 総合・個人ベストスコアを取得する。
         $userId = 1;
         $examinationResult = ExaminationResult::where('user_id', $userId);
-        $examinationResultSum = $examinationResult->sum("number_correct_answers");
-        // dd($examinationResultSum);
-
-        // 月間・個人ベストスコアを取得する。
-        $from = date('2021-07-01');
-        $to = date('2021-07-30');
-        $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
-        // dd($examinationResultMonthSum);
-
-        // 総合・他の人のランキングを作る。（同列未考慮）
         $baseExaminationResults = ExaminationResult::groupBy('user_id')
         ->select('user_id', DB::raw('SUM(number_correct_answers) as number_correct_answers'));
-        $examinationResults = $baseExaminationResults->orderBy('number_correct_answers', 'desc')->limit(3)->get();
 
-        // 月間・他の人のランキングを作る。（同列未考慮）
-        $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->where('number_correct_answers', '<', 3)->get();
+        // 総合スコアを取得する。
+        if($genreId == 900){
+            $examinationResultSum = $examinationResult->sum("number_correct_answers");
+            $examinationResults = $baseExaminationResults->orderBy('number_correct_answers', 'desc')->limit(3)->get();
+            $assignData = [
+                'myscore' => $examinationResultSum,
+                'ranking' => $examinationResults,
+            ];
+        }
+
+        // 月間スコアを取得する。
+        if($genreId == 950){
+            $from = date('2021-07-01');
+            $to = date('2021-07-30');
+            $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
+            $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->where('number_correct_answers', '<', 3)->get();
         // dd($examinationResultsMonth);
-
+            $assignData = [
+                'myscore' => $examinationResultMonthSum,
+                'ranking' => $examinationResultsMonth,
+            ];
+        }
 
 
         ##############################
         ### タイムアタック
         ##############################
         // 個人のタイムアタックを取得する
-        $genreId = 1;
-        $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $genreId)->where('best_time_flag', 1)->get();
-        // dd($timeAttackResult);
+        if($genreId != 900 && $genreId != 950){        
+            $genreId = $genreId;
+            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $genreId)->where('best_time_flag', 1)->get();
+            // 他の人のランキングを作る。（同列未考慮）
+            $timeAttackRankingResult = ExaminationResult::where('genre_id', $genreId)
+            ->where('best_time_flag', 1)
+            ->select('user_id','time_attack')->orderBy('number_correct_answers', 'desc')->limit(3)->get();
+            // dd($timeAttackRankingResult);
+        }
 
-        // 他の人のランキングを作る。（同列未考慮）
-        $timeAttackRankingResult = ExaminationResult::where('genre_id', $genreId)
-        ->where('best_time_flag', 1)
-        ->select('user_id','time_attack')->orderBy('number_correct_answers', 'desc')->limit(3)->get();
-        // dd($timeAttackRankingResult);
-
+        $assignData = [
+            'examinationQuestions' => $examinationQuestions,
+            'genre_id' => $genre_id,
+        ];
 
         return response()->json($assignData);
     }
