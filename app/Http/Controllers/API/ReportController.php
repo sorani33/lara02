@@ -53,8 +53,8 @@ class ReportController extends Controller
         // dd($assignData);
         // 月間スコアを取得する。
         if($genreId == 950){
-            $from = date('2021-07-01');
-            $to = date('2021-07-30');
+            $from = Carbon::now()->startOfMonth()->toDateString(); //月初日
+            $to = Carbon::now()->endOfMonth()->toDateString(); //月末日
             $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
             $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->where('number_correct_answers', '<', 3)->get()->toarray();
             $assignData = [
@@ -74,8 +74,18 @@ class ReportController extends Controller
             $timeAttackRankingResult = ExaminationResult::where('genre_id', $genreId)
             ->where('best_time_flag', 1)
             ->select('user_id','time_attack')->orderBy('number_correct_answers', 'desc')->limit(3)->get()->toarray();
+
+            // 文字列の調整
+            $mybesttime = substr($timeAttackResult['time_attack'], 6);
+            $mybesttime = str_replace(".", "秒", $mybesttime);
+            foreach($timeAttackRankingResult as $key => $value){
+                $besttime = substr($value ['time_attack'], 6);
+                $besttime = str_replace(".", "秒", $besttime);
+                $timeAttackRankingResult[$key]['time_attack'] = $besttime;
+            }
+
             $assignData = [
-                'mybesttime' => $timeAttackResult['time_attack'],
+                'mybesttime' => $mybesttime,
                 'timeAttacks' => $timeAttackRankingResult,
             ];
         }

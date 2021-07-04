@@ -17,11 +17,11 @@ class CreateExaminationResults extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->comment('ユーザID');
             $table->integer('genre_id')->comment('ジャンルID');
-            $table->integer('mode')->comment('モード（１：練習問題、２：５問タイムアタック）');
+            $table->integer('gamemode')->comment('モード（１：練習問題、２：５問タイムアタック）');
             $table->integer('number_questions')->comment('問題数');
             $table->integer('number_correct_answers')->comment('正解数');
             $table->integer('mark')->comment('得点');
-            $table->time('time_attack', 3)->nullable()->comment('タイムアタック');
+            $table->time('time_attack', 2)->nullable()->comment('タイムアタック');
             $table->integer('best_time_flag')->nullable()->comment('ベストタイムフラグ（０：ベストタイムでない、１：ベストタイムである）');
             $table->timestamps();
         });

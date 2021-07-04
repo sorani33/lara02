@@ -32,7 +32,7 @@ class ExaminationQuestionController extends Controller
     }
 
 
-    public function show( $genre_id)
+    public function show($genre_id)
     {
         // dd($genre_id);
         $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(3); 
@@ -52,19 +52,8 @@ class ExaminationQuestionController extends Controller
     }
 
 
-    public function result (Request $request) 
+    public function result(Request $request) 
     {
-        // +request: Symfony\Component\HttpFoundation\ParameterBag {#52 ▼
-        //     #parameters: array:3 [▼
-        //       "_token" => "oSLGoOvCHAICU4jKph45XsfgSB0Ab7WiTcP8LPo2"
-        //       "genre_id" => "1"
-        //       "no" => array:4 [▼
-        //         1 => "ねこ"
-        //         2 => "ねこ"
-        //         3 => "どれ"
-        //         4 => "むー"
-        //       ]
-        //     ]
         // 問題数を取得する
         $examinationCount = count($request->param['no']);
 
@@ -101,7 +90,6 @@ class ExaminationQuestionController extends Controller
             if($score == 100){
                 $bestTimeFlag = 0;
                 $timeAttack = $request->param['timeAttack']; //"49.880"
-
                 // 個人ベストタイムを取得する。
                 $examinationResult = ExaminationResult::where('user_id', 1)->where('best_time_flag', 1)->first();
         
@@ -112,7 +100,6 @@ class ExaminationQuestionController extends Controller
             
                     // データが有り、タイムを更新していればデータも更新する。
                     if($carbon1 > $carbon2){
-                        // dd('タイム更新');
                         $bestTimeFlag = 1;
                         $examinationResult->update(['best_time_flag' => 0]);
                     }    
