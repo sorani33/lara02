@@ -69,8 +69,7 @@ class ReportController extends Controller
         ##############################
         // 個人のタイムアタックを取得する
         if($genreId != 900 && $genreId != 950){        
-            $genreId = $genreId;
-            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $genreId)->where('best_time_flag', 1)->first()->toarray();
+            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $genreId)->where('best_time_flag', 1)->first();
             // 他の人のランキングを作る。（同列未考慮）
             $timeAttackRankingResult = ExaminationResult::where('genre_id', $genreId)
             ->where('best_time_flag', 1)
@@ -79,7 +78,6 @@ class ReportController extends Controller
                 'mybesttime' => $timeAttackResult['time_attack'],
                 'timeAttacks' => $timeAttackRankingResult,
             ];
-            dd($assignData);
         }
 
         return response()->json($assignData);

@@ -59,7 +59,7 @@
                 <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user_id }} {{ rank.number_correct_answers }}点</div>
               </v-row>
               <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks">
-                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.name }} {{ rank.timeScore }}</div>
+                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user_id }} {{ rank.time_attack }}</div>
               </v-row>
               </v-card-text>
 
@@ -130,37 +130,22 @@
      */
     getReportDatas: function () {
 
-      // const questionId = this.$route.params.id; //routerからパラメータidを取得する。
       const genreId = this.genreId; //routerからパラメータidを取得する。
  	    console.log(genreId);
 
-      axios.get('/api/report/'+ genreId
-      ).then((response) => {
-      //   this.examinationQuestions = response.data.examinationQuestions;
+      axios.get('/api/report/'+ genreId).then((response) => {
 
       if(this.reportMode == 1){
         console.log("1");
         this.myscore = response.data.myscore;
         this.ranking = response.data.ranking;
         console.log(response.data.ranking);
-
-        // // 返り値のKeyを元にしてdata()を作成する
-        // var rankingArray = response.data.ranking;
-        // var rankingObj = {};
-        // for (var key in rankingArray) {
-        // // console.log(rankingArray[key]["number_correct_answers"]);
-        //   rankingObj[key]["score"] = rankingArray[key]["number_correct_answers"];
-        //   rankingObj[key]["name"] = rankingArray[key]["user_id"];
-        // }
-        // console.log(this.ranking);
-        // console.log(rankingObj);
-        // this.ranking = rankingObj; //dataに入れる。
-
-
       }
       if(this.reportMode == 2){
         console.log("2");
         // console.log(response.data);
+        this.mybesttime = response.data.mybesttime;
+        this.timeAttacks = response.data.timeAttacks;
       }
       //   // 返り値のKeyを元にしてdata()を作成する
       //   var array = response.data.examinationQuestions;
