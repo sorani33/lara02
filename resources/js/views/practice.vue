@@ -11,7 +11,7 @@
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
 
-      <v-row v-for="(examinationQuestion, index, count) in examinationQuestions">
+      <v-row v-for="(examinationQuestion, index, count) in examinationQuestions" :key="index">
         <v-col>
           <v-card class="mx-auto">
             <v-card-text>
@@ -25,24 +25,24 @@
             <v-card-actions>
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
-                  <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question">
+                  <v-flex xs12 sm6 md3 v-for="(answer, questionindex, indexData) in examinationQuestion.question" :key="indexData">
                   <!-- <v-btn class="mx-4 mb-6 text-caption" v-model="picked" v-bind:value="answer">{{answer}}{{index}}</v-btn> -->
                    <input type="radio" v-bind:value="answer" v-model="picked[index]" />{{answer}}
                   </v-flex>
-                  {{picked}}
+                  <!--{{picked}}-->
                   <div v-if="answeresult">
                   <!--{{ examinationQuestion }}-->
                   <!--{{ examinationQuestion.CorrectAnswer }}-->
-                    <div v-if="examinationQuestion.correctAnswer">
+                    <div v-if="examinationQuestion.correctAnswer == 1">
                     <img src="/images/maru.png" width="20">
                       正解。あなたが答えたのは<span class="primary--text">「{{ examinationQuestion.inCorrectAnswer }}」</span>でした。
                     </div>
-                    <div v-else="examinationQuestion.correctAnswer == false">
+                    <div v-else-if="examinationQuestion.correctAnswer == 2">
                     <img src="/images/batsu.png" width="20">
                       残念。未回答でしたが<span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
                       授業の復習はこちらから→<v-btn small color="success" href="http://local.lara02.com/">授業を復習する</v-btn>
                     </div>
-                    <div v-else>
+                    <div v-else-if="examinationQuestion.correctAnswer == 3">
                     <img src="/images/batsu.png" width="20">
                       残念。<span class="red--text">{{ examinationQuestion.inCorrectAnswer }}</span>ではなく
                       <span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>

@@ -11,21 +11,29 @@
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
 <p>{{interval.toFixed(2)}}</p> <!-- 小数2桁まで表示 -->
-<button @click="startTimer()" v-show="!active">Start</button>
+<!--<button @click="startTimer()" v-show="!active">Start</button>
 <button @click="stopTimer()" v-show="active">Stop</button>
-<button @click="resetTimer()">Reset</button>
+<button @click="resetTimer()">Reset</button>-->
+    <div class="flash" v-if="show">
+      this is flash message!
+    </div>
+    <button
+      @click="showFlash"
+    >
+      ぼたんはこちら
+    </button>
 
 
     <v-dialog v-model="dialog" persistent max-width="290" overlay-opacity="100">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
+        <!--<<v-btn
           color="primary"
           dark
           v-bind="attrs"
           v-on="on"
         >
           Open Dialog
-        </v-btn>
+        </v-btn>-->
       </template>
       <v-card>
         <v-card-title class="text-h5">
@@ -39,7 +47,7 @@
       </v-card>
     </v-dialog>
 
-      <v-row v-for="(examinationQuestion, index, count) in examinationQuestions">
+      <v-row v-for="(examinationQuestion, index, count) in examinationQuestions" :key="index">
         <v-col>
           <v-card class="mx-auto">
             <v-card-text>
@@ -53,24 +61,25 @@
             <v-card-actions>
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
-                  <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question">
+                  <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question" :key="questionindex">
                   <!-- <v-btn class="mx-4 mb-6 text-caption" v-model="picked" v-bind:value="answer">{{answer}}{{index}}</v-btn> -->
                    <input type="radio" v-bind:value="answer" v-model="picked[index]" />{{answer}}
                   </v-flex>
-                  {{picked}}
+                  <!--{{picked}}-->
                   <div v-if="answeresult">
-                  <!--{{ examinationQuestion }}-->
+                  <!--{{ examinationQuestion.correctAnswer }}-->
                   <!--{{ examinationQuestion.CorrectAnswer }}-->
-                    <div v-if="examinationQuestion.correctAnswer">
+                    <div v-if="examinationQuestion.correctAnswer == 1">
                     <img src="/images/maru.png" width="20">
                       正解。あなたが答えたのは<span class="primary--text">「{{ examinationQuestion.inCorrectAnswer }}」</span>でした。
+                      
                     </div>
-                    <div v-else="examinationQuestion.correctAnswer == false">
+                    <div v-else-if="examinationQuestion.correctAnswer == 2">
                     <img src="/images/batsu.png" width="20">
                       残念。未回答でしたが<span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
                       授業の復習はこちらから→<v-btn small color="success" href="http://local.lara02.com/">授業を復習する</v-btn>
                     </div>
-                    <div v-else>
+                    <div v-else-if="examinationQuestion.correctAnswer == 3">
                     <img src="/images/batsu.png" width="20">
                       残念。<span class="red--text">{{ examinationQuestion.inCorrectAnswer }}</span>ではなく
                       <span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
@@ -148,6 +157,7 @@ export default {
       score: 80, //点数
       answeresult: false, //結果表示
       dialog: true, //ダイヤログはアクセス時に表示させる
+      show: false, //フラッシュ
 
       // タイムアタック用
       active : false, // 実行状態
@@ -177,6 +187,15 @@ export default {
   },
 
   methods: {
+    showFlash(){
+      this.show = true;
+      setTimeout(() => {
+        this.show = false}
+        ,3000
+      )
+    },
+
+
     /*
      * タイムアタック用
      */

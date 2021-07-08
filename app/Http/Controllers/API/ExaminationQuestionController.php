@@ -35,7 +35,10 @@ class ExaminationQuestionController extends Controller
     public function show($genre_id)
     {
         // dd($genre_id);
-        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(3); 
+// dd(config('common.examinationquestion.count.value'));
+
+        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(config('common.examination_question.count.value')); 
+
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
             $examinationQuestions[$examinationQuestion->no]['subject'] = $examinationQuestion->subject;
@@ -72,18 +75,17 @@ class ExaminationQuestionController extends Controller
             if($value == $examinationQuestions[$assignNo]['answer']){
                 // dd('正解数をカウントする。');
                 $correctAnswerCount++;
-                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = true;
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 1;
             }else if(empty($value)){
                 // dd('未回答のばあい');
-                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = null;
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 2;
             }else{
                 // dd('はずれたら、Noのリストを格納する。');
-                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = false;
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 3;
             }
         }
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
-
 
         // タイムアタックモードの場合の処理
         if($request->param['gamemode'] == 2){
@@ -110,6 +112,28 @@ class ExaminationQuestionController extends Controller
             }
         }
         
+        // try {
+        //     DB::transaction(function () use ($request, $shopReviewId) {
+        //         //保存
+        //             ShopReview::where('id', $shopReviewId)->update($request['shop_review']);
+        //             // throw new \Exception('ここで処理を終わらせる');  //トランザクションテスト用
+        //     });
+        //     $saveResult = [
+        //         'message'   => '保存しました。',
+        //         'result'    => true,
+        //     ];
+        // } catch (Exception $e) {
+        //     report($e);
+        //     $saveResult = [
+        //         'message'   => '保存出来ませんでした。',
+        //         'result'    => false,
+        //     ];
+        // } finally {
+
+        // }
+        // return view('mypage.posted.completed');
+
+
         // DBに保存する
         $user = ExaminationResult::create([
             'user_id' => 1,

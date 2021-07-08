@@ -44,7 +44,7 @@
         <div class="text-center">
           <v-dialog v-model="isOpen" width="500">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on"> Click Me </v-btn>
+               <!-- <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on"> Click Me </v-btn>-->
             </template>
 
             <v-card>
@@ -55,10 +55,10 @@
               <div v-if="reportMode==1" class="body-1 mb-1">自己ベストスコア　{{ myscore }}点</div>
               <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
               <br>
-              <v-row v-if="reportMode==1" v-for="(rank, index) in ranking">
+              <v-row v-if="reportMode==1" v-for="(rank, index) in ranking" :key="index">
                 <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
               </v-row>
-              <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks">
+              <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks" :key="index">
                 <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user.name }} {{ rank.time_attack }}</div>
               </v-row>
               </v-card-text>
