@@ -58,12 +58,15 @@
       </v-row>
     <div v-if="answeresult">
     <br>
-      <v-btn color="primary" href="http://local.lara02.com/">もう一度（工事中）</v-btn>
+
+      <v-btn color="primary" v-on:click.native="resetReserve">リセット</v-btn>
       <v-btn color="primary" href="http://local.lara02.com/">トップに戻る</v-btn>
       <v-btn color="primary" href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">結果をツイートする</v-btn>
     </div>
     <br>
     <div v-if="!answeresult">
+
+
       <v-btn
         class="mb-8"
         block
@@ -185,7 +188,6 @@ export default {
     postReserve:  function () {
       var poipi = this.$data.picked;
       var gamemode = this.$data.gamemode;
-        // console.log(poipi);
         var sendApiParameters = {
           param:{
             genre_id:1,
@@ -203,10 +205,13 @@ export default {
           this.examinationCount = response.data.examinationCount;
           this.moveToTop();
         })
-      }
     },
 
 
+    resetReserve:  function () {
+      this.$router.go({path: this.$router.currentRoute.path, force: true}) //vuerouterのhistory対策
+    }
+  },
 
 }
 </script>

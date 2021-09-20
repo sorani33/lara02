@@ -27,6 +27,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//vuerouterのhistory対策
+Route::get('/{path}', function () {
+    return view('welcome');
+})->where( 'path', '.*' ); 
+
 Route::group(['middleware' => 'auth'], function() {
     //問題
     Route::get('sample/{genre_id?}', 'PracticeController@index')->name('sample');
