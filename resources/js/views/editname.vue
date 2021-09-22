@@ -8,14 +8,10 @@
 
     <!-- メイン -->
     <v-main>
-    <h1>マイページ画面</h1>
+    <h1>名前・クラスを変更する画面</h1>
       <v-container fluid>
         <v-form>
 
-          <v-btn color="success" to="/mypage/editname">
-            名前・クラスを変更
-          </v-btn>
-			<v-btn text to="/mypage/editname">Home</v-btn>
         </v-form>
 
       </v-container>
