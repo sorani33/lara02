@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // dd('home');
+        dd(groupByKey());
         return view('home');
     }
 }
