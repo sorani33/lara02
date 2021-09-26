@@ -10,30 +10,13 @@
         採点結果は<span class="red--text .font-weight-bold">{{ score }}点</span>でした！
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
-<p>{{interval.toFixed(2)}}</p> <!-- 小数2桁まで表示 -->
-<!--<button @click="startTimer()" v-show="!active">Start</button>
-<button @click="stopTimer()" v-show="active">Stop</button>
-<button @click="resetTimer()">Reset</button>-->
-    <div class="flash" v-if="show">
-      this is flash message!
-    </div>
-    <button
-      @click="showFlash"
-    >
-      ぼたんはこちら
-    </button>
+    <p>{{interval.toFixed(2)}}</p> <!-- 小数2桁まで表示 -->
+
 
 
     <v-dialog v-model="dialog" persistent max-width="290" overlay-opacity="100">
       <template v-slot:activator="{ on, attrs }">
-        <!--<<v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Open Dialog
-        </v-btn>-->
+
       </template>
       <v-card>
         <v-card-title class="text-h5">
@@ -95,7 +78,7 @@
       </v-row>
     <div v-if="answeresult">
     <br>
-      <v-btn color="primary" v-on:click.native="resetReserve">リセット</v-btn>
+      <v-btn color="primary" v-on:click.native="resetReserve">もういちど</v-btn>
       <v-btn color="primary" href="http://local.lara02.com/">トップに戻る</v-btn>
       <v-btn color="primary" href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">結果をツイートする</v-btn>
     </div>

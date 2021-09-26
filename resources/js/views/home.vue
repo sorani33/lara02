@@ -2,24 +2,26 @@
 <template>
 <v-app>
 	<div id="nav">
+      <h3>PLAY</h3>
 
-		<h2>YouTube大学 入試対策講座</h2>
 		<v-alert type="info" color="green">【new】 世界史2　世界史3　を追加しました！</v-alert>
 		<br>
-		<p>最近〇〇の記録が更新されました！</p><br>
-		<v-btn @click="link = 'practice'">練習問題</v-btn>
-		<v-btn @click="link = 'timeattack5'">タイムアタック７</v-btn>
 		<br>
 		<br>
-		<v-row no-gutters>
-		<v-col v-for="(title, index) in titles" :key="index" cols="12" sm="6">
-			<v-card class="pa-2" outlined tile>
-			<router-link :to="{ name: link, params: {id: index } }">{{title}}</router-link>
-			</v-card>
-		</v-col>
+		<v-row no-gutters v-for="(title, index) in titles" :key="index">
+			<v-col  cols="2">
+			</v-col>
+			<v-col  cols="7" class="text-left">
+				<router-link :to="{ name: 'practice', params: {id: index } }" >{{title}}</router-link>
+			</v-col>
+			<v-col  cols="1">
+				<v-btn :to="{ name: 'timeattack5', params: {id: index } }" elevation="2" icon small>
+					<v-icon>mdi-clock-time-three-outline</v-icon>
+				</v-btn>
+			</v-col>
+			<v-col  cols="2">
+			</v-col>
 		</v-row>
-
-
 	</div>
 </v-app>
 </template>
@@ -36,8 +38,6 @@ export default {
         4:"世界史3　インド【2019版】",
         // 5:"世界史4　中国【2019版】",
         // 6:"世界史5　大航海【2019版】",
-        // 3:"",
-        // 4:"",
       },
       link: false,
     }

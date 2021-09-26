@@ -1,7 +1,9 @@
 <template>
-  <v-card class="mx-auto" max-width="600" tile>
+  <v-card class="mx-auto"  tile>
     <v-list flat>
-      <v-subheader>成績板</v-subheader>
+      <h3>成績板</h3>
+		<v-alert type="info" color="green">最近〇〇の記録が更新されました！</v-alert>
+    <br>
       <v-list-item-group
         v-model="selectedItem"
         color="primary"

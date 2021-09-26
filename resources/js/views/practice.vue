@@ -59,7 +59,7 @@
     <div v-if="answeresult">
     <br>
 
-      <v-btn color="primary" v-on:click.native="resetReserve">リセット</v-btn>
+      <v-btn color="primary" v-on:click.native="resetReserve">もういちど</v-btn>
       <v-btn color="primary" href="http://local.lara02.com/">トップに戻る</v-btn>
       <v-btn color="primary" href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">結果をツイートする</v-btn>
     </div>
