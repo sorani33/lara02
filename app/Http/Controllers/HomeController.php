@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         // dd('home');
-        dd(groupByKey());
+        dd(groupByKey('ExaminationQuestion','ExaminationQuestion'));
         return view('home');
     }
 }

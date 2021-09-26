@@ -134,14 +134,6 @@ export default {
   },
 
   created: function () {
-    // this.areaValue = this.$store.state.call.areaValue;
-    // if (!this.areaValue) {
-    //   this.areaValue = this.$store.state.call.tmpSearchConditions.areaValue;
-    // }
-    // // 指名キャストがstoreから外れた時はリダイレクト
-    // if (!this.$store.state.call.nominateCast) {
-    //   this.$router.push('/call')
-    // }
     this.getExaminationQuestionDatas();
   },
 
