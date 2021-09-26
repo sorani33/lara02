@@ -27,6 +27,7 @@ Route::namespace('API')->group(function(){
     Route::get('/examinationquestions/{id}', 'ExaminationQuestionController@show');
     Route::post('/result', 'ExaminationQuestionController@result');
     Route::get('/mypage/edit', 'MypageController@edit');
+    Route::put('/mypage/edit', 'MypageController@editUpdate');
 
 });
     // Route::get('/examinationquestions', 'API\ExaminationQuestionController@index');

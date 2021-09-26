@@ -10,7 +10,7 @@
     <v-main>
     <h1>プロフィール変更</h1>
       <v-container fluid>
-        <v-form>
+        <v-form v-on:submit.prevent="updateItem">
           <div v-show="" class="alert alert-danger">{{userdata}}</div>
           <div class="form-group">
             <label>名前</label>
@@ -19,12 +19,13 @@
           <div class="form-group">
             <label>クラス</label>
               <v-col class="form-control">
-                <v-select
-                  :items="items"
-                  label="Outlined style"
-                  dense
-                  outlined
-                ></v-select>
+     <v-select
+      v-model="selectedClass"
+      item-text="label"
+      item-value="value"
+      :items="classname"
+      label="所属クラス"
+    />
               </v-col>
           </div>
 
@@ -55,7 +56,17 @@
         //   3:"うう",
         //   4:"ええ",
         // },
-        items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+        // items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      selectedClass: { label: 'アリスカーナ'   , value: '3'  },
+      classname: [
+        { label: 'ラグナリオ'   , value: '1'  },
+        { label: 'ウォルクス' , value: '2'    },
+        { label: 'アリスカーナ' , value: '3'   },
+        { label: 'フラーシア' , value: '4'   },
+        { label: '未所属' , value: '5'   },
+      ],
+
+
         drawer: true
       }
     },
@@ -75,7 +86,27 @@
           console.log(this.userdata);
         })
       },
+
+    updateItem: function () {
+      let uri = "/api/mypage/edit/";
+
+      let senddata = {
+        // this.userdata,this.selectedClass
+          userdata:this.userdata,
+          selectedClass:this.selectedClass,
+      };
+
+      axios.put(uri, senddata
+      ).then(() => {
+          console.log("おしたよ");
+        // this.$swal({
+        //   icon: "success",
+        //   text: "Updated Success!"
+        // });
+        // this.$router.push({ name: "Index" });
+      });
     }
 
+    }
   }
 </script>

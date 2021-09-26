@@ -38,4 +38,19 @@ class MypageController extends Controller
         ];
         return response()->json($assignData);
     }
+
+
+    public function editUpdate(Request $request) 
+    {
+        $userId = Auth::id();
+        $requestData =[
+            'name' => $request->userdata['name'],
+            'class_id' => $request->selectedClass,
+        ];
+        $userData = User::where('id', $userId)->update($requestData);
+        $assignData = [
+            'userdata' => $userData,
+        ];
+        return response()->json($assignData);
+    }
 }
