@@ -211,8 +211,15 @@ export default {
      */
     getExaminationQuestionDatas: function () {
       const questionId = this.$route.params.id; //routerからパラメータidを取得する。
-      axios.get('/api/examinationquestions/'+ questionId
-      ).then((response) => {
+      // axios.get('/api/examinationquestions/'+ questionId
+      // ).then((response) => {
+      axios.get('/api/examinationquestions/'+ questionId, {
+        params: {
+          questionId: questionId,
+          gamemode: 2,
+        }
+      }).then((response) => {
+
         this.examinationQuestions = response.data.examinationQuestions;
 
         // 返り値のKeyを元にしてdata()を作成する

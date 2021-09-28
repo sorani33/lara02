@@ -27,17 +27,19 @@ class ExaminationQuestionController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($genre_id)
+    public function index(Request $request) 
     {
         return view('home');
     }
 
 
-    public function show($sub_genre_id)
+    public function show(Request $request)
     {
+        $examinationQuestionsData = ExaminationQuestion::get()->where('sub_genre_id', $request->questionId); 
 
-        $examinationQuestionsData = ExaminationQuestion::get()->where('sub_genre_id', $sub_genre_id)->random(config('common.examination_question.count.value')); 
-        // dd($examinationQuestionsData);
+        if($request->gamemode == 2){
+            $examinationQuestionsData = $examinationQuestionsData->random(config('common.examination_question.count.value')); 
+        }
 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
@@ -49,7 +51,7 @@ class ExaminationQuestionController extends Controller
 
         $assignData = [
             'examinationQuestions' => $examinationQuestions,
-            'sub_genre_id' => $sub_genre_id,
+            'sub_genre_id' => $request->questionId,
         ];
         return response()->json($assignData);
     }
