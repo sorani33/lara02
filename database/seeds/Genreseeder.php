@@ -13,12 +13,13 @@ class Genreseeder extends Seeder
     public function run()
     {
         //
-        DB::table('genres')->insert([
-            'genre_id' => 1,
-            'genre_subject_id' => 1,
-            'name'    => '世界史2019',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        seederByXlsx('Genre','genres');
+        // DB::table('genres')->insert([
+        //     'genre_id' => 1,
+        //     'genre_subject_id' => 1,
+        //     'name'    => '世界史2019',
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
     }
 }

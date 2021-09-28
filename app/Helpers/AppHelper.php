@@ -37,9 +37,15 @@ if (! function_exists('seederByXlsx')) {
             $model::truncate();
         }
         $seeds =load('database/seeds.xlsx', $sheetName);
-
-
-        DB::table($sheetName)->insert($seeds->toArray());
+        $seeds = $seeds->toArray();
+        $i =0;
+        foreach($seeds as $seed){
+            $seeddata[] = $seed;
+            $seeddata[$i]['created_at'] = Carbon::now();
+            $seeddata[$i]['updated_at'] = Carbon::now();    
+            $i++;
+        }
+        DB::table($sheetName)->insert($seeddata);
         // if ($seeds) {
         //     $fakeSamples -= count($seeds);
 

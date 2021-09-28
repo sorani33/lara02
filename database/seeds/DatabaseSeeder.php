@@ -11,12 +11,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // php artisan db:seed
+
         // $this->call(UsersTableSeeder::class);
+        // xlsx管理ここから
         $this->call(ExaminationQuestionseeder::class);
+        $this->call(Genreseeder::class);
+        $this->call(SubGenreseeder::class);
+        // xlsx管理ここまで
 
         // $this->call(Userseeder::class);
+        $this->call(ExaminationResultseeder::class);
         // $this->call(Titleseeder::class);
-        // $this->call(Genreseeder::class);
         // $this->call(UserTitleseeder::class);
         
     }

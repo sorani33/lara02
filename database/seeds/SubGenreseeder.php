@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ExaminationResultseeder extends Seeder
+class SubGenreseeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,7 @@ class ExaminationResultseeder extends Seeder
     public function run()
     {
         //
-        factory(App\ExaminationResult::class, 10)->create();
+        seederByXlsx('SubGenre','sub_genres');
+
     }
 }
