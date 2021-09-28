@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExaminationResultHistories extends Migration
+class CreateSubGenresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateExaminationResultHistories extends Migration
      */
     public function up()
     {
-        Schema::create('examination_result_histories', function (Blueprint $table) {
+        Schema::create('sub_genres', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->comment('ユーザID');
-            $table->integer('score');
+            $table->integer('genre_id')->comment('ジャンルID');
+            $table->string('name', 100)->comment('名前');
+			$table->softDeletes();
             $table->timestamps();
+
         });
     }
 
@@ -28,6 +30,6 @@ class CreateExaminationResultHistories extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('examination_result_histories');
+        Schema::dropIfExists('sub_genres');
     }
 }

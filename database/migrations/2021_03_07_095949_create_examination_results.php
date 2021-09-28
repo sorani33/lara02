@@ -23,6 +23,7 @@ class CreateExaminationResults extends Migration
             $table->integer('mark')->comment('得点');
             $table->time('time_attack', 2)->nullable()->comment('タイムアタック');
             $table->integer('best_time_flag')->nullable()->comment('ベストタイムフラグ（０：ベストタイムでない、１：ベストタイムである）');
+			$table->softDeletes();
             $table->timestamps();
 
             //外部キー制約

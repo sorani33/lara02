@@ -15,9 +15,9 @@ class CreateGenresTable extends Migration
     {
         Schema::create('genres', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('genre_id');
-            $table->integer('genre_subject_id');
-            $table->string('genre_unit', 100);
+            $table->integer('sub_genre_id')->comment('サブジャンルID');
+            $table->string('name', 100)->comment('名前');
+			$table->softDeletes();
             $table->timestamps();
         });
     }

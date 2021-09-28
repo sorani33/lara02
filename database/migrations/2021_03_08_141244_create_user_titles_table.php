@@ -17,6 +17,7 @@ class CreateUserTitlesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('title_id');
+			$table->softDeletes();
             $table->timestamps();
 
             //外部キー制約

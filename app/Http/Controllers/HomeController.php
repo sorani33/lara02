@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         // dd('home');
-        dd(groupByKey('ExaminationQuestion','ExaminationQuestion'));
+        // dd(seederByXlsx('ExaminationQuestion','examination_questions'));
         return view('home');
     }
 }

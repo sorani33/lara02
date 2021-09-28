@@ -1,12 +1,17 @@
 <?php
 
 use PhpOffice\PhpSpreadsheet as Office;
+// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent;
+use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
-// if (! function_exists('groupByKey')) {
+
+// if (! function_exists('seederByXlsx')) {
 //     /**
 //      * 配列を指定のキーでグループ化　コレクションのgroupBy()メソッドの配列版
 //      */
-//     function groupByKey($array, $key)
+//     function seederByXlsx($array, $key)
 //     {
 
 //         $groups = [];
@@ -19,38 +24,40 @@ use PhpOffice\PhpSpreadsheet as Office;
 
 
 
-if (! function_exists('groupByKey')) {
+if (! function_exists('seederByXlsx')) {
     /**
-     * 配列を指定のキーでグループ化　コレクションのgroupBy()メソッドの配列版
+     * xlsxからデータ投入
      */
-    function groupByKey($modelName, $sheetName, $truncate = true, $fakeSamples = 0)
+    function seederByXlsx($modelName, $sheetName, $truncate = true, $fakeSamples = 0)
     {
         Schema::disableForeignKeyConstraints();
         $model = resolveModel($modelName);
-        // dd($model);
 
         if ($truncate && Schema::hasTable($sheetName)) {
             $model::truncate();
         }
+        $seeds =load('database/seeds.xlsx', $sheetName);
 
-        // $seeds = excel()->load(pms('database.seeders.seeds'), $sheetName);
-        $seeds =load('database/seeders/seeds/seeds.xlsx', $sheetName);
 
-        if ($seeds) {
-            $fakeSamples -= count($seeds);
+        DB::table($sheetName)->insert($seeds->toArray());
+        // if ($seeds) {
+        //     $fakeSamples -= count($seeds);
 
-            collect($seeds)->each(function ($seed) use ($model) {
-                if (! empty($seed['password'])) {
-                    $seed['password'] = Hash::make($seed['password']);
-                }
+        //     collect($seeds)->each(function ($seed) use ($model) {
+        //         if (! empty($seed['password'])) {
+        //             $seed['password'] = Hash::make($seed['password']);
+        //         }
+        // // dd($seed);
+        //         // $model::factory()->create($seed);
+        //         factory(App\ExaminationQuestion::class)->create($seed);
+        //         // factory(ExaminationQuestion::class)->create($seed);
+        //     });
 
-                $model::factory()->create($seed);
-            });
-
-            if ($fakeSamples > 0) {
-                $model::factory($fakeSamples)->create();
-            }
-        }
+        //     if ($fakeSamples > 0) {
+        //         // $model::factory($fakeSamples)->create();
+        //         factory($fakeSamples)->create($seed);
+        //     }
+        // }
 
         Schema::enableForeignKeyConstraints();
         }
