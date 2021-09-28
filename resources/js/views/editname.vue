@@ -25,6 +25,7 @@
       item-value="value"
       :items="classname"
       label="所属クラス"
+      return-object
     />
               </v-col>
           </div>
@@ -73,6 +74,10 @@
 
     created: function () {
       this.getUserDatas();
+      console.log(this.userdata);
+
+      this.$set(this.selectedClass, 'label', 'ウォルクス')
+      this.$set(this.selectedClass, 'value', '2')
     },
 
     methods: {
@@ -83,7 +88,6 @@
         axios.get('/api/mypage/edit'
         ).then((response) => {
           this.userdata = response.data.userdata;
-          console.log(this.userdata);
         })
       },
 
