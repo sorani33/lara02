@@ -178,12 +178,12 @@ export default {
      * 予約情報保存
      */
     postReserve:  function () {
-      var poipi = this.$data.picked;
+      var sub_genre_id = this.$data.picked;
       var gamemode = this.$data.gamemode;
         var sendApiParameters = {
           param:{
+            sub_genre_id:sub_genre_id,
             genre_id:1,
-            no:poipi,
             gamemode:gamemode,
           }
         };

@@ -7,6 +7,7 @@ use App\ExaminationQuestion;
 use App\ExaminationResult;
 use App\Http\Controllers\Controller; //APIコントローラの時は、コレが要る
 
+use Auth;
 use Carbon\Carbon;
 
 class ExaminationQuestionController extends Controller
@@ -32,24 +33,23 @@ class ExaminationQuestionController extends Controller
     }
 
 
-    public function show($genre_id)
+    public function show($sub_genre_id)
     {
-        // dd($genre_id);
-// dd(config('common.examinationquestion.count.value'));
 
-        $examinationQuestionsData = ExaminationQuestion::get()->where('genre_id', $genre_id)->random(config('common.examination_question.count.value')); 
+        $examinationQuestionsData = ExaminationQuestion::get()->where('sub_genre_id', $sub_genre_id)->random(config('common.examination_question.count.value')); 
+        // dd($examinationQuestionsData);
 
         $examinationQuestions =[];
         foreach($examinationQuestionsData as $examinationQuestion){
-            $examinationQuestions[$examinationQuestion->no]['subject'] = $examinationQuestion->subject;
-            $examinationQuestions[$examinationQuestion->no]['question'] = $examinationQuestion->only('answer', 'dummy_answer1', 'dummy_answer2', 'dummy_answer3');
-            shuffle($examinationQuestions[$examinationQuestion->no]['question']);
-            $examinationQuestions[$examinationQuestion->no]['created_at'] = $examinationQuestion->created_at;
+            $examinationQuestions[$examinationQuestion->id]['subject'] = $examinationQuestion->subject;
+            $examinationQuestions[$examinationQuestion->id]['question'] = $examinationQuestion->only('answer', 'dummy_answer1', 'dummy_answer2', 'dummy_answer3');
+            shuffle($examinationQuestions[$examinationQuestion->id]['question']);
+            $examinationQuestions[$examinationQuestion->id]['created_at'] = $examinationQuestion->created_at;
         }
 
         $assignData = [
             'examinationQuestions' => $examinationQuestions,
-            'genre_id' => $genre_id,
+            'sub_genre_id' => $sub_genre_id,
         ];
         return response()->json($assignData);
     }
@@ -58,15 +58,15 @@ class ExaminationQuestionController extends Controller
     public function result(Request $request) 
     {
         // 問題数を取得する
-        $examinationCount = count($request->param['no']);
+        $examinationCount = count($request->param['sub_genre_id']);
 
         // 採点をする
         $examinationQuestions = ExaminationQuestion::get()->toArray();
 
-        $noListFromDatabase= array_column($examinationQuestions, 'no');
+        $noListFromDatabase= array_column($examinationQuestions, 'id');
         $correctAnswerCount = 0;
         $inCorrectAnswerLists = [];
-        foreach($request->param['no'] as $inputKey => $value){
+        foreach($request->param['sub_genre_id'] as $inputKey => $value){
             $assignNo = array_search($inputKey, $noListFromDatabase);
 
             $examinationQuestions[$assignNo]['inCorrectAnswer'] = $value;
@@ -84,6 +84,7 @@ class ExaminationQuestionController extends Controller
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 3;
             }
         }
+
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
 
@@ -133,11 +134,12 @@ class ExaminationQuestionController extends Controller
         // }
         // return view('mypage.posted.completed');
 
-
         // DBに保存する
         $user = ExaminationResult::create([
+            // 'user_id' => Auth::id(),
             'user_id' => 1,
             'genre_id' => $request->param['genre_id'],
+            'sub_genre_id' => $request->param['sub_genre_id'],
             'gamemode' => $request->param['gamemode'],
             'number_questions' => $examinationCount, //問題数
             'number_correct_answers' => $correctAnswerCount, //正解数

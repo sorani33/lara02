@@ -242,13 +242,13 @@ export default {
      * 予約情報保存
      */
     postReserve:  function () {
-      var poipi = this.$data.picked;
+      var sub_genre_id = this.$data.picked;
       var gamemode = this.$data.gamemode;
       this.stopTimer();
         var sendApiParameters = {
           param:{
             genre_id:1,
-            no:poipi,
+            sub_genre_id:sub_genre_id,
             gamemode:gamemode,
             timeAttack:this.interval,
           }
