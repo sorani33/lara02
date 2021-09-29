@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Genre;
+use App\SubGenre;
 use App\ExaminationQuestion;
 use App\ExaminationResult;
 use App\Http\Controllers\Controller; //APIコントローラの時は、コレが要る
@@ -30,6 +32,15 @@ class ExaminationQuestionController extends Controller
     public function index(Request $request) 
     {
         return view('home');
+    }
+
+    public function home(Request $request) 
+    {
+        $subGenreDatas = SubGenre::get(); 
+        $assignData = [
+            'subGenreDatas' => $subGenreDatas,
+        ];
+        return response()->json($assignData);
     }
 
 

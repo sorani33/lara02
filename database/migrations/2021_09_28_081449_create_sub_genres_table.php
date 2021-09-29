@@ -17,6 +17,7 @@ class CreateSubGenresTable extends Migration
             $table->bigIncrements('id');
             $table->integer('genre_id')->comment('ジャンルID');
             $table->string('name', 100)->comment('名前');
+            $table->string('url', 100)->comment('URL');
 			$table->softDeletes();
             $table->timestamps();
 

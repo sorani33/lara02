@@ -7,7 +7,7 @@
     </v-app-bar>
     <v-container>
     <div v-if="answeresult">
-        採点結果は<span class="red--text .font-weight-bold">{{ score }}点</span>でした！
+        採点結果は<span class="red--text .font-weight-bold">{{ score.toFixed() }}点</span>でした！
     　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
     </div>
     <p>{{interval.toFixed(2)}}</p> <!-- 小数2桁まで表示 -->
