@@ -1,4 +1,8 @@
 <template>
+
+
+
+
   <v-card class="mx-auto"  tile>
     <v-list flat>
       <h3>成績板</h3>
@@ -43,6 +47,23 @@
       </v-list-group>
 
       <v-app id="app">
+
+        <v-dialog v-if = "authUser == false" v-model="dialog" persistent max-width="290" overlay-opacity="100" >
+          <v-card>
+            <v-card-title class="text-h5">
+              ここがタイトル
+            </v-card-title>
+            <v-card-text>こちらの画面を表示するにはログインが必要です</v-card-text>
+            <v-btn href="/login" icon small>ログイン</v-btn><br>
+            <v-btn href="/login/twitter" icon small>twitter login</v-btn><br>
+            <v-btn href="/register" icon small>会員登録</v-btn><br>
+            <v-btn href="/" icon small>ホームに戻る</v-btn>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <div class="text-center">
           <v-dialog v-model="isOpen" width="500">
             <template v-slot:activator="{ on, attrs }">
@@ -81,6 +102,7 @@
 </template>
 
 
+
 <script>
   export default {
     data: () => ({
@@ -114,10 +136,41 @@
         { class: 1, user: { name: 'ティファ'}, timeScore: '07:18' },
         { class: 1, user: { name: '土生翔吾(はぶっち)'}, timeScore: '09:77' },
       ],
+
+      dialog: true, //ダイヤログはアクセス時に表示させる
+      authUser: false,
+      
+
     }),
 
+
+  created: function () {
+    this.getCreateDatas();
+  },
+
+
   methods: {
-   selectItem(parameter) {
+
+
+    /**
+     * getCreateDatas
+     */
+    getCreateDatas: function () {
+  	  console.log("例題");
+
+      axios.get('/api/home')
+  	  .then((response) => {
+        // this.authUser = response.data.authUser;
+        if(response.data.authUser){
+          this.authUser = true;
+        }
+      })
+    },
+
+    /**
+     * selectItem
+     */
+    selectItem(parameter) {
      this.genreId = parameter.genreId;
      this.reportMode = parameter.reportMode;
      this.getReportDatas();

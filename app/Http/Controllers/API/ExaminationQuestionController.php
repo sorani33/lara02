@@ -40,8 +40,10 @@ class ExaminationQuestionController extends Controller
     public function home(Request $request) 
     {
         $subGenreDatas = SubGenre::get(); 
+        $authUser = Auth::user(); 
         $assignData = [
             'subGenreDatas' => $subGenreDatas,
+            'authUser' => $authUser,
         ];
         return response()->json($assignData);
     }
