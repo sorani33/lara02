@@ -30,7 +30,7 @@ return [
             'label' => '正解',
             'value' => 1,
         ],
-        'null'    => [
+        'unanswered'    => [
             'label' => '未回答',
             'value' => 2,
         ],

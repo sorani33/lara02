@@ -9,15 +9,15 @@
 		<br>
 		<br>
 		<v-row no-gutters v-for="(subGenreData, index) in subGenreDatas" :key="index">
-			<v-col  cols="2">
-			</v-col>
-			<v-col  cols="6" class="text-left">
-				<router-link :to="{ name: 'practice', params: {id: subGenreData.id } }" >{{subGenreData.name}}</router-link>
+			<v-col  cols="1">
 			</v-col>
 			<v-col  cols="1">
 				<v-btn :href="subGenreData.url" target="_blank" rel="noopener noreferrer" icon small>
 					<v-icon>mdi-youtube-tv</v-icon>
 				</v-btn>
+			</v-col>
+			<v-col  cols="7" class="text-left">
+				<router-link :to="{ name: 'practice', params: {id: subGenreData.id } }" >{{subGenreData.name}}</router-link>
 			</v-col>
 			<v-col  cols="1">
 				<v-btn :to="{ name: 'timeattack5', params: {id: subGenreData.id } }" elevation="2" icon small>

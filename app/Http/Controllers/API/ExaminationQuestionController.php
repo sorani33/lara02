@@ -34,6 +34,9 @@ class ExaminationQuestionController extends Controller
         return view('home');
     }
 
+    /**
+     * ホーム画面
+     */
     public function home(Request $request) 
     {
         $subGenreDatas = SubGenre::get(); 
@@ -44,11 +47,13 @@ class ExaminationQuestionController extends Controller
     }
 
 
+    /**
+     * 出題の画面
+     */
     public function show(Request $request)
     {
         $examinationQuestionsData = ExaminationQuestion::get()->where('sub_genre_id', $request->questionId); 
-
-        if($request->gamemode == 2){
+        if($request->gamemode == config('common.gamemode.time_attack.value')){
             $examinationQuestionsData = $examinationQuestionsData->random(config('common.examination_question.count.value')); 
         }
 
@@ -68,8 +73,12 @@ class ExaminationQuestionController extends Controller
     }
 
 
+    /**
+     * 解答結果の画面
+     */
     public function result(Request $request) 
     {
+        $userId = Auth::id();
         // 問題数を取得する
         $examinationCount = count($request->param['sub_genre_id']);
 
@@ -88,29 +97,28 @@ class ExaminationQuestionController extends Controller
             if($value == $examinationQuestions[$assignNo]['answer']){
                 // dd('正解数をカウントする。');
                 $correctAnswerCount++;
-                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 1;
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.correct.value');
             }else if(empty($value)){
                 // dd('未回答のばあい');
-                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 2;
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.unanswered.value');
             }else{
                 // dd('はずれたら、Noのリストを格納する。');
-                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = 3;
+                $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.incorrect.value');
             }
         }
-
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
-
         // タイムアタックモードの場合の処理
-        if($request->param['gamemode'] == 2){
+        if($request->param['gamemode'] == config('common.gamemode.time_attack.value')){
             if($score == 100){
                 $bestTimeFlag = 0;
                 $timeAttack = $request->param['timeAttack']; //"49.880"
-                // 個人ベストタイムを取得する。
-                $examinationResult = ExaminationResult::where('user_id', 1)->where('best_time_flag', 1)->first();
-        
-                //初回データだとたぶんflagつかない
 
+                //ログイン状態時の処理。 個人ベストタイムを取得する。
+                if(isset($userId)){
+                    $examinationResult = ExaminationResult::where('user_id', $userId)->where('best_time_flag', 1)->first();
+                }
+                //初回データだとたぶんflagつかない
                 if(isset($examinationResult)){
                     $timeAttackInDatabase = $examinationResult->time_attack; //00:00:04.591
                     $carbon1 = Carbon::parse($timeAttackInDatabase)->format('s.v');
@@ -147,10 +155,11 @@ class ExaminationQuestionController extends Controller
         // }
         // return view('mypage.posted.completed');
 
-        // DBに保存する
-        $user = ExaminationResult::create([
-            // 'user_id' => Auth::id(),
-            'user_id' => 1,
+        // ログイン状態時の処理。DBに保存する
+        if(isset($userId)){
+            $user = ExaminationResult::create([
+            'user_id' => Auth::id(),
+            // 'user_id' => 1,
             'genre_id' => $request->param['genre_id'],
             'sub_genre_id' => $request->param['sub_genre_id'],
             'gamemode' => $request->param['gamemode'],
@@ -159,7 +168,8 @@ class ExaminationQuestionController extends Controller
             'mark' => $score,
             'time_attack' => $timeAttack ?? null,
             'best_time_flag' => $bestTimeFlag ?? null,
-        ]);
+            ]);
+        }
 
         // 満点フラグ
         $manten = $examinationCount == $correctAnswerCount  ? true : false;
