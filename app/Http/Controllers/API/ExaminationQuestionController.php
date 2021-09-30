@@ -95,65 +95,46 @@ class ExaminationQuestionController extends Controller
             $inCorrectAnswerLists[$inputKey] = $examinationQuestions[$assignNo];
 
             if($value == $examinationQuestions[$assignNo]['answer']){
-                // dd('正解数をカウントする。');
+                // dd('正解数をカウントする');
                 $correctAnswerCount++;
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.correct.value');
             }else if(empty($value)){
                 // dd('未回答のばあい');
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.unanswered.value');
             }else{
-                // dd('はずれたら、Noのリストを格納する。');
+                // dd('はずれたら、Noのリストを格納する');
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.incorrect.value');
             }
         }
         // 点数を出す
         $score = $correctAnswerCount /$examinationCount * 100 ;
+
+
         // タイムアタックモードの場合の処理
         if($request->param['gamemode'] == config('common.gamemode.time_attack.value')){
-            if($score == 100){
-                $bestTimeFlag = 0;
-                $timeAttack = $request->param['timeAttack']; //"49.880"
+            $bestTimeFlag = config('common.examination_result.best_time_flag.off.value');
+            $timeAttack = $request->param['timeAttack']; //"49.880"
 
-                //ログイン状態時の処理。 個人ベストタイムを取得する。
-                if(isset($userId)){
-                    $examinationResult = ExaminationResult::where('user_id', $userId)->where('best_time_flag', 1)->first();
+            //ログイン状態で満点の時の処理。 個人ベストタイムを取得する。
+            if($score == 100 && isset($userId)){
+                $examinationResult = ExaminationResult::where('user_id', $userId)->where('best_time_flag', 1)->first();
+                //DBにデータがない時は、ベストタイム扱いにする。
+                if(!isset($examinationResult)){
+                    $bestTimeFlag = config('common.examination_result.best_time_flag.on.value');
                 }
-                //初回データだとたぶんflagつかない
+                // DBにデータがありタイムを更新している時は、ベストタイム扱いにして旧データのフラグを下げる。
                 if(isset($examinationResult)){
                     $timeAttackInDatabase = $examinationResult->time_attack; //00:00:04.591
-                    $carbon1 = Carbon::parse($timeAttackInDatabase)->format('s.v');
-                    $carbon2 = Carbon::parse($request->param['timeAttack'])->format('s.v');
-            
-                    // データが有り、タイムを更新していればデータも更新する。
-                    if($carbon1 > $carbon2){
-                        $bestTimeFlag = 1;
+                    $databaseTime = Carbon::parse($timeAttackInDatabase)->format('s.v');
+                    $requestTime = Carbon::parse($request->param['timeAttack'])->format('s.v');                    
+                    if($databaseTime > $requestTime){
+                        $bestTimeFlag = config('common.examination_result.best_time_flag.on.value');
                         $examinationResult->update(['best_time_flag' => 0]);
                     }    
                 }    
-
             }
         }
-        
-        // try {
-        //     DB::transaction(function () use ($request, $shopReviewId) {
-        //         //保存
-        //             ShopReview::where('id', $shopReviewId)->update($request['shop_review']);
-        //             // throw new \Exception('ここで処理を終わらせる');  //トランザクションテスト用
-        //     });
-        //     $saveResult = [
-        //         'message'   => '保存しました。',
-        //         'result'    => true,
-        //     ];
-        // } catch (Exception $e) {
-        //     report($e);
-        //     $saveResult = [
-        //         'message'   => '保存出来ませんでした。',
-        //         'result'    => false,
-        //     ];
-        // } finally {
 
-        // }
-        // return view('mypage.posted.completed');
 
         // ログイン状態時の処理。DBに保存する
         if(isset($userId)){

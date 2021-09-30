@@ -53,11 +53,11 @@ return [
     # ベストタイムフラグ
     'examination_result' => [
         'best_time_flag' => [
-            'on'    => [
+            'off'    => [
                 'label' => 'ベストタイムでない',
                 'value' => 0,
             ],
-            'off'    => [
+            'on'    => [
                 'label' => 'ベストタイムである',
                 'value' => 1,
             ],
