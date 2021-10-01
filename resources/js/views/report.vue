@@ -138,7 +138,7 @@
       ],
 
       dialog: true, //ダイヤログはアクセス時に表示させる
-      authUser: false,
+      authUser: true,
       
 
     }),

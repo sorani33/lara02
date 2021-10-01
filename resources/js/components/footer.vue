@@ -6,12 +6,12 @@
 				<v-icon>mdi-controller-classic-outline</v-icon>
 			</v-btn>
 
-			<v-btn :to="{ name: 'report' }">
+			<v-btn :to="{ name: 'report' }" v-bind:disabled="isActive" v-cloak>
 				<span>成績板</span>
 				<v-icon>mdi-trophy-outline </v-icon>
 			</v-btn>
 
-			<v-btn :to="{ name: 'mypage' }">
+			<v-btn :to="{ name: 'mypage' }" v-bind:disabled="isActive" v-cloak>
 				<span>マイページ</span>
 				<v-icon>mdi-account</v-icon>
 			</v-btn>
@@ -19,4 +19,29 @@
 		<!-- フッターここまで -->
 </template>
 
+<style>
+[v-cloak] {
+	display: none;
+}
+</style>
 
+<script>
+
+  export default {
+    data: () => ({
+      dialog: true, //ダイヤログはアクセス時に表示させる
+      isActive: true,
+    }),
+
+	beforeCreate: function () {
+		//ログインしていない時は、ボタンを非表示にする。
+		axios.get('/api/home')
+		.then((response) => {
+			if(response.data.authUser){
+				this.isActive = false;
+			}
+		})
+	},
+
+  }
+</script>

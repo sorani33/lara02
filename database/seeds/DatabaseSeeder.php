@@ -20,10 +20,12 @@ class DatabaseSeeder extends Seeder
         $this->call(SubGenreseeder::class);
         // xlsx管理ここまで
 
+        // テストデータここから
         // $this->call(Userseeder::class);
         $this->call(ExaminationResultseeder::class);
         // $this->call(Titleseeder::class);
         // $this->call(UserTitleseeder::class);
+        // テストデータここまで
         
     }
 }
