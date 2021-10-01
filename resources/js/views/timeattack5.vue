@@ -46,7 +46,7 @@
                 <v-layout wrap >
                   <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question" :key="questionindex">
                   <!-- <v-btn class="mx-4 mb-6 text-caption" v-model="picked" v-bind:value="answer">{{answer}}{{index}}</v-btn> -->
-                   <input type="radio" v-bind:value="answer" v-model="picked[index]" />{{answer}}
+                   <input type="radio" v-bind:value="answer" v-model="picked[index]" :id="examinationQuestion.subject + questionindex" /><label :for="examinationQuestion.subject + questionindex">{{answer}}</label>
                   </v-flex>
                   <!--{{picked}}-->
                   <div v-if="answeresult">
