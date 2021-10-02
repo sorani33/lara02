@@ -22,7 +22,7 @@
             <input type="hidden" name="no" :value="index" />
             </v-card-text>
             <v-divider></v-divider>
-            <v-card-actions>
+            <v-card-text>
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
                   <v-flex xs12 sm6 md3 v-for="(answer, questionindex, indexData) in examinationQuestion.question" :key="indexData">
@@ -52,7 +52,7 @@
                   </div>
                 </v-layout>
               </v-btn-toggle>
-            </v-card-actions>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
