@@ -22,7 +22,7 @@ class CreateExaminationQuestions extends Migration
             $table->string('dummy_answer1', 255)->comment('ダミー回答1');
             $table->string('dummy_answer2', 255)->comment('ダミー回答2');
             $table->string('dummy_answer3', 255)->comment('ダミー回答3');
-            $table->string('URL', 255)->comment('URL');
+            $table->string('url', 255)->comment('URL');
 			$table->softDeletes();
             $table->timestamps();
         });

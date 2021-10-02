@@ -58,7 +58,8 @@
         //   4:"ええ",
         // },
         // items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-      selectedClass: { label: 'アリスカーナ'   , value: '3'  },
+      // selectedClass: { label: 'アリスカーナ'   , value: '3'  },
+        selectedClass:{},
       classname: [
         { label: 'ラグナリオ'   , value: '1'  },
         { label: 'ウォルクス' , value: '2'    },
@@ -73,11 +74,31 @@
     },
 
     created: function () {
-      this.getUserDatas();
-      console.log(this.userdata);
+      // this.getUserDatas();
+      // console.log(this.userdata);
 
-      this.$set(this.selectedClass, 'label', 'ウォルクス')
-      this.$set(this.selectedClass, 'value', '2')
+
+        axios.get('/api/mypage/edit'
+        ).then((response) => {
+          this.userdata = response.data.userdata;
+          // 効かない↓↓↓
+          // this.selectedClass.label = this.classname[response.data.userdata.class_id-1].label;
+
+          // 効かない↓↓↓
+          // this.$set(this.selectedClass, 'label', this.classname[response.data.userdata.class_id-1].label)
+          // this.$set(this.selectedClass, 'value', response.data.userdata.class_id)
+
+          // ベタ書きは通る↓↓↓
+          this.$set(this.selectedClass, 'label', 'フラーシア')
+          this.$set(this.selectedClass, 'value', '4')
+
+          // console.log('さいしょ');
+          // console.log(this.classname[response.data.userdata.class_id-1].label);
+          // console.log(response.data.userdata.class_id);
+
+        })
+
+// console.log('まつび');
     },
 
     methods: {
