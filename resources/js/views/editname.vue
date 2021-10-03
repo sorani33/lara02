@@ -18,16 +18,13 @@
           </div>
           <div class="form-group">
             <label>クラス</label>
-              <v-col class="form-control">
      <v-select
       v-model="selectedClass"
       item-text="label"
       item-value="value"
       :items="classname"
-      label="所属クラス"
       return-object
     />
-              </v-col>
           </div>
 
           <div class="form-group">
@@ -59,7 +56,7 @@
         // },
         // items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       // selectedClass: { label: 'アリスカーナ'   , value: '3'  },
-        selectedClass:{},
+        selectedClass:{ },
       classname: [
         { label: 'ラグナリオ'   , value: '1'  },
         { label: 'ウォルクス' , value: '2'    },
@@ -82,17 +79,18 @@
         ).then((response) => {
           this.userdata = response.data.userdata;
           // 効かない↓↓↓
-          // this.selectedClass.label = this.classname[response.data.userdata.class_id-1].label;
+          this.selectedClass.label = this.classname[response.data.userdata.class_id-1].label;
 
           // 効かない↓↓↓
           // this.$set(this.selectedClass, 'label', this.classname[response.data.userdata.class_id-1].label)
           // this.$set(this.selectedClass, 'value', response.data.userdata.class_id)
 
           // ベタ書きは通る↓↓↓
-          this.$set(this.selectedClass, 'label', 'フラーシア')
-          this.$set(this.selectedClass, 'value', '4')
+          // this.$set(this.selectedClass, 'label', 'フラーシア')
+          // this.$set(this.selectedClass, 'value', '4')
 
           // console.log('さいしょ');
+          console.log(this.selectedClass);
           // console.log(this.classname[response.data.userdata.class_id-1].label);
           // console.log(response.data.userdata.class_id);
 
@@ -128,7 +126,8 @@
         //   icon: "success",
         //   text: "Updated Success!"
         // });
-        // this.$router.push({ name: "Index" });
+        // this.$router.push({ name: "home" });
+        window.location.href = '/mypage';
       });
     }
 
