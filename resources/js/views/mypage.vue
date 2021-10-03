@@ -1,5 +1,20 @@
 <template>
   <v-app>
+        <v-dialog v-if = "authUser == false" v-model="dialog" persistent max-width="290" overlay-opacity="100" >
+          <v-card>
+            <v-card-title class="text-h5">
+              マイページでは、名前やクラスの変更等ができます。
+            </v-card-title>
+            <v-card-text>こちらの画面を表示するにはログインが必要です</v-card-text>
+            <v-btn href="/login" icon small>ログイン</v-btn><br>
+            <v-btn href="/login/twitter" icon small>twitter login</v-btn><br>
+            <v-btn href="/register" icon small>会員登録</v-btn><br>
+            <v-btn href="/" icon small>ホームに戻る</v-btn>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
     <!-- ヘッダー -->
     <v-app-bar app clippedLeft flat dark color="indigo darken-3">
@@ -28,8 +43,33 @@
     name: 'app',
     data() {
       return {
-        drawer: true
+        drawer: true,
+
+        dialog: true,
+        authUser: true,
       }
-    }
+    },
+
+
+    created: function () {
+      this.getCreateDatas();
+    },
+
+
+
+  methods: {
+    /**
+     * getCreateDatas
+     */
+    getCreateDatas: function () {
+      axios.get('/api/home')
+  	  .then((response) => {
+        if(!response.data.authUser){
+          this.authUser = false;
+        }
+      })
+    },
+  }
+
   }
 </script>

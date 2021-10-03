@@ -111,7 +111,6 @@
 <script>
   export default {
     data: () => ({
-      dialog: false,
 
       selectedItem: 1,
       items: [
@@ -129,25 +128,23 @@
       modalTitle: '月間スコア',
       genreId: '',
       reportMode: '',
-      myscore: 183,
+      myscore:  '',
       ranking: [
         { class: 1, user: { name: 'クラウド'}, number_correct_answers: 300 },
         { class: 1, user: { name: 'ティファ'}, number_correct_answers: 220 },
-        { class: 1, user: { name: '土生翔吾(はぶっち)'}, number_correct_answers: 19 },
       ],
       mybesttime: '09:77',
       timeAttacks: [
         { class: 1, user: { name: 'クラウド'}, timeScore: '05:42' },
         { class: 1, user: { name: 'ティファ'}, timeScore: '07:18' },
-        { class: 1, user: { name: '土生翔吾(はぶっち)'}, timeScore: '09:77' },
       ],
 
       className: [
         { id: 1, name: 'ラグナリオ', shortName: '【R】'},
-        { id: 1, name: 'ウォルクス', shortName: '【W】'},
-        { id: 1, name: 'アリスカーナ', shortName: '【A】'},
-        { id: 1, name: 'フラーシア', shortName: '【F】'},
-        { id: 1, name: '無所属', shortName: '【無】'},
+        { id: 2, name: 'ウォルクス', shortName: '【W】'},
+        { id: 3, name: 'アリスカーナ', shortName: '【A】'},
+        { id: 4, name: 'フラーシア', shortName: '【F】'},
+        { id: 5, name: '無所属', shortName: '【無】'},
       ],
       dialog: true, //ダイヤログはアクセス時に表示させる
       authUser: true,
@@ -170,11 +167,8 @@
      * getCreateDatas
      */
     getCreateDatas: function () {
-  	  console.log("例題");
-
       axios.get('/api/home')
   	  .then((response) => {
-        // this.authUser = response.data.authUser;
         if(!response.data.authUser){
           this.authUser = false;
         }
@@ -188,7 +182,6 @@
      this.genreId = parameter.genreId;
      this.reportMode = parameter.reportMode;
      this.getReportDatas();
-
      this.modalTitle = parameter.titleText;
      this.isOpen = true
     },
@@ -200,20 +193,16 @@
     getReportDatas: function () {
 
       const genreId = this.genreId; //routerからパラメータidを取得する。
- 	    console.log(genreId);
 
       axios.get('/api/report/'+ genreId).then((response) => {
 
         this.myRankingNumber = response.data.myRankingNumber;
         this.userId = response.data.userId;
-          console.log(this.myRankingNumber);
         if(this.reportMode == 1){
-          console.log("1");
           this.myscore = response.data.myscore;
           this.ranking = response.data.ranking;
         }
         if(this.reportMode == 2){
-          console.log("2");
           this.mybesttime = response.data.mybesttime;
           this.timeAttacks = response.data.timeAttacks;
         }
