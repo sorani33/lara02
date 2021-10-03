@@ -61,6 +61,7 @@ class LoginController extends Controller
 
     $myinfo = User::firstOrCreate([
         'token' => $user->token,
+        ], [
         'name' => $user->nickname,
         'avatar' => $user->avatar,
         'email' => $user->getEmail()
