@@ -6,12 +6,12 @@
 				<v-icon>mdi-controller-classic-outline</v-icon>
 			</v-btn>
 
-			<v-btn :to="{ name: 'report' }" v-bind:disabled="isActive" v-cloak>
+			<v-btn :to="{ name: 'report' }" >
 				<span>成績板</span>
 				<v-icon>mdi-trophy-outline </v-icon>
 			</v-btn>
 
-			<v-btn :to="{ name: 'mypage' }" v-bind:disabled="isActive" v-cloak>
+			<v-btn :to="{ name: 'mypage' }" >
 				<span>マイページ</span>
 				<v-icon>mdi-account</v-icon>
 			</v-btn>

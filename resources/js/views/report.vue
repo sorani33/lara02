@@ -51,7 +51,7 @@
         <v-dialog v-if = "authUser == false" v-model="dialog" persistent max-width="290" overlay-opacity="100" >
           <v-card>
             <v-card-title class="text-h5">
-              ここがタイトル
+              成績版では、自分のスコアとベストタイム、上位3名のランキングが確認できます。
             </v-card-title>
             <v-card-text>こちらの画面を表示するにはログインが必要です</v-card-text>
             <v-btn href="/login" icon small>ログイン</v-btn><br>
@@ -170,8 +170,8 @@
       axios.get('/api/home')
   	  .then((response) => {
         // this.authUser = response.data.authUser;
-        if(response.data.authUser){
-          this.authUser = true;
+        if(!response.data.authUser){
+          this.authUser = false;
         }
       })
     },
