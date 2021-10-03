@@ -1,10 +1,6 @@
 <template>
 
   <v-app>
-  <v-navigation-drawer app v-model="drawer" clipped>Navigation Lists</v-navigation-drawer><!-- サイドのナビゲーションメニュー -->
-    <v-app-bar color="primary" dark clipped-left app ><!-- これがヘッダー -->
-      <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon><!-- これがハンバーガーメニュー -->
-    </v-app-bar>
     <v-container>
     <div v-if="answeresult">
         採点結果は<span class="red--text .font-weight-bold">{{ score.toFixed() }}点</span>でした！
@@ -83,15 +79,17 @@
       <v-btn color="primary" href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">結果をツイートする</v-btn>
     </div>
     <br>
-    <div v-if="!answeresult">
-      <v-btn
-        class="mb-8"
-        block
-        color="primary"
-        style="font-size:var(--read-font-size-m);font-weight:bold;"
-        v-on:click.native="postReserve"
-      >採点する
-      </v-btn>
+    <div v-if="postReserveButton">
+      <div v-if="!answeresult">
+        <v-btn
+          class="mb-8"
+          block
+          color="primary"
+          style="font-size:var(--read-font-size-m);font-weight:bold;"
+          v-on:click.native="postReserve"
+        >採点する
+        </v-btn>
+      </div>
     </div>
     <br>
     <br>
@@ -149,12 +147,9 @@ export default {
       interval : 0, // 計測時間
       accum : 0, // 累積時間(stopしたとき用)
 
-      picked:{
-        // 1:"",
-        // 2:"",
-        // 3:"",
-        // 4:"",
-      },
+      postReserveButton: false, //採点するボタンのちらつきをなおす
+
+      picked:{},
     }
   },
 
@@ -211,8 +206,6 @@ export default {
      */
     getExaminationQuestionDatas: function () {
       const questionId = this.$route.params.id; //routerからパラメータidを取得する。
-      // axios.get('/api/examinationquestions/'+ questionId
-      // ).then((response) => {
       axios.get('/api/examinationquestions/'+ questionId, {
         params: {
           questionId: questionId,
@@ -221,6 +214,7 @@ export default {
       }).then((response) => {
 
         this.examinationQuestions = response.data.examinationQuestions;
+        this.postReserveButton = true;
 
         // 返り値のKeyを元にしてdata()を作成する
         var array = response.data.examinationQuestions;
