@@ -63,8 +63,7 @@ class ReportController extends Controller
             $from = Carbon::now()->startOfMonth()->toDateString(); //月初日
             $to = Carbon::now()->endOfMonth()->toDateString(); //月末日
             $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
-            $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->where('number_correct_answers', '<', 3)->orderBy('number_correct_answers', 'desc')->get();
-
+            $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->orderBy('number_correct_answers', 'desc')->limit(3)->get();
             foreach($examinationResultsMonth as $key => $value){
                 $examinationData[$key]['user_name'] = $value->user->name;
                 $examinationData[$key]['number_correct_answers'] = $value['number_correct_answers'];

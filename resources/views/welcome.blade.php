@@ -72,7 +72,7 @@
         </style>
     </head>
 
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position: fixed;">
+    <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow-sm position: fixed ;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                 youtube大学の問題を解くやつ

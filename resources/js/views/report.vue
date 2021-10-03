@@ -79,10 +79,12 @@
               <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
               <br>
               <v-row v-if="reportMode==1" v-for="(rank, index) in ranking" :key="index">
-                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
+              {{ rank.user.class_id-1 }}
+              {{ className[0].shortName }}
+                <div class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
               </v-row>
               <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks" :key="index">
-                <div class="body-1 mb-1">{{ index+1 }}位　[A]{{ rank.user.name }} {{ rank.time_attack }}</div>
+                <div class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
               </v-row>
               </v-card-text>
 
@@ -137,6 +139,13 @@
         { class: 1, user: { name: '土生翔吾(はぶっち)'}, timeScore: '09:77' },
       ],
 
+      className: [
+        { id: 1, name: 'ラグナリオ', shortName: '【R】'},
+        { id: 1, name: 'ウォルクス', shortName: '【W】'},
+        { id: 1, name: 'アリスカーナ', shortName: '【A】'},
+        { id: 1, name: 'フラーシア', shortName: '【F】'},
+        { id: 1, name: '無所属', shortName: '【無】'},
+      ],
       dialog: true, //ダイヤログはアクセス時に表示させる
       authUser: true,
       
