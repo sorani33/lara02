@@ -88,4 +88,28 @@ return [
         ],
     ],
 
+    # クラスネーム
+    'class_name' => [
+        '1'    => [
+            'label' => 'ラグナリオ',
+            'short_label' => 'R',
+        ],
+        '2'    => [
+            'label' => 'ウォルクス',
+            'short_label' => 'W',
+        ],
+        '3'    => [
+            'label' => 'アリスカーナ',
+            'short_label' => 'A',
+        ],
+        '4'    => [
+            'label' => 'フラーシア',
+            'short_label' => 'F',
+        ],
+        '5'    => [
+            'label' => '無所属',
+            'short_label' => '無',
+        ],
+    ],
+
 ];

@@ -46,12 +46,18 @@ class ReportController extends Controller
             $examinationResultSum = $examinationResult->sum("number_correct_answers");
             $examinationResults = $baseExaminationResults->orderBy('number_correct_answers', 'desc')->limit(3)->get();
 
+            $myRankingNumber = null;
             foreach($examinationResults as $key => $value){
                 $examinationData[$key]['user_name'] = $value->user->name;
                 $examinationData[$key]['number_correct_answers'] = $value['number_correct_answers'];
+                if($value->user->id == $userId){
+                    $myRankingNumber = $key+1;
+                }
             }
 
             $assignData = [
+                'userId' => $userId,
+                'myRankingNumber' => $myRankingNumber,
                 'myscore' => $examinationResultSum,
                 'ranking' => $examinationResults,
             ];
@@ -64,12 +70,19 @@ class ReportController extends Controller
             $to = Carbon::now()->endOfMonth()->toDateString(); //月末日
             $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
             $examinationResultsMonth =$baseExaminationResults->whereBetween('created_at', [$from, $to])->orderBy('number_correct_answers', 'desc')->limit(3)->get();
+
+            $myRankingNumber = null;
             foreach($examinationResultsMonth as $key => $value){
                 $examinationData[$key]['user_name'] = $value->user->name;
                 $examinationData[$key]['number_correct_answers'] = $value['number_correct_answers'];
+                if($value->user->id == $userId){
+                    $myRankingNumber = $key+1;
+                }
             }
 
             $assignData = [
+                'userId' => $userId,
+                'myRankingNumber' => $myRankingNumber,
                 'myscore' => $examinationResultMonthSum,
                 'ranking' => $examinationResultsMonth,
             ];
@@ -89,15 +102,22 @@ class ReportController extends Controller
             // 文字列の調整
             $mybesttime = substr($timeAttackResult['time_attack'], 6);
             $mybesttime = str_replace(".", "秒", $mybesttime);
+
+            $myRankingNumber = null;
             foreach($timeAttackRankingResult as $key => $value){
                 $timeAttackRankingResult[$key]['user_name'] = $value->user->name;
                 $besttime = substr($value ['time_attack'], 6);
                 $besttime = str_replace(".", "秒", $besttime);
                 $timeAttackRankingResult[$key]['time_attack'] = $besttime;
+                if($value->user->id == $userId){
+                    $myRankingNumber = $key+1;
+                }
             }
 
 
             $assignData = [
+                'userId' => $userId,
+                'myRankingNumber' => $myRankingNumber,
                 'mybesttime' => $mybesttime,
                 'timeAttacks' => $timeAttackRankingResult,
             ];

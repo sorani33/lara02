@@ -75,16 +75,19 @@
                 {{ modalTitle }}
               </v-card-title>
               <v-card-text>
-              <div v-if="reportMode==1" class="body-1 mb-1">自己ベストスコア　{{ myscore }}点</div>
+              
+
+              <div v-if="reportMode==1" class="body-1 mb-1 ">自己ベストスコア　{{ myscore }}点</div>
               <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
               <br>
               <v-row v-if="reportMode==1" v-for="(rank, index) in ranking" :key="index">
-              {{ rank.user.class_id-1 }}
-              {{ className[0].shortName }}
-                <div class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
+                <div  v-if="userId !== rank.user.id" class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
+                <div  v-if="userId === rank.user.id"  class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
               </v-row>
+
               <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks" :key="index">
-                <div class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
+                <div v-if="userId !== rank.user.id" class="body-1 mb-1 ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
+                <div v-if="userId === rank.user.id" class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
               </v-row>
               </v-card-text>
 
@@ -148,7 +151,9 @@
       ],
       dialog: true, //ダイヤログはアクセス時に表示させる
       authUser: true,
-      
+      myRankingNumber : '',
+      userId: '',
+     
 
     }),
 
@@ -199,25 +204,19 @@
 
       axios.get('/api/report/'+ genreId).then((response) => {
 
-      if(this.reportMode == 1){
-        console.log("1");
-        this.myscore = response.data.myscore;
-        this.ranking = response.data.ranking;
-        console.log(response.data.ranking);
-      }
-      if(this.reportMode == 2){
-        console.log("2");
-        // console.log(response.data);
-        this.mybesttime = response.data.mybesttime;
-        this.timeAttacks = response.data.timeAttacks;
-      }
-      //   // 返り値のKeyを元にしてdata()を作成する
-      //   var array = response.data.examinationQuestions;
-      //   var obj = {};
-      //   for (var key in array) {
-      //     obj[key] = '';
-      //   }
-      //   this.$data.picked = obj; //dataに入れる。
+        this.myRankingNumber = response.data.myRankingNumber;
+        this.userId = response.data.userId;
+          console.log(this.myRankingNumber);
+        if(this.reportMode == 1){
+          console.log("1");
+          this.myscore = response.data.myscore;
+          this.ranking = response.data.ranking;
+        }
+        if(this.reportMode == 2){
+          console.log("2");
+          this.mybesttime = response.data.mybesttime;
+          this.timeAttacks = response.data.timeAttacks;
+        }
       })
     },
   }
