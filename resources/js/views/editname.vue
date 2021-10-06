@@ -10,18 +10,24 @@
     <v-main>
     <h1>プロフィール変更</h1>
       <v-container fluid>
-        <v-form v-on:submit.prevent="updateItem">
+        <v-form v-on:submit.prevent="updateItem" ref="test_form">
           <div v-show="" class="alert alert-danger">{{userdata}}</div>
           <div class="form-group">
-            <label>名前</label>
-            <input type="text" class="form-control" v-model="userdata.name" />
+        <v-text-field
+          v-model="userdata.name"
+          label="名前"
+          :rules="[required, limit_length]"
+          counter="20"
+        >
+        </v-text-field>
           </div>
           <div class="form-group">
-            <label>クラス</label>
      <v-select
       v-model="selectedClass"
+      label="クラスを選択してください"
       item-text="label"
-      item-value="value"
+      item-value=""
+      :rules="[required]"
       :items="classname"
       return-object
     />
@@ -65,8 +71,12 @@
         { label: '未所属' , value: '5'   },
       ],
 
+        drawer: true,
 
-        drawer: true
+    // 入力規則
+      value: '',
+      required: value => !!value || "必ず入力してください", // 入力必須の制約
+      limit_length: value => value.length <= 10 || "10文字以内で入力してください" // 文字数の制約
       }
     },
 
@@ -112,23 +122,27 @@
 
     updateItem: function () {
       let uri = "/api/mypage/edit/";
-
       let senddata = {
         // this.userdata,this.selectedClass
           userdata:this.userdata,
           selectedClass:this.selectedClass,
       };
 
-      axios.put(uri, senddata
-      ).then(() => {
-          console.log("おしたよ");
-        // this.$swal({
-        //   icon: "success",
-        //   text: "Updated Success!"
-        // });
-        // this.$router.push({ name: "home" });
-        window.location.href = '/mypage';
-      });
+      // バリデートに通ったらajax通信させる
+      if(this.$refs.test_form.validate()){
+            axios.put(uri, senddata
+            ).then(() => {
+                console.log("おしたよ");
+              // this.$swal({
+              //   icon: "success",
+              //   text: "Updated Success!"
+              // });
+
+              // this.$router.push({ name: "home" });
+              window.location.href = '/mypage';
+            });
+      }
+
     }
 
     }
