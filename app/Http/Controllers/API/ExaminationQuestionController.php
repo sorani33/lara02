@@ -138,12 +138,10 @@ class ExaminationQuestionController extends Controller
             }
         }
 
-        // dd($timeAttack);
         // ログイン状態時の処理。DBに保存する
         if(isset($userId)){
             $user = ExaminationResult::create([
             'user_id' => Auth::id(),
-            // 'user_id' => 1,
             'genre_id' => $request->param['genre_id'],
             'sub_genre_id' => $request->param['sub_genre_id'],
             'gamemode' => $request->param['gamemode'],

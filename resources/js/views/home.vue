@@ -46,8 +46,6 @@ export default {
         2:"世界史2　中東【2019版】",
         3:"世界史3　インド【2019版】",
         901:"例題",
-        // 5:"世界史4　中国【2019版】",
-        // 6:"世界史5　大航海【2019版】",
       },
       link: false,
       subGenreDatas:[],
@@ -64,26 +62,11 @@ export default {
      */
     getGenreDatas: function () {
       const questionId = this.$route.params.id; //routerからパラメータidを取得する。
-	  console.log("例題");
-      // axios.get('/api/examinationquestions/'+ questionId
-      // ).then((response) => {
-
       axios.get('/api/home')
-	  .then((response) => {
+  	  .then((response) => {
         this.subGenreDatas = response.data.subGenreDatas;
-
-        // 返り値のKeyを元にしてdata()を作成する
-        // var array = response.data.subGenreData;
-        // var obj = {};
-        // for (var key in array) {
-        //   obj[key] = '';
-        // }
-        // this.$data.picked = obj; //dataに入れる。
       })
     },
   }
-
-
-
 }
 </script>

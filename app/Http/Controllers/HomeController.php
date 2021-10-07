@@ -23,8 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // dd('home');
-        // dd(seederByXlsx('ExaminationQuestion','examination_questions'));
         return view('home');
     }
 }

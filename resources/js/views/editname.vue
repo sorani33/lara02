@@ -54,37 +54,22 @@
       return {
         examinationQuestions:[],
         userdata: {},
-        // items:{
-        //   1:"あお",
-        //   2:"いい",
-        //   3:"うう",
-        //   4:"ええ",
-        // },
-        // items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-      // selectedClass: { label: 'アリスカーナ'   , value: '3'  },
         selectedClass:{ },
-      classname: [
-        { label: 'ラグナリオ'   , value: '1'  },
-        { label: 'ウォルクス' , value: '2'    },
-        { label: 'アリスカーナ' , value: '3'   },
-        { label: 'フラーシア' , value: '4'   },
-        { label: '未所属' , value: '5'   },
-      ],
-
+        classname: [
+          { label: 'ラグナリオ'   , value: '1'  },
+          { label: 'ウォルクス' , value: '2'    },
+          { label: 'アリスカーナ' , value: '3'   },
+          { label: 'フラーシア' , value: '4'   },
+          { label: '未所属' , value: '5'   },
+        ],
         drawer: true,
-
-    // 入力規則
-      value: '',
-      required: value => !!value || "必ず入力してください", // 入力必須の制約
-      limit_length: value => value.length <= 10 || "10文字以内で入力してください" // 文字数の制約
+        value: '',
+        required: value => !!value || "必ず入力してください", // 入力必須の制約
+        limit_length: value => value.length <= 10 || "10文字以内で入力してください" // 文字数の制約
       }
     },
 
     created: function () {
-      // this.getUserDatas();
-      // console.log(this.userdata);
-
-
         axios.get('/api/mypage/edit'
         ).then((response) => {
           this.userdata = response.data.userdata;
@@ -99,14 +84,8 @@
           // this.$set(this.selectedClass, 'label', 'フラーシア')
           // this.$set(this.selectedClass, 'value', '4')
 
-          // console.log('さいしょ');
-          console.log(this.selectedClass);
-          // console.log(this.classname[response.data.userdata.class_id-1].label);
-          // console.log(response.data.userdata.class_id);
-
         })
 
-// console.log('まつび');
     },
 
     methods: {
@@ -123,24 +102,15 @@
     updateItem: function () {
       let uri = "/api/mypage/edit/";
       let senddata = {
-        // this.userdata,this.selectedClass
-          userdata:this.userdata,
-          selectedClass:this.selectedClass,
+        userdata:this.userdata,
+        selectedClass:this.selectedClass,
       };
 
-      // バリデートに通ったらajax通信させる
       if(this.$refs.test_form.validate()){
-            axios.put(uri, senddata
-            ).then(() => {
-                console.log("おしたよ");
-              // this.$swal({
-              //   icon: "success",
-              //   text: "Updated Success!"
-              // });
-
-              // this.$router.push({ name: "home" });
-              window.location.href = '/mypage';
-            });
+        axios.put(uri, senddata
+        ).then(() => {
+          window.location.href = '/mypage';
+        });
       }
 
     }

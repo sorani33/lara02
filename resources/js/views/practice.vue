@@ -5,7 +5,6 @@
     <v-container>
     <div v-if="answeresult">
         <v-card-title center>採点結果は<span class="red--text .font-weight-bold">{{ score.toFixed() }}点</span>でした！</v-card-title>
-    　　<!--{{ correctAnswerCount }} / {{ examinationCount }}<br>-->
     </div>
 
       <v-row v-for="(examinationQuestion, index, count) in examinationQuestions" :key="index">
@@ -23,7 +22,6 @@
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
                   <v-flex xs12 sm6 md3 v-for="(answer, questionindex, indexData) in examinationQuestion.question" :key="indexData">
-                  <!-- <v-btn class="mx-4 mb-6 text-caption" v-model="picked" v-bind:value="answer">{{answer}}{{index}}</v-btn> -->
                    <input type="radio" v-bind:value="answer" v-model="picked[index]" :id="examinationQuestion.subject + questionindex" /><label :for="examinationQuestion.subject + questionindex">{{answer}}</label>
                   </v-flex>
                   <div v-if="answeresult">
