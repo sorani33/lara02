@@ -84,6 +84,7 @@ class ExaminationQuestionController extends Controller
         // 問題数を取得する
         $examinationCount = count($request->param['sub_genre_id']);
 
+        $subGenreData = SubGenre::where('id',$request->param['questionId'])->first();
         // 採点をする
         $examinationQuestions = ExaminationQuestion::get()->toArray();
 
@@ -108,15 +109,15 @@ class ExaminationQuestionController extends Controller
                 $inCorrectAnswerLists[$inputKey]['correctAnswer'] = config('common.correct_answer.incorrect.value');
             }
         }
-        // 点数を出す
-        $score = $correctAnswerCount /$examinationCount * 100 ;
-
+        // 点数を計算して四捨五入する
+        $scoreDetailed = $correctAnswerCount /$examinationCount * 100 ;
+        $score = round($scoreDetailed);
 
         // タイムアタックモードの場合の処理
         if($request->param['gamemode'] == config('common.gamemode.time_attack.value')){
             $bestTimeFlag = config('common.examination_result.best_time_flag.off.value');
-            $timeAttack = $request->param['timeAttack']; //"49.880"
-
+            // $timeAttack = $request->param['timeAttack']; //"49.880"
+            $timeAttack = Carbon::parse($request->param['timeAttack'])->format('s.v');
             //ログイン状態で満点の時の処理。 個人ベストタイムを取得する。
             if($score == 100 && isset($userId)){
                 $examinationResult = ExaminationResult::where('user_id', $userId)->where('best_time_flag', 1)->first();
@@ -128,7 +129,7 @@ class ExaminationQuestionController extends Controller
                 if(isset($examinationResult)){
                     $timeAttackInDatabase = $examinationResult->time_attack; //00:00:04.591
                     $databaseTime = Carbon::parse($timeAttackInDatabase)->format('s.v');
-                    $requestTime = Carbon::parse($request->param['timeAttack'])->format('s.v');                    
+                    $requestTime = Carbon::parse($request->param['timeAttack'])->format('s.v');
                     if($databaseTime > $requestTime){
                         $bestTimeFlag = config('common.examination_result.best_time_flag.on.value');
                         $examinationResult->update(['best_time_flag' => 0]);
@@ -137,7 +138,7 @@ class ExaminationQuestionController extends Controller
             }
         }
 
-
+        // dd($timeAttack);
         // ログイン状態時の処理。DBに保存する
         if(isset($userId)){
             $user = ExaminationResult::create([
@@ -157,6 +158,7 @@ class ExaminationQuestionController extends Controller
         // 満点フラグ
         $manten = $examinationCount == $correctAnswerCount  ? true : false;
         $assignData = [
+            'subGenreName' => $subGenreData->name, //ジャンル名
             'examinationCount' => $examinationCount, //問題数
             'correctAnswerCount' => $correctAnswerCount, //正解数
             'manten' => $manten, //正解数

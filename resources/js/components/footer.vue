@@ -3,7 +3,7 @@
 		<v-bottom-navigation app color="teal" grow>
 			<v-btn :to="{ name: 'home' }">
 				<span>PLAY</span>
-				<v-icon>mdi-controller-classic-outline</v-icon>
+				<v-icon>mdi-home</v-icon>
 			</v-btn>
 
 			<v-btn :to="{ name: 'report' }" >

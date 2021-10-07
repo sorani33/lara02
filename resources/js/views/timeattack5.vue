@@ -75,8 +75,8 @@
     <div v-if="answeresult">
     <br>
       <v-btn color="primary" v-on:click.native="resetReserve">もういちど</v-btn>
-      <v-btn color="primary" href="http://local.lara02.com/">トップに戻る</v-btn>
-      <v-btn color="primary" href="https://twitter.com/share?url=http://local.lara02.com&text=【練習問題】youtube大学で80点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa">結果をツイートする</v-btn>
+      <v-btn color="primary" href="https://yu-learning.herokuapp.com//">トップに戻る</v-btn>
+      <v-btn color="primary" v-bind:href="'https://twitter.com/share?url=https://yu-learning.herokuapp.com/&text=【練習問題】youtube大学の、' + subGenreName + 'で' + score + '点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa'">結果をツイートする</v-btn>
     </div>
     <br>
     <div v-if="postReserveButton">
@@ -148,6 +148,7 @@ export default {
       accum : 0, // 累積時間(stopしたとき用)
 
       postReserveButton: false, //採点するボタンのちらつきをなおす
+      subGenreName: '', //ドロワー用途
 
       picked:{},
     }
@@ -243,11 +244,13 @@ export default {
      * 予約情報保存
      */
     postReserve:  function () {
+      var questionId = this.$route.params.id; //routerからパラメータidを取得する。
       var sub_genre_id = this.$data.picked;
       var gamemode = this.$data.gamemode;
       this.stopTimer();
         var sendApiParameters = {
           param:{
+            questionId:questionId,
             genre_id:1,
             sub_genre_id:sub_genre_id,
             gamemode:gamemode,
@@ -261,6 +264,7 @@ export default {
           this.score = response.data.score;
           this.correctAnswerCount = response.data.correctAnswerCount;
           this.examinationCount = response.data.examinationCount;
+          this.subGenreName = response.data.subGenreName;
           this.moveToTop();
         })
     },
