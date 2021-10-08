@@ -17,6 +17,7 @@ class CreateExaminationResults extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->comment('ユーザID');
             $table->integer('genre_id')->comment('ジャンルID');
+            $table->integer('sub_genre_id')->comment('ジャンルID');
             $table->integer('gamemode')->comment('モード（１：練習問題、２：５問タイムアタック）');
             $table->integer('number_questions')->comment('問題数');
             $table->integer('number_correct_answers')->comment('正解数');

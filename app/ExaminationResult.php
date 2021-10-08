@@ -13,6 +13,7 @@ class ExaminationResult extends Model
     protected $fillable = [
         'user_id',
         'genre_id',
+        'sub_genre_id',
         'gamemode',
         'number_questions',
         'number_correct_answers',

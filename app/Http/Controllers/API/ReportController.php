@@ -30,7 +30,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($genreId)
+    public function index($subGenreId)
     {
         ##############################
         ### 総合スコア・月間スコア
@@ -41,7 +41,7 @@ class ReportController extends Controller
         ->select('user_id', DB::raw('SUM(number_correct_answers) as number_correct_answers'));
 
         // 総合スコアを取得する。
-        if($genreId == config('common.genre_id.total_score.value')){
+        if($subGenreId == config('common.genre_id.total_score.value')){
             $examinationResultSum = $examinationResult->sum("number_correct_answers");
             $examinationResults = $baseExaminationResults->orderBy('number_correct_answers', 'desc')->limit(config('common.examination_ranking_result.count.value'))->get();
 
@@ -62,7 +62,7 @@ class ReportController extends Controller
         }
 
         // 月間スコアを取得する。
-        if($genreId == config('common.genre_id.month_score.value')){
+        if($subGenreId == config('common.genre_id.month_score.value')){
             $from = Carbon::now()->startOfMonth()->toDateString(); //月初日
             $to = Carbon::now()->endOfMonth()->toDateString(); //月末日
             $examinationResultMonthSum = $examinationResult->whereBetween('created_at', [$from, $to])->sum("number_correct_answers");
@@ -90,22 +90,19 @@ class ReportController extends Controller
         ### タイムアタック
         ##############################
         // 個人のタイムアタックを取得する
-        if($genreId != config('common.genre_id.total_score.value') && $genreId != config('common.genre_id.month_score.value')){        
-            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $genreId)->where('best_time_flag', 1)->first();
-            // 他の人のランキングを作る。（同列未考慮）
-            $timeAttackRankingResult = ExaminationResult::where('genre_id', $genreId)
-            ->where('best_time_flag', 1)
-            ->select('user_id','time_attack')->orderBy('number_correct_answers', 'desc')->limit(config('common.examination_ranking_result.count.value'))->get();
-            // 文字列の調整
-            $mybesttime = substr($timeAttackResult['time_attack'], 6);
-            $mybesttime = str_replace(".", "秒", $mybesttime);
+        if($subGenreId != config('common.genre_id.total_score.value') && $subGenreId != config('common.genre_id.month_score.value')){        
+            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $subGenreId)->where('best_time_flag', 1)->first();
 
+            // 他の人のランキングを作る。（同列未考慮）
+            $timeAttackRankingResult = ExaminationResult::where('sub_genre_id', $subGenreId)
+            ->where('best_time_flag', 1)
+            ->select('user_id','time_attack')->orderBy('time_attack', 'asc')->limit(config('common.examination_ranking_result.count.value'))->get();
+
+            $mybesttime = $timeAttackResult['time_attack'];
             $myRankingNumber = null;
             foreach($timeAttackRankingResult as $key => $value){
                 $timeAttackRankingResult[$key]['user_name'] = $value->user->name;
-                $besttime = substr($value ['time_attack'], 6);
-                $besttime = str_replace(".", "秒", $besttime);
-                $timeAttackRankingResult[$key]['time_attack'] = $besttime;
+                $timeAttackRankingResult[$key]['time_attack'] =  $value ['time_attack'];
                 if($value->user->id == $userId){
                     $myRankingNumber = $key+1;
                 }
@@ -118,7 +115,6 @@ class ReportController extends Controller
                 'timeAttacks' => $timeAttackRankingResult,
             ];
         }
-        // dd($timeAttackRankingResult);
 
         return response()->json($assignData);
     }

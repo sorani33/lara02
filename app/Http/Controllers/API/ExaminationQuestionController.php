@@ -144,7 +144,7 @@ class ExaminationQuestionController extends Controller
             $user = ExaminationResult::create([
             'user_id' => Auth::id(),
             'genre_id' => $request->param['genre_id'],
-            'sub_genre_id' => $request->param['sub_genre_id'],
+            'sub_genre_id' => $request->param['questionId'],
             'gamemode' => $request->param['gamemode'],
             'number_questions' => $examinationCount, //問題数
             'number_correct_answers' => $correctAnswerCount, //正解数

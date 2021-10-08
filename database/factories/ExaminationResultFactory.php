@@ -10,6 +10,7 @@ $factory->define(App\ExaminationResult::class, function (Faker $faker) {
         //
         'user_id' => $faker->numberBetween($min = 1, $max = 4),
         'genre_id' => $faker->numberBetween($min = 1, $max = 3),
+        'sub_genre_id' => $faker->numberBetween($min = 1, $max = 3),
         'gamemode' => $faker->numberBetween($min = 1, $max = 2),
         'number_questions' => 3,
         'number_correct_answers' => $faker->numberBetween($min = 1, $max = 3),
