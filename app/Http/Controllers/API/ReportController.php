@@ -98,7 +98,8 @@ class ReportController extends Controller
             ->where('best_time_flag', 1)
             ->select('user_id','time_attack')->orderBy('time_attack', 'asc')->limit(config('common.examination_ranking_result.count.value'))->get();
 
-            $mybesttime = $timeAttackResult['time_attack'];
+            $mybesttime = $timeAttackResult['time_attack'] ?? null;
+
             $myRankingNumber = null;
             foreach($timeAttackRankingResult as $key => $value){
                 $timeAttackRankingResult[$key]['user_name'] = $value->user->name;
