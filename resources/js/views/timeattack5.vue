@@ -51,13 +51,13 @@
                     <div v-else-if="examinationQuestion.correctAnswer == 2">
                     <img src="/images/batsu.png" width="20">
                       残念。未回答でしたが<span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
-                      授業の復習はこちらから→<v-btn small color="success" href="http://local.lara02.com/">授業を復習する</v-btn>
+                      授業の復習はこちらから→<v-btn small color="success" :href="examinationQuestion.url" target="_blank" rel="noopener noreferrer">授業を復習する</v-btn>
                     </div>
                     <div v-else-if="examinationQuestion.correctAnswer == 3">
                     <img src="/images/batsu.png" width="20">
                       残念。<span class="red--text">{{ examinationQuestion.inCorrectAnswer }}</span>ではなく
                       <span class="red--text">正解は「{{ examinationQuestion.answer }}」でした。</span><br>
-                      授業の復習はこちらから→<v-btn color="primary" href="http://local.lara02.com/">授業を復習する</v-btn>
+                      授業の復習はこちらから→<v-btn small color="success" :href="examinationQuestion.url" target="_blank" rel="noopener noreferrer">授業を復習する</v-btn>
                     </div>
                   </div>
                 </v-layout>
