@@ -73,21 +73,19 @@
               <v-card-title class="text-h5 grey lighten-2">
                 {{ modalTitle }}
               </v-card-title>
-              <v-card-text>
-              
+              <v-card-text >
+                <div v-if="reportMode==1" class="body-1 mb-1 ">自己ベストスコア　{{ myscore }}点</div>
+                <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
+                <br>
+                <v-row v-if="reportMode==1" v-for="(rank, index) in ranking" :key="index">
+                  <div v-if="userId !== rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
+                  <div v-if="userId === rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
+                </v-row>
 
-              <div v-if="reportMode==1" class="body-1 mb-1 ">自己ベストスコア　{{ myscore }}点</div>
-              <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
-              <br>
-              <v-row v-if="reportMode==1" v-for="(rank, index) in ranking" :key="index">
-                <div v-if="userId !== rank.user.id" class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
-                <div v-if="userId === rank.user.id"  class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
-              </v-row>
-
-              <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks" :key="index">
-                <div v-if="userId !== rank.user.id" class="body-1 mb-1 ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
-                <div v-if="userId === rank.user.id" class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
-              </v-row>
+                <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks" :key="index">
+                  <div v-if="userId !== rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
+                  <div v-if="userId === rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
+                </v-row>
               </v-card-text>
 
               <v-divider></v-divider>

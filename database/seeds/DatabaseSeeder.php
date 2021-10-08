@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         // xlsx管理ここまで
 
         // テストデータここから
-        // $this->call(Userseeder::class);
-        // $this->call(ExaminationResultseeder::class);
+        $this->call(Userseeder::class);
+        $this->call(ExaminationResultseeder::class);
         // $this->call(Titleseeder::class);
         // $this->call(UserTitleseeder::class);
         // テストデータここまで

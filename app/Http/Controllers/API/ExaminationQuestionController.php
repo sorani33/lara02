@@ -116,10 +116,11 @@ class ExaminationQuestionController extends Controller
         // タイムアタックモードの場合の処理
         if($request->param['gamemode'] == config('common.gamemode.time_attack.value')){
             $bestTimeFlag = config('common.examination_result.best_time_flag.off.value');
-            // $timeAttack = $request->param['timeAttack']; //"49.880"
-            $timeAttack = Carbon::parse($request->param['timeAttack'])->format('s.v');
+            // $timeAttack = Carbon::parse($request->param['timeAttack'])->format('s.v');
+            // $timeAttack = Carbon::parse($request->param['timeAttack']);
             //ログイン状態で満点の時の処理。 個人ベストタイムを取得する。
             if($score == 100 && isset($userId)){
+                $timeAttack = $request->param['timeAttack']; //"49.880"
                 $examinationResult = ExaminationResult::where('user_id', $userId)->where('best_time_flag', 1)->first();
                 //DBにデータがない時は、ベストタイム扱いにする。
                 if(!isset($examinationResult)){
@@ -127,10 +128,10 @@ class ExaminationQuestionController extends Controller
                 }
                 // DBにデータがありタイムを更新している時は、ベストタイム扱いにして旧データのフラグを下げる。
                 if(isset($examinationResult)){
-                    $timeAttackInDatabase = $examinationResult->time_attack; //00:00:04.591
-                    $databaseTime = Carbon::parse($timeAttackInDatabase)->format('s.v');
-                    $requestTime = Carbon::parse($request->param['timeAttack'])->format('s.v');
-                    if($databaseTime > $requestTime){
+                    $timeAttackInDatabase = $examinationResult->time_attack; //2.39
+                    // $databaseTime = Carbon::parse($timeAttackInDatabase)->format('s.v');
+                    // $requestTime = Carbon::parse($request->param['timeAttack'])->format('s.v');
+                    if($timeAttackInDatabase > $timeAttack){
                         $bestTimeFlag = config('common.examination_result.best_time_flag.on.value');
                         $examinationResult->update(['best_time_flag' => 0]);
                     }    

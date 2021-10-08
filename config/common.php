@@ -9,7 +9,7 @@ return [
         ],
     ],
     # 成績表のランキング表示数
-    'examination_result' => [
+    'examination_ranking_result' => [
         'count'    => [
             'label' => 'ランキングの表示数',
             'value' => 3,
