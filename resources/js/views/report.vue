@@ -180,7 +180,6 @@
      this.reportMode = parameter.reportMode;
      this.getReportDatas();
      this.modalTitle = parameter.titleText;
-     this.isOpen = true
     },
 
 
@@ -198,11 +197,13 @@
         if(this.reportMode == 1){
           this.myscore = response.data.myscore;
           this.ranking = response.data.ranking;
+
         }
         if(this.reportMode == 2){
           this.mybesttime = response.data.mybesttime;
           this.timeAttacks = response.data.timeAttacks;
         }
+        this.isOpen = true
       })
     },
   }
