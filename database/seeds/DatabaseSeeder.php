@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         // テストデータここから
         $this->call(Userseeder::class);
-        $this->call(ExaminationResultseeder::class);
+        // $this->call(ExaminationResultseeder::class); //herokuだとなぜかエラーになる
         // $this->call(Titleseeder::class);
         // $this->call(UserTitleseeder::class);
         // テストデータここまで

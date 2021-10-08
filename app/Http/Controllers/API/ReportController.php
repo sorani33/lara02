@@ -91,7 +91,7 @@ class ReportController extends Controller
         ##############################
         // 個人のタイムアタックを取得する
         if($subGenreId != config('common.genre_id.total_score.value') && $subGenreId != config('common.genre_id.month_score.value')){        
-            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('genre_id', $subGenreId)->where('best_time_flag', 1)->first();
+            $timeAttackResult = ExaminationResult::where('user_id', $userId)->where('sub_genre_id', $subGenreId)->where('best_time_flag', 1)->first();
 
             // 他の人のランキングを作る。（同列未考慮）
             $timeAttackRankingResult = ExaminationResult::where('sub_genre_id', $subGenreId)
