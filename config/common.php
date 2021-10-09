@@ -5,7 +5,7 @@ return [
     'examination_question' => [
         'count'    => [
             'label' => '問題数',
-            'value' => 5,
+            'value' => 2,
         ],
     ],
     # 成績表のランキング表示数
