@@ -55,6 +55,8 @@ class ExaminationQuestionController extends Controller
     public function show(Request $request)
     {
         $examinationQuestionsData = ExaminationQuestion::get()->where('sub_genre_id', $request->questionId); 
+
+        //タイムアタックは出題数を絞る
         if($request->gamemode == config('common.gamemode.time_attack.value')){
             $examinationQuestionsData = $examinationQuestionsData->random(config('common.examination_question.count.value')); 
         }
