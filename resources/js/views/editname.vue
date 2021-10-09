@@ -99,21 +99,21 @@
         })
       },
 
-    updateItem: function () {
-      let uri = "/api/mypage/edit/";
-      let senddata = {
-        userdata:this.userdata,
-        selectedClass:this.selectedClass,
-      };
+      updateItem: function () {
+        let uri = "/api/mypage/edit";
+        let senddata = {
+          userdata:this.userdata,
+          selectedClass:this.selectedClass,
+        };
 
-      if(this.$refs.test_form.validate()){
-        axios.put(uri, senddata
-        ).then(() => {
-          window.location.href = '/mypage';
-        });
+        if(this.$refs.test_form.validate()){
+          axios.put(uri, senddata
+          ).then(() => {
+            window.location.href = '/mypage';
+          });
+        }
+
       }
-
-    }
 
     }
   }

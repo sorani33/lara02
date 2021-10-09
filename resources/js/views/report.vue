@@ -83,8 +83,8 @@
                 </v-row>
 
                 <v-row v-if="reportMode==2" v-for="(rank, index) in timeAttacks" :key="index">
-                  <div v-if="userId !== rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
-                  <div v-if="userId === rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}</div>
+                  <div v-if="userId !== rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}秒</div>
+                  <div v-if="userId === rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1 red--text ">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.time_attack }}秒</div>
                 </v-row>
               </v-card-text>
 
