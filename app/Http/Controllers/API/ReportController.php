@@ -54,6 +54,7 @@ class ReportController extends Controller
                 }
             }
             $assignData = [
+                'reportMode' => 1,
                 'userId' => $userId,
                 'myRankingNumber' => $myRankingNumber,
                 'myscore' => $examinationResultSum,
@@ -78,6 +79,7 @@ class ReportController extends Controller
             }
 
             $assignData = [
+                'reportMode' => 1,
                 'userId' => $userId,
                 'myRankingNumber' => $myRankingNumber,
                 'myscore' => $examinationResultMonthSum,
@@ -108,14 +110,16 @@ class ReportController extends Controller
                     $myRankingNumber = $key+1;
                 }
             }
-
+            
             $assignData = [
+                'reportMode' => 2,
                 'userId' => $userId,
                 'myRankingNumber' => $myRankingNumber,
                 'mybesttime' => $mybesttime,
                 'timeAttacks' => $timeAttackRankingResult,
             ];
         }
+
 
         return response()->json($assignData);
     }

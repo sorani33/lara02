@@ -21,7 +21,7 @@
             <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="item.titleText"></v-list-item-title>
+            <v-list-item-title v-text="item.name"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -36,12 +36,12 @@
         </template>
 
         <v-list-item
-          v-for="(sekaishidata, i) in sekaishidatas"
+          v-for="(subGenreData, i) in subGenreDatas"
           :key="i"
-    		  @click="selectItem(sekaishidata)"
+    		  @click="selectItem(subGenreData)"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="sekaishidata.titleText"></v-list-item-title>
+            <v-list-item-title v-text="subGenreData.name"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -111,12 +111,12 @@
 
       selectedItem: 1,
       items: [
-        { genreId: 900, reportMode: 1, titleText: '総合スコア', icon: 'mdi-clock' },
-        { genreId: 950, reportMode: 1, titleText: '月間スコア', icon: 'mdi-account' },
+        { id: 900, reportMode: 1, name: '総合スコア', icon: 'mdi-clock' },
+        { id: 950, reportMode: 1, name: '月間スコア', icon: 'mdi-account' },
       ],
-      sekaishidatas: [
-        { genreId: 1, reportMode: 2, titleText: 'ヨーロッパ史', icon: 'mdi-clock' },
-        { genreId: 2, reportMode: 2, titleText: '中東史', icon: 'mdi-account' },
+      subGenreDatas: [
+        // { id: 1, reportMode: 2, titleText: 'ヨーロッパ史', icon: 'mdi-clock' },
+        // { id: 2, reportMode: 2, titleText: '中東史', icon: 'mdi-account' },
       ],
 
       item: '',
@@ -127,13 +127,13 @@
       reportMode: '',
       myscore:  '',
       ranking: [
-        { class: 1, user: { name: 'クラウド'}, number_correct_answers: 300 },
-        { class: 1, user: { name: 'ティファ'}, number_correct_answers: 220 },
+        // { class: 1, user: { name: 'クラウド'}, number_correct_answers: 300 },
+        // { class: 1, user: { name: 'ティファ'}, number_correct_answers: 220 },
       ],
       mybesttime: '09:77',
       timeAttacks: [
-        { class: 1, user: { name: 'クラウド'}, timeScore: '05:42' },
-        { class: 1, user: { name: 'ティファ'}, timeScore: '07:18' },
+        // { class: 1, user: { name: 'クラウド'}, timeScore: '05:42' },
+        // { class: 1, user: { name: 'ティファ'}, timeScore: '07:18' },
       ],
 
       className: [
@@ -166,6 +166,7 @@
     getCreateDatas: function () {
       axios.get('/api/home')
   	  .then((response) => {
+        this.subGenreDatas = response.data.subGenreDatas;
         if(!response.data.authUser){
           this.authUser = false;
         }
@@ -176,10 +177,13 @@
      * selectItem
      */
     selectItem(parameter) {
-     this.genreId = parameter.genreId;
-     this.reportMode = parameter.reportMode;
+     this.genreId = parameter.id;
+      
+    //  this.genreId = parameter.genreId;
+    //  this.reportMode = parameter.reportMode;
      this.getReportDatas();
-     this.modalTitle = parameter.titleText;
+console.log(parameter);
+     this.modalTitle = parameter.name;
     },
 
 
@@ -191,17 +195,18 @@
       const genreId = this.genreId; //routerからパラメータidを取得する。
 
       axios.get('/api/report/'+ genreId).then((response) => {
-
+        this.reportMode = response.data.reportMode;
         this.myRankingNumber = response.data.myRankingNumber;
         this.userId = response.data.userId;
         if(this.reportMode == 1){
           this.myscore = response.data.myscore;
           this.ranking = response.data.ranking;
-
+          // this.modalTitle = parameter.titleText;
         }
         if(this.reportMode == 2){
           this.mybesttime = response.data.mybesttime;
           this.timeAttacks = response.data.timeAttacks;
+          // this.modalTitle = this.subGenreDatas.name;
         }
         this.isOpen = true
       })
