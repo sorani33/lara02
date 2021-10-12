@@ -14,14 +14,14 @@ class DatabaseSeeder extends Seeder
         // php artisan db:seed
 
         // $this->call(UsersTableSeeder::class);
-        // xlsx管理ここから
+        // xlsx管理ここからtest
         $this->call(ExaminationQuestionseeder::class);
         $this->call(Genreseeder::class);
         $this->call(SubGenreseeder::class);
         // xlsx管理ここまで
 
         // テストデータここから
-        $this->call(Userseeder::class);
+        // $this->call(Userseeder::class);
         // $this->call(ExaminationResultseeder::class); //herokuだとなぜかエラーになる
         // $this->call(Titleseeder::class);
         // $this->call(UserTitleseeder::class);
