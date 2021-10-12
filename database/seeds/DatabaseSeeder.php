@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         // php artisan db:seed
 
         // $this->call(UsersTableSeeder::class);
-        // xlsx管理ここからtest
+        // xlsx管理ここから
         $this->call(ExaminationQuestionseeder::class);
         $this->call(Genreseeder::class);
         $this->call(SubGenreseeder::class);
