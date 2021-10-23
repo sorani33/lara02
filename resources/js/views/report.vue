@@ -119,6 +119,13 @@
         // { id: 2, reportMode: 2, titleText: '中東史', icon: 'mdi-account' },
       ],
 
+      genreDatas: [
+        // { id: 1, name: },
+        // { id: 1, name: },
+        // { id: 1, name: },
+      ],
+
+
       item: '',
       isOpen: false,
 
@@ -167,6 +174,7 @@
       axios.get('/api/home')
   	  .then((response) => {
         this.subGenreDatas = response.data.subGenreDatas;
+        this.genreDatas = response.data.genreDatas;
         if(!response.data.authUser){
           this.authUser = false;
         }

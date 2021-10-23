@@ -34,19 +34,6 @@ class ExaminationQuestionController extends Controller
         return view('home');
     }
 
-    /**
-     * ホーム画面
-     */
-    public function home(Request $request) 
-    {
-        $subGenreDatas = SubGenre::get(); 
-        $authUser = Auth::user(); 
-        $assignData = [
-            'subGenreDatas' => $subGenreDatas,
-            'authUser' => $authUser,
-        ];
-        return response()->json($assignData);
-    }
 
 
     /**

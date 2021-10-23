@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\ExaminationQuestion;
 use App\ExaminationResult;
 use App\Http\Controllers\Controller; //APIコントローラの時は、コレが要る
+use App\SubGenre;
+use App\Genre;
 
 use Carbon\Carbon;
 
@@ -23,6 +25,26 @@ class ReportController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
+    }
+
+
+
+    /**
+     * ホーム画面
+     */
+    public function home(Request $request) 
+    {
+        $genreDatas = Genre::get();
+        $genreWithSubgenreDatas = Genre::with('subgenres')->get();
+        $subGenreDatas = SubGenre::get(); 
+        $authUser = Auth::user();
+
+        $assignData = [
+            'genreDatas' => $genreDatas,
+            'subGenreDatas' => $subGenreDatas,
+            'authUser' => $authUser,
+        ];
+        return response()->json($assignData);
     }
 
     /**

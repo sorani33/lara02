@@ -14,13 +14,17 @@ class CreateSubGenresTable extends Migration
     public function up()
     {
         Schema::create('sub_genres', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->comment('サブジャンルID');
             $table->integer('genre_id')->comment('ジャンルID');
             $table->string('name', 100)->comment('名前');
             $table->string('url', 100)->comment('URL');
 			$table->softDeletes();
             $table->timestamps();
 
+            $table->foreign('genre_id')
+                    ->references('id')
+                    ->on('genres')
+                    ->onDelete('cascade');
         });
     }
 
