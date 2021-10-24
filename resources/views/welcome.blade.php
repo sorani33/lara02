@@ -73,13 +73,13 @@
     </head>
 
     <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow-sm position: fixed ;">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                youtube大学の問題を解くやつ
+            <div class="container ">
+                <a class="navbar-brand col-xs-6" href="{{ url('/') }}">
+                youtube大学概論
                 </a>
 
                 @auth
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown col-xs-6">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         
                         【{{ config('common.class_name.' .Auth::user()->class_id. '.label') }}】{{ Auth::user()->name }} <span class="caret"></span>

@@ -34,14 +34,11 @@ class ReportController extends Controller
      */
     public function home(Request $request) 
     {
-        $genreDatas = Genre::get();
-        $genreWithSubgenreDatas = Genre::with('subgenres')->get();
-        $subGenreDatas = SubGenre::get(); 
+        $genreWithSubgenreDatas = Genre::with('subgenres')->orderBy('id', 'asc')->get();
         $authUser = Auth::user();
 
         $assignData = [
-            'genreDatas' => $genreDatas,
-            'subGenreDatas' => $subGenreDatas,
+            'genreWithSubgenreDatas' => $genreWithSubgenreDatas,
             'authUser' => $authUser,
         ];
         return response()->json($assignData);

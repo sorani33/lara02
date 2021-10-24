@@ -23,7 +23,6 @@
 
     <!-- メイン -->
     <v-main>
-    <h1>マイページ画面</h1>
       <v-container fluid>
         <v-form>
           <v-btn color="success" to="/mypage/editname">

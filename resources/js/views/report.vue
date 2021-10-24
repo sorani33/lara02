@@ -5,8 +5,9 @@
 
   <v-card class="mx-auto"  tile>
     <v-list flat>
-      <h3>成績板</h3>
+<!--Comment
 		<v-alert type="info" color="green">最近〇〇の記録が更新されました！</v-alert>
+ -->
     <br>
       <v-list-item-group
         v-model="selectedItem"
@@ -26,25 +27,32 @@
         </v-list-item>
       </v-list-item-group>
 
-
+<!--Comment
       <v-list-group
         :value="true"
-        prepend-icon="mdi-account-circle"
+        prepend-icon=""
       >
-        <template v-slot:activator>
-          <v-list-item-title>世界史2019</v-list-item-title>
-        </template>
+ -->
+        <div v-for="(genreWithSubgenreData, ii) in genreWithSubgenreDatas">
+<!--Comment
+          <template>
+            <v-list-item-title><b>【{{genreWithSubgenreData.name}}】</b></v-list-item-title>
+          </template>
+ -->
+          <v-list-item
+            v-for="(subGenreData, i) in genreWithSubgenreData.subgenres"
+            :key="i"
+            @click="selectItem(subGenreData)"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="subGenreData.name"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </div>
 
-        <v-list-item
-          v-for="(subGenreData, i) in subGenreDatas"
-          :key="i"
-    		  @click="selectItem(subGenreData)"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="subGenreData.name"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+<!--Comment
       </v-list-group>
+ -->
 
       <v-app id="app">
 
@@ -75,7 +83,7 @@
               </v-card-title>
               <v-card-text >
                 <div v-if="reportMode==1" class="body-1 mb-1 ">自己ベストスコア　{{ myscore }}点</div>
-                <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}</div>
+                <div v-if="reportMode==2" class="body-1 mb-1">自己ベストタイムアタック　{{ mybesttime }}秒</div>
                 <br>
                 <v-row v-if="reportMode==1" v-for="(rank, index) in ranking" :key="index">
                   <div v-if="userId !== rank.user.id && className[rank.user.class_id-1]" class="body-1 mb-1">{{ index+1 }}位　{{ className[rank.user.class_id-1].shortName }}{{ rank.user.name }} {{ rank.number_correct_answers }}点</div>
@@ -111,20 +119,10 @@
 
       selectedItem: 1,
       items: [
-        { id: 900, reportMode: 1, name: '総合スコア', icon: 'mdi-clock' },
-        { id: 950, reportMode: 1, name: '月間スコア', icon: 'mdi-account' },
+        { id: 900, reportMode: 1, name: '総合スコア', icon: '' },
+        { id: 950, reportMode: 1, name: '月間スコア', icon: '' },
       ],
-      subGenreDatas: [
-        // { id: 1, reportMode: 2, titleText: 'ヨーロッパ史', icon: 'mdi-clock' },
-        // { id: 2, reportMode: 2, titleText: '中東史', icon: 'mdi-account' },
-      ],
-
-      genreDatas: [
-        // { id: 1, name: },
-        // { id: 1, name: },
-        // { id: 1, name: },
-      ],
-
+      genreWithSubgenreDatas: [],
 
       item: '',
       isOpen: false,
@@ -133,15 +131,9 @@
       genreId: '',
       reportMode: '',
       myscore:  '',
-      ranking: [
-        // { class: 1, user: { name: 'クラウド'}, number_correct_answers: 300 },
-        // { class: 1, user: { name: 'ティファ'}, number_correct_answers: 220 },
-      ],
+      ranking: [],
       mybesttime: '09:77',
-      timeAttacks: [
-        // { class: 1, user: { name: 'クラウド'}, timeScore: '05:42' },
-        // { class: 1, user: { name: 'ティファ'}, timeScore: '07:18' },
-      ],
+      timeAttacks: [],
 
       className: [
         { id: 1, name: 'ラグナリオ', shortName: '【R】'},
@@ -173,8 +165,7 @@
     getCreateDatas: function () {
       axios.get('/api/home')
   	  .then((response) => {
-        this.subGenreDatas = response.data.subGenreDatas;
-        this.genreDatas = response.data.genreDatas;
+        this.genreWithSubgenreDatas = response.data.genreWithSubgenreDatas;
         if(!response.data.authUser){
           this.authUser = false;
         }
