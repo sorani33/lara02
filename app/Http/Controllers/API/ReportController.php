@@ -34,7 +34,12 @@ class ReportController extends Controller
      */
     public function home(Request $request) 
     {
-        $genreWithSubgenreDatas = Genre::with('subgenres')->orderBy('id', 'asc')->get();
+        if(config('app.env') =='local'){
+            $genreWithSubgenreDatas = Genre::with('subgenres')->orderBy('id', 'asc')->get();
+        } else {
+            $genreWithSubgenreDatas = Genre::with('subgenres')->where('id','!=','901')->orderBy('id', 'asc')->get();
+        }
+
         $authUser = Auth::user();
 
         $assignData = [
