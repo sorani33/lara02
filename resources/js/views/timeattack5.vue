@@ -2,11 +2,10 @@
 
   <v-app>
     <v-container>
+        タイムは<span class="red--text .font-weight-bold">{{interval.toFixed(2)}}</span> <!-- 小数2桁まで表示 -->
     <div v-if="answeresult">
-        採点結果は<span class="red--text .font-weight-bold">{{ score.toFixed() }}点</span>
-    　　{{ correctAnswerCount }} / {{ examinationCount }}<br>
+        採点結果は<span class="red--text .font-weight-bold">{{ score.toFixed() }}点でした！</span>
     </div>
-        タイムは<span class="red--text .font-weight-bold">{{interval.toFixed(2)}}</span>でした！ <!-- 小数2桁まで表示 -->
 
 
 
@@ -37,7 +36,7 @@
             <input type="hidden" name="no" :value="index" />
             </v-card-text>
             <v-divider></v-divider>
-            <v-card-actions>
+            <v-card-text>
               <v-btn-toggle borderless class="text--primary">
                 <v-layout wrap >
                   <v-flex xs12 sm6 md3 v-for="(answer, questionindex) in examinationQuestion.question" :key="questionindex">
@@ -62,7 +61,7 @@
                   </div>
                 </v-layout>
               </v-btn-toggle>
-            </v-card-actions>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
