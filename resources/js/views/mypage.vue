@@ -6,9 +6,7 @@
               マイページでは、名前やクラスの変更等ができます。
             </v-card-title>
             <v-card-text>こちらの画面を表示するにはログインが必要です</v-card-text>
-            <v-btn href="/login" icon small>ログイン</v-btn><br>
             <v-btn href="/login/twitter" icon small>twitter login</v-btn><br>
-            <v-btn href="/register" icon small>会員登録</v-btn><br>
             <v-btn href="/" icon small>ホームに戻る</v-btn>
             <v-card-actions>
               <v-spacer></v-spacer>

@@ -17,7 +17,7 @@
           v-model="userdata.name"
           label="名前"
           :rules="[required, limit_length]"
-          counter="20"
+          counter="30"
         >
         </v-text-field>
           </div>
@@ -65,7 +65,7 @@
         drawer: true,
         value: '',
         required: value => !!value || "必ず入力してください", // 入力必須の制約
-        limit_length: value => value.length <= 20 || "20文字以内で入力してください" // 文字数の制約
+        limit_length: value => value.length <= 30 || "30文字以内で入力してください" // 文字数の制約
       }
     },
 
