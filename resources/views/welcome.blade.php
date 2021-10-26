@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>youtube大学の問題を解くやつ</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@
     <nav class="fixed-top navbar navbar-expand-md navbar-light bg-white shadow-sm position: fixed ;">
             <div class="container ">
                 <a class="navbar-brand col-xs-6" href="{{ url('/') }}">
-                youtube大学概論
+                {{ config('app.name', 'Laravel') }}
                 </a>
 
                 @auth

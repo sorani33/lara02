@@ -15,7 +15,6 @@ class CreateGenresTable extends Migration
     {
         Schema::create('genres', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('ジャンルID');
-            $table->integer('sub_genre_id')->comment('サブジャンルID');
             $table->string('name', 100)->comment('名前');
 			$table->softDeletes();
             $table->timestamps();
