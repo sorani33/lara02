@@ -3,6 +3,9 @@
   <v-app>
 
     <v-container>
+		<div v-if = "authUser == false">
+			<v-card-title center><span class="red--text .font-weight-bold text-caption">※未ログイン状態か認証切れの状態です。<br>ログインしていた場合は、再ログインし直してください。</span></v-card-title>
+		</div>
     <div v-if="answeresult">
         <v-card-title center>採点結果は<span class="red--text .font-weight-bold">{{ score.toFixed() }}点</span>でした！</v-card-title>
     </div>
@@ -116,6 +119,7 @@ export default {
       answeresult: false, //結果表示
       postReserveButton: false, //採点するボタンのちらつきをなおす
       subGenreName: '', //ドロワー用途
+      authUser: true,
 
       picked:{},
     }
@@ -151,6 +155,11 @@ export default {
           obj[key] = '';
         }
         this.$data.picked = obj; //dataに入れる。
+
+    		if(!response.data.authUser){
+          this.authUser = false;
+        }
+
       })
     },
 

@@ -51,6 +51,8 @@ export default {
       },
       link: false,
       genreWithSubgenreDatas:[],
+      authUser: false,
+
     }
   },
   created: function () {
@@ -67,6 +69,10 @@ export default {
       axios.get('/api/home')
   	  .then((response) => {
         this.genreWithSubgenreDatas = response.data.genreWithSubgenreDatas;
+		if(response.data.authUser){
+          this.authUser = true;
+        }
+
       })
     },
   }

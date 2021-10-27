@@ -55,10 +55,12 @@ class ExaminationQuestionController extends Controller
             shuffle($examinationQuestions[$examinationQuestion->id]['question']);
             $examinationQuestions[$examinationQuestion->id]['created_at'] = $examinationQuestion->created_at;
         }
+        $authUser = Auth::user();
 
         $assignData = [
             'examinationQuestions' => $examinationQuestions,
             'sub_genre_id' => $request->questionId,
+            'authUser' => $authUser,
         ];
         return response()->json($assignData);
     }

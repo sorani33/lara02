@@ -179,7 +179,6 @@
     //  this.genreId = parameter.genreId;
     //  this.reportMode = parameter.reportMode;
      this.getReportDatas();
-console.log(parameter);
      this.modalTitle = parameter.name;
     },
 
