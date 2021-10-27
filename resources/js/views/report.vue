@@ -59,7 +59,11 @@
         <v-dialog v-if = "authUser == false" v-model="dialog" persistent max-width="290" overlay-opacity="100" >
           <v-card>
             <v-card-title class="text-h5">
-              成績版では、自分のスコアとベストタイム、上位3名のランキングが確認できます。
+              成績板では、<br>
+              自分のスコアと<br>
+              タイムアタック記録、<br>
+              上位3名のランキング<br>
+              が確認できます。
             </v-card-title>
             <v-card-text>こちらの画面を表示するにはログインが必要です</v-card-text>
             <v-btn href="/login/twitter" icon small>twitter login</v-btn><br>

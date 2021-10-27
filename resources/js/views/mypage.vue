@@ -3,7 +3,7 @@
         <v-dialog v-if = "authUser == false" v-model="dialog" persistent max-width="290" overlay-opacity="100" >
           <v-card>
             <v-card-title class="text-h5">
-              マイページでは、名前やクラスの変更等ができます。
+              マイページでは、<br>名前やクラスの変更等ができます。
             </v-card-title>
             <v-card-text>こちらの画面を表示するにはログインが必要です</v-card-text>
             <v-btn href="/login/twitter" icon small>twitter login</v-btn><br>
