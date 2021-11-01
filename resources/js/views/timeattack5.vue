@@ -3,7 +3,7 @@
   <v-app>
     <v-container>
 		<div v-if = "authUser == false">
-			<v-card-title center><span class="red--text .font-weight-bold text-caption">※未ログイン状態か認証切れの状態です。<br>ログインしていた場合は、再ログインし直してください。</span></v-card-title>
+			<v-card-title center><span class="red--text .font-weight-bold text-caption">※未ログイン状態か認証切れの状態です。<br>未ログイン状態でもプレイは可能ですが、<br>採点記録が成績板には反映されません。<br>ログインしていた場合は再ログインし直して下さい。</span></v-card-title>
 		</div>
         タイムは<span class="red--text .font-weight-bold">{{interval.toFixed(2)}}</span> <!-- 小数2桁まで表示 -->
     <div v-if="answeresult">
@@ -71,7 +71,7 @@
     <div v-if="answeresult">
     <br>
       <v-btn color="primary" v-on:click.native="resetReserve">もういちど</v-btn>
-      <v-btn color="primary" href="https://yu-learning.herokuapp.com//">トップに戻る</v-btn>
+      <v-btn color="primary" href="https://yu-learning.herokuapp.com/">トップに戻る</v-btn>
       <v-btn color="primary" v-bind:href="'https://twitter.com/share?url=https://yu-learning.herokuapp.com/&text=【練習問題】youtube大学の、' + subGenreName + 'で' + score + '点でした。一緒に過去の授業を復習しよう！&hashtags=#aaaa'">結果をツイートする</v-btn>
     </div>
     <br>

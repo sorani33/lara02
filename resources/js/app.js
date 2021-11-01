@@ -20,6 +20,12 @@ Vue.use(Vuetify);
 import '@mdi/font/css/materialdesignicons.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
+
+import VueGtag from "vue-gtag";
+Vue.use(VueGtag, {
+    config: { id: "UA-211689413-1" }
+});
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
